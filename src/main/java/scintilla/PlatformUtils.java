@@ -35,8 +35,10 @@ final class PlatformUtils {
             case Windows:
                 command = "rundll32 url.dll,FileProtocolHandler";
                 break;
-            case Unknown: default: case Linux:
-            //  if it's an unknown file system we'll just open it as linux since it's most likely something like Solaris
+            case Unknown:
+            default:
+            case Linux:
+                //  if it's an unknown file system we'll just open it as linux since it's most likely something like Solaris
                 command = "xdg-open";
                 break;
         }
