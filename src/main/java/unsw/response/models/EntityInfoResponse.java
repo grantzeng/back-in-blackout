@@ -26,8 +26,8 @@ public final class EntityInfoResponse {
     private final String type;
     private final Map<String, FileInfoResponse> files;
 
-    public EntityInfoResponse(
-        String id, Angle position, double height, String type, Map<String, FileInfoResponse> files) {
+    public EntityInfoResponse(String id, Angle position, double height, String type,
+            Map<String, FileInfoResponse> files) {
         this.id = id;
         this.position = position;
         this.type = type;
@@ -77,7 +77,6 @@ public final class EntityInfoResponse {
         EntityInfoResponse other = (EntityInfoResponse) obj;
         return Objects.equals(files, other.files) && Objects.equals(id, other.id)
                 && Math.abs(position.toRadians() - other.position.toRadians()) < 0.001
-                && Math.abs(height - other.height) < 0.001
-                && Objects.equals(type, other.type);
+                && Math.abs(height - other.height) < 0.001 && Objects.equals(type, other.type);
     }
 }

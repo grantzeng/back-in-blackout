@@ -127,8 +127,8 @@ public class App {
         Spark.get("/api/entity/entitiesInRange/", "application/json", (request, response) -> {
             BlackoutController bc = getBlackoutController(request);
             synchronized (bc) {
-                return bc.communicableEntitiesInRange(request.queryParams("id"))
-                        .stream().map(e -> bc.getInfo(e)).collect(Collectors.toList());
+                return bc.communicableEntitiesInRange(request.queryParams("id")).stream().map(e -> bc.getInfo(e))
+                        .collect(Collectors.toList());
             }
         }, gson::toJson);
 
