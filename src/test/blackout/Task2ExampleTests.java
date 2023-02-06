@@ -136,13 +136,11 @@ public class Task2ExampleTests {
         // Creates 1 satellite and 2 devices
         // Gets a device to send a file to a satellites and gets another device to download it.
         // StandardSatellites are slow and transfer 1 byte per minute.
-        controller.createSatellite("Satellite1", "RelaySatellite", 100 + RADIUS_OF_JUPITER,
-                Angle.fromDegrees(180));
+        controller.createSatellite("Satellite1", "RelaySatellite", 100 + RADIUS_OF_JUPITER, Angle.fromDegrees(180));
 
         // moves in negative direction
         assertEquals(
-                new EntityInfoResponse("Satellite1", Angle.fromDegrees(180), 100 + RADIUS_OF_JUPITER,
-                        "RelaySatellite"),
+                new EntityInfoResponse("Satellite1", Angle.fromDegrees(180), 100 + RADIUS_OF_JUPITER, "RelaySatellite"),
                 controller.getInfo("Satellite1"));
         controller.simulate();
         assertEquals(new EntityInfoResponse("Satellite1", Angle.fromDegrees(178.77), 100 + RADIUS_OF_JUPITER,

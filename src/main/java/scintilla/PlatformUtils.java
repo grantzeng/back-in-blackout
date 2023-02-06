@@ -29,18 +29,19 @@ final class PlatformUtils {
 
         // Determine what command to run based on if we are Windows/Mac/Linux
         switch (determineOperatingSystem()) {
-            case MacOS:
-                command = "open";
-                break;
-            case Windows:
-                command = "rundll32 url.dll,FileProtocolHandler";
-                break;
-            case Unknown:
-            default:
-            case Linux:
-                //  if it's an unknown file system we'll just open it as linux since it's most likely something like Solaris
-                command = "xdg-open";
-                break;
+        case MacOS:
+            command = "open";
+            break;
+        case Windows:
+            command = "rundll32 url.dll,FileProtocolHandler";
+            break;
+        case Unknown:
+        default:
+        case Linux:
+            //  if it's an unknown file system we'll just open it as linux
+            // since it's most likely something like Solaris
+            command = "xdg-open";
+            break;
         }
 
         try {

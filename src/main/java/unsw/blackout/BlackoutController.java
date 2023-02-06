@@ -7,7 +7,6 @@ import unsw.response.models.EntityInfoResponse;
 import unsw.utils.Angle;
 
 public class BlackoutController {
-
     public void createDevice(String deviceId, String type, Angle position) {
         // TODO: Task 1a)
     }
@@ -75,5 +74,4 @@ public class BlackoutController {
         // TODO: Task 3
         // If you are not completing Task 3 you can leave this method blank :)
     }
-
 }
