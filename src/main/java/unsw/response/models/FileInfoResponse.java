@@ -3,8 +3,8 @@ package unsw.response.models;
 import java.util.Objects;
 
 /**
- * Represents a file that is currently being transferred
- * or has been transferred to a device.
+ * Represents a file that is currently being transferred or has been transferred
+ * to a device.
  *
  * @note You can't store this class in BlackoutController and should just create
  *       it when needed, using this will make you lose marks for design
@@ -34,17 +34,17 @@ public final class FileInfoResponse {
     /**
      * Has transfer for this file been completed yet?
      */
-    private final boolean hasTransferCompleted;
+    private final boolean isFileComplete;
 
-    public FileInfoResponse(String filename, String data, int fileSize, boolean hasTransferCompleted) {
+    public FileInfoResponse(String filename, String data, int fileSize, boolean isFileComplete) {
         this.filename = filename;
         this.data = data;
         this.fileSize = fileSize;
-        this.hasTransferCompleted = hasTransferCompleted;
+        this.isFileComplete = isFileComplete;
     }
 
-    public final boolean hasTransferCompleted() {
-        return hasTransferCompleted;
+    public final boolean isFileComplete() {
+        return isFileComplete;
     }
 
     public final int getFileSize() {
@@ -62,12 +62,12 @@ public final class FileInfoResponse {
     @Override
     public String toString() {
         return "FileInfoResponse [data=" + data + ", fileSize=" + fileSize + ", filename=" + filename
-                + ", hasTransferCompleted=" + hasTransferCompleted + "]";
+                + ", isFileComplete=" + isFileComplete + "]";
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(data, fileSize, filename, hasTransferCompleted);
+        return Objects.hash(data, fileSize, filename, isFileComplete);
     }
 
     @Override
@@ -81,6 +81,6 @@ public final class FileInfoResponse {
 
         FileInfoResponse other = (FileInfoResponse) obj;
         return Objects.equals(data, other.data) && fileSize == other.fileSize
-                && Objects.equals(filename, other.filename) && hasTransferCompleted == other.hasTransferCompleted;
+                && Objects.equals(filename, other.filename) && isFileComplete == other.isFileComplete;
     }
 }
