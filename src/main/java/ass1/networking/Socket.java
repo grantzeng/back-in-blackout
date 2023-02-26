@@ -1,6 +1,6 @@
-package networking;
+package ass1.networking;
 
-import file.File;
+import ass1.file.File;
 
 /*
  * Interfaces with a file object to separate transmission from a resource or

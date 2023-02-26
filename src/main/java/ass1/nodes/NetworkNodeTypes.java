@@ -1,4 +1,4 @@
-package nodes;
+package ass1.nodes;
 
 public enum NetworkNodeTypes {
     RELAY, 
