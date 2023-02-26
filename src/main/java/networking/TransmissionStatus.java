@@ -1,6 +1,6 @@
-package enums;
+package networking;
 
-public enum FileStatus {
+public enum TransmissionStatus {
     COMPLETE, 
     UPLOADING, 
     DOWNLOADING,
