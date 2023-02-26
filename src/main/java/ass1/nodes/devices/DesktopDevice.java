@@ -1,5 +1,5 @@
 package ass1.nodes.devices;
 
-public class DesktopDevice {
+public class DesktopDevice extends Device {
     
 }

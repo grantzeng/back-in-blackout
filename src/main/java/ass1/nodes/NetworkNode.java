@@ -24,9 +24,20 @@ public abstract class NetworkNode {
         // Blackout passes in visible satellites
         // Then do checks for which things are allocable 
     }
-
-    protected abstract void communicableClasses();
     
+    // Implement communicable classes
+
+    // protected abstract List<NetworkNodeTypes> communicableClasses();
+    
+    // Getters and setters for position
     public abstract void move(); 
+
+    protected Angle getPosition() {
+        return position; 
+    } 
+    protected void setPosition(Angle angle) {
+        position = angle;
+    } 
+    
 
 }

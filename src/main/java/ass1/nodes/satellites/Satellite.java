@@ -1,5 +1,7 @@
 package ass1.nodes.satellites;
 
-public class Satellite {
+import ass1.nodes.NetworkNode;
+
+public abstract class Satellite extends NetworkNode {
     
 }

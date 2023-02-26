@@ -1,5 +1,5 @@
 package ass1.nodes.satellites;
 
-public class TeleportingSatellite {
+public class TeleportingSatellite extends Satellite {
     
 }
