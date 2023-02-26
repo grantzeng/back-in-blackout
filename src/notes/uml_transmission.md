@@ -44,3 +44,10 @@ Can we upload the same file to different devices/satellites at the same time, or
 We need some kind of transmission object that abstracts away the transmission directly interacting with a source file. 
 
 It's not entirely clear what it should look like. 
+
+
+
+# 2023-02-26 2:52PM 
+Post lunch musings. 
+
+How do I cope with "goes out of range" 

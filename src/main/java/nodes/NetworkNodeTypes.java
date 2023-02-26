@@ -1,6 +1,6 @@
-package enums;
+package nodes;
 
-public enum Nodes {
+public enum NetworkNodeTypes {
     RELAY, 
     STANDARD,
     TELEPORTING, 
