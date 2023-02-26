@@ -46,6 +46,8 @@ Satellite:
 
 - I wanted to use a template pattern and stuff lots of `protected` variables at the top but `protected` is...best avoided. Need to find alternative solution. 
 
+- Obvious candidates for network nodes to involve themselves in `has-a` relationships e.g. a `Motion`, a `Server` and a `Transmitter` objects -- but I don't want to put up walls yet. 
+
 
 ## Files 
 `Files` 
@@ -64,6 +66,7 @@ File
 ```
 - No other obivous operations/data that we'd want to track within a file object, but option is here to implement a proper file with all the opts stuff you learnt in 1521. I'm just not sure if there's any advantage in that
 
+Added 2023-02-26 1:36PM: File is not really a "file" in the conventional sense, we just want a container that manages some string data in this system. 
 
 
 `BlackoutController`: the god of this subsystem
