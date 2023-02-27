@@ -16,7 +16,8 @@ public class StandardSatellite extends Satellite {
 
     @Override
     public void move() {
-        setPosition(getPosition().add(delta()));
+        // Defaut orientation is clockwise
+        setPosition(getPosition().subtract(signedDelta()));
     };
 
 }
