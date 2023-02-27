@@ -16,8 +16,23 @@ public class TeleportingSatellite extends Satellite {
 
     @Override
     public void move() {
+        Angle delta = Angle.fromRadians(getLinearVelocity() / getHeight());
+
+        // Check if need to teleport
+        boolean anticlockwise = delta.toDegrees() > 0;
+        double newPosition = getPosition().toDegrees() + delta.toDegrees();
+
+        if ((anticlockwise && newPosition > 180.0) || (!anticlockwise && newPosition < 180.0)) {
+            teleport();
+            return;
+        }
+
+        // Otherwise just normal motion
+        setPosition(getPosition().add(delta));
     }
 
     private void teleport() {
+        setPosition(Angle.fromDegrees(0));
+        setLinearVelocity(-1.0 * getLinearVelocity());
     }
 }

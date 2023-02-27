@@ -16,8 +16,11 @@ public class RelaySatellite extends Satellite {
 
     @Override
     public void move() {
+    
+    
     }
 
     private void reverse() {
+        setLinearVelocity(-1.0 * getLinearVelocity());
     }
 }
