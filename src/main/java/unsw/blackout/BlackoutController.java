@@ -1,36 +1,81 @@
 package unsw.blackout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import ass1.nodes.NetworkNode;
+import ass1.nodes.devices.DesktopDevice;
+import ass1.nodes.devices.HandheldDevice;
+import ass1.nodes.devices.LaptopDevice;
+import ass1.nodes.satellites.RelaySatellite;
+import ass1.nodes.satellites.StandardSatellite;
+import ass1.nodes.satellites.TeleportingSatellite;
 import unsw.response.models.EntityInfoResponse;
 import unsw.utils.Angle;
 
 public class BlackoutController {
+
+    private Map<String, NetworkNode> nodes = new HashMap<>();
+
     public void createDevice(String deviceId, String type, Angle position) {
-        // TODO: Task 1a)
+        switch (type) {
+            case "HandheldDevice":
+                nodes.put(deviceId, new HandheldDevice(deviceId, position)); break;
+            case "LaptopDevice":
+                nodes.put(deviceId, new LaptopDevice(deviceId, position)); break;
+            case "DesktopDevice":
+                nodes.put(deviceId, new DesktopDevice(deviceId, position)); break;
+            default:
+                System.out.println("No device was added to Blackout"); break;
+        }
     }
 
+    /**
+     * @pre deviceId is a valid device id
+     * @param deviceId
+     */
     public void removeDevice(String deviceId) {
-        // TODO: Task 1b)
+        nodes.remove(deviceId);
     }
 
     public void createSatellite(String satelliteId, String type, double height, Angle position) {
-        // TODO: Task 1c)
+        switch (type) {
+            case "StandardSatellite":
+                nodes.put(satelliteId, new StandardSatellite(satelliteId, height, position)); break;
+            case "TeleportingSatellite": 
+                nodes.put(satelliteId, new TeleportingSatellite(satelliteId, height, position)); break;
+            case "RelaySatellite":
+                nodes.put(satelliteId, new RelaySatellite(satelliteId, height, position)); break;
+            default: 
+                System.out.println("No satellite was added to Blackout"); break;
+        }
     }
-
+    
+    /**
+     * @pre satelliteId is a valid satellite id
+     * @param satelliteId
+     */
     public void removeSatellite(String satelliteId) {
-        // TODO: Task 1d)
+        nodes.remove(satelliteId);
     }
 
     public List<String> listDeviceIds() {
-        // TODO: Task 1e)
-        return new ArrayList<>();
+        return nodes.values()
+                    .stream()
+                    .filter(node -> node instanceof Device)
+                    .map(device -> device.getInfo().getDeviceId())
+                    .collect(Collectors.toList());
     }
 
     public List<String> listSatelliteIds() {
-        // TODO: Task 1f)
-        return new ArrayList<>();
+        return nodes.values()
+                    .stream()
+                    .filter(node -> node instanceof Satellite)
+                    .map(satellite -> satellite.getInfo().getDeviceId())
+                    .collect(Collectors.toList());
     }
 
     public void addFileToDevice(String deviceId, String filename, String content) {
@@ -38,8 +83,7 @@ public class BlackoutController {
     }
 
     public EntityInfoResponse getInfo(String id) {
-        // TODO: Task 1h)
-        return null;
+        return nodes.get(id).getInfo();
     }
 
     public void simulate() {

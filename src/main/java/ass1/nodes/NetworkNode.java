@@ -1,43 +1,28 @@
 package ass1.nodes;
 
-import java.util.List;
-
-import ass1.networking.Server;
+import unsw.response.models.EntityInfoResponse;
 import unsw.utils.Angle;
 
-
 public abstract class NetworkNode {
+    private String id;
+    private Angle position;
+    private double height;
+    private double linearVelocity;
 
-    private Angle position; 
-    private int height; 
-    
-    private Server server;
-    private List<NetworkNode> communicable;
+    // private Server server;
 
-    /**
-     * Enregister all other nodes that this network node can send files to given a
-     * list of nodes that are in its direct line of sight
-     * 
-     * @param visible
-     */
-    public void setCommunicable(List<NetworkNode> visible) {
-        // Blackout passes in visible satellites
-        // Then do checks for which things are allocable 
+    protected NetworkNode(String id, double height, Angle position) {
+        this.id = id;
+        this.height = height;
+        this.position = position;
     }
-    
-    // Implement communicable classes
 
-    // protected abstract List<NetworkNodeTypes> communicableClasses();
-    
-    // Getters and setters for position
-    public abstract void move(); 
+    public abstract void move();
 
-    protected Angle getPosition() {
-        return position; 
-    } 
-    protected void setPosition(Angle angle) {
-        position = angle;
-    } 
-    
+    public abstract NetworkNodeType type();
+
+    public EntityInfoResponse getInfo() {
+        return new EntityInfoResponse(id, position, height, type().toString());
+    }
 
 }

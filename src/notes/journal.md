@@ -25,3 +25,14 @@ However I think I _have_ converged on what the problem is:
     - Instruction has to be sent to client that we're done so they can clean up stuff, then we have to clean up the connection 
     
 Maybe this object is best called a `Connection`. Or else two sockets make a connection?
+
+
+# 2023-03-27
+
+Spent all morning trying to figure out transmission. 
+
+So far it's clear we need to have two connection objects that interface with each other. 
+
+What I haven't figured out is:  1. how do I register them and 2. how do I get them to transmit 3. How do I remove the connection objects when not needed 
+
+I've decided I'm just going to at least try to get all of task 1 done 
