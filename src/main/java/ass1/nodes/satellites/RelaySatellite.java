@@ -7,6 +7,9 @@ import unsw.utils.Orientation;
 import static unsw.utils.Orientation.ANTICLOCKWISE;
 import static unsw.utils.Orientation.CLOCKWISE;
 
+// TODO: Double check your implementation actually works as expected, I think
+// I'm getting some funny business with negative signs and conversions
+
 public class RelaySatellite extends Satellite {
     public RelaySatellite(String id, double height, Angle radians) {
         super(id, height, radians);
