@@ -17,6 +17,10 @@ public abstract class NetworkNode {
         this.position = position;
     }
 
+    protected void setLinearVelocity(double linearVelocity) {
+        this.linearVelocity = linearVelocity;
+    }
+
     public abstract void move();
 
     public abstract NetworkNodeType type();

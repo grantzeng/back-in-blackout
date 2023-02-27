@@ -7,6 +7,7 @@ import unsw.utils.Angle;
 public class TeleportingSatellite extends Satellite {
     public TeleportingSatellite(String id, double height, Angle position) {
         super(id, height, position);
+        setLinearVelocity(1000.0);
     }
 
     public NetworkNodeType type() {

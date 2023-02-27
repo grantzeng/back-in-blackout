@@ -8,9 +8,11 @@ import java.util.stream.Collectors;
 
 import ass1.nodes.NetworkNode;
 import ass1.nodes.devices.DesktopDevice;
+import ass1.nodes.devices.Device;
 import ass1.nodes.devices.HandheldDevice;
 import ass1.nodes.devices.LaptopDevice;
 import ass1.nodes.satellites.RelaySatellite;
+import ass1.nodes.satellites.Satellite;
 import ass1.nodes.satellites.StandardSatellite;
 import ass1.nodes.satellites.TeleportingSatellite;
 import unsw.response.models.EntityInfoResponse;

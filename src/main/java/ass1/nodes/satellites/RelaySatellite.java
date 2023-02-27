@@ -7,6 +7,7 @@ import unsw.utils.Angle;
 public class RelaySatellite extends Satellite {
     public RelaySatellite(String id, double height, Angle position) {
         super(id, height, position);
+        setLinearVelocity(1500.0);
     }
 
     public NetworkNodeType type() {

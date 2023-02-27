@@ -8,6 +8,7 @@ public class StandardSatellite extends Satellite {
 
     public StandardSatellite(String id, double height, Angle position) {
         super(id, height, position);
+        setLinearVelocity(-2500.0);
     }
     
     public NetworkNodeType type() {
