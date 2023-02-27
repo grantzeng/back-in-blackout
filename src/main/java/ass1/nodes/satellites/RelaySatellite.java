@@ -39,7 +39,8 @@ public class RelaySatellite extends Satellite {
          * to do
          */
 
-        Angle newPosition = getPosition().add(delta());
+        Angle newPosition = getPosition();
+        newPosition = newPosition.add(delta());
 
         if (!(getPosition().toDegrees() > 140.0 && getPosition().toDegrees() < 190.0)) {
             // Not in relay region
@@ -48,13 +49,16 @@ public class RelaySatellite extends Satellite {
         }
 
         // In edge case, need to reverse
-        if ((orientation() == CLOCKWISE && newPosition.toDegrees() < 140.0)
-                || (orientation() == ANTICLOCKWISE && newPosition.toDegrees() > 190.0)) {
+        if ((orientation() == ANTICLOCKWISE && newPosition.toDegrees() > 190.0)
+                || (orientation() == CLOCKWISE && newPosition.toDegrees() < 140.0)) {
+
             reverse();
+            return;
         }
 
-        // In relay region, but not edge case
         setPosition(newPosition);
+        // In relay region, but not edge case
+        // setPosition(newPosition);
     }
 
     private void reverse() {

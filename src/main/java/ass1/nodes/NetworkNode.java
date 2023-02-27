@@ -49,7 +49,7 @@ public abstract class NetworkNode {
     }
 
     protected Orientation orientation() {
-        return linearVelocity <= 0 ? ANTICLOCKWISE : CLOCKWISE;
+        return linearVelocity < 0 ? CLOCKWISE : ANTICLOCKWISE;
     }
 
     protected double getHeight() {
