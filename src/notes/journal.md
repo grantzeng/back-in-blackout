@@ -36,3 +36,11 @@ So far it's clear we need to have two connection objects that interface with eac
 What I haven't figured out is:  1. how do I register them and 2. how do I get them to transmit 3. How do I remove the connection objects when not needed 
 
 I've decided I'm just going to at least try to get all of task 1 done 
+
+
+
+### 1:42PM 
+The spec doesn't say anything about whether angles need ot be in degrees or radians, so I am deciding to store as radians. 
+
+### 1:46PM 
+Change of plan, it seems like in the front end and tests the angles inputted are in degrees

@@ -6,8 +6,8 @@ import unsw.utils.Angle;
 
 public class StandardSatellite extends Satellite {
 
-    public StandardSatellite(String id, double height, Angle position) {
-        super(id, height, position);
+    public StandardSatellite(String id, double height, Angle degrees) {
+        super(id, height, degrees);
         setLinearVelocity(-2500.0);
     }
     

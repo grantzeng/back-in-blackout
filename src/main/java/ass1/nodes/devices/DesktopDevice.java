@@ -6,8 +6,8 @@ import unsw.utils.Angle;
 
 public class DesktopDevice extends Device {
 
-    public DesktopDevice(String id, Angle position) {
-        super(id, position);
+    public DesktopDevice(String id, Angle degrees) {
+        super(id, degrees);
     }
     
     public NetworkNodeType type() {
