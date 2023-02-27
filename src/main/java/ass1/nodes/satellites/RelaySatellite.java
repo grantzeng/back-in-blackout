@@ -3,12 +3,9 @@ package ass1.nodes.satellites;
 import ass1.nodes.NetworkNodeType;
 import static ass1.nodes.NetworkNodeType.RelaySatellite;
 import unsw.utils.Angle;
-import unsw.utils.Orientation;
 import static unsw.utils.Orientation.ANTICLOCKWISE;
 import static unsw.utils.Orientation.CLOCKWISE;
 
-// TODO: Double check your implementation actually works as expected, I think
-// I'm getting some funny business with negative signs and conversions
 
 public class RelaySatellite extends Satellite {
     public RelaySatellite(String id, double height, Angle radians) {

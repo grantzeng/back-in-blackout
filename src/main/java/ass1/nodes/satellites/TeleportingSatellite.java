@@ -20,7 +20,6 @@ public class TeleportingSatellite extends Satellite {
     public void move() {
 
         // Check if need to teleport
-        // - default orientation is clockwise.
         double newPosition = getPosition().toDegrees() - signedDelta().toDegrees();
         if ((orientation() == ANTICLOCKWISE && newPosition > 180.0)
                 || (orientation() == CLOCKWISE && newPosition < 180.0)) {
