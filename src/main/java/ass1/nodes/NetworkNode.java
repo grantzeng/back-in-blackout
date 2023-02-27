@@ -14,7 +14,7 @@ public abstract class NetworkNode {
 
     protected NetworkNode(String id, double height, Angle degrees) {
         this.id = id;
-        this.height = height;
+        setHeight(height);
         setPositionDegrees(degrees);
     }
 
@@ -33,6 +33,18 @@ public abstract class NetworkNode {
 
     protected void setPositionDegrees(Angle degrees) {
         this.position = AngleNormaliser.normalise(degrees);
+    }
+
+    protected double getHeight() {
+        return height;
+    }
+
+    protected void setHeight(double height) {
+        // Will need this for moving devices
+        if (height < 0) {
+            throw new IllegalArgumentException("Height cannot be negative");
+        }
+        this.height = height;
     }
 
     public abstract void move();
