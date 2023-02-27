@@ -60,8 +60,10 @@ public abstract class NetworkNode {
         this.height = height;
     }
 
-    protected Angle delta() {
-        return Angle.fromRadians(Math.abs(getLinearVelocity()) / getHeight());
+    protected Angle signedDelta() {
+        // -1.0 is because a +ve linear velocity causes a clockwise rotation, which is
+        // defined as -ve under MathsHelper
+        return Angle.fromRadians(-1.0 * getLinearVelocity() / getHeight());
     }
 
     protected Orientation orientation() {

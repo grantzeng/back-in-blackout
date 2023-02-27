@@ -16,7 +16,6 @@ public class StandardSatellite extends Satellite {
 
     @Override
     public void move() {
-        // Δω = v / r
         setPosition(getPosition().add(delta()));
     };
 
