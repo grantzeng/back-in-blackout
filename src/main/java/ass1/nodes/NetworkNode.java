@@ -6,8 +6,8 @@ import unsw.utils.AngleNormaliser;
 
 public abstract class NetworkNode {
     private String id;
-    private Angle position;        // degrees
-    private double height;         // km
+    private Angle position; // degrees
+    private double height; // km
     private double linearVelocity; // km/min
 
     // private Server server;
@@ -15,23 +15,23 @@ public abstract class NetworkNode {
     protected NetworkNode(String id, double height, Angle degrees) {
         this.id = id;
         this.height = height;
-        setPosition(degrees);
+        setPositionDegrees(degrees);
     }
 
     // Motion related things
     protected void setLinearVelocity(double linearVelocity) {
         this.linearVelocity = linearVelocity;
     }
-    
+
     protected double getLinearVelocity() {
         return linearVelocity;
     }
-    
-    protected Angle getPosition() {
-        return position; 
+
+    protected Angle getPositionDegrees() {
+        return position;
     }
-    
-    protected void setPosition(Angle degrees) {
+
+    protected void setPositionDegrees(Angle degrees) {
         this.position = AngleNormaliser.normalise(degrees);
     }
 
