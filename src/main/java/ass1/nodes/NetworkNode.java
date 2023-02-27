@@ -3,6 +3,9 @@ package ass1.nodes;
 import unsw.response.models.EntityInfoResponse;
 import unsw.utils.Angle;
 import unsw.utils.AngleNormaliser;
+import unsw.utils.Orientation;
+import static unsw.utils.Orientation.CLOCKWISE;
+import static unsw.utils.Orientation.ANTICLOCKWISE;
 
 public abstract class NetworkNode {
     private String id;
@@ -43,6 +46,10 @@ public abstract class NetworkNode {
      */
     protected void setPosition(Angle radians) {
         this.position = AngleNormaliser.normalise(radians);
+    }
+
+    protected Orientation orientation() {
+        return linearVelocity <= 0 ? ANTICLOCKWISE : CLOCKWISE;
     }
 
     protected double getHeight() {
