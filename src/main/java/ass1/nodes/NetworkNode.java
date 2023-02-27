@@ -48,10 +48,6 @@ public abstract class NetworkNode {
         this.position = AngleNormaliser.normalise(radians);
     }
 
-    protected Orientation orientation() {
-        return linearVelocity < 0 ? CLOCKWISE : ANTICLOCKWISE;
-    }
-
     protected double getHeight() {
         return height;
     }
@@ -62,6 +58,14 @@ public abstract class NetworkNode {
             throw new IllegalArgumentException("Height cannot be negative");
         }
         this.height = height;
+    }
+
+    protected Angle delta() {
+        return Angle.fromRadians(Math.abs(getLinearVelocity()) / getHeight());
+    }
+
+    protected Orientation orientation() {
+        return getLinearVelocity() < 0 ? CLOCKWISE : ANTICLOCKWISE;
     }
 
     public abstract void move();

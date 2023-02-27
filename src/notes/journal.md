@@ -44,3 +44,14 @@ The spec doesn't say anything about whether angles need ot be in degrees or radi
 
 ### 1:46PM 
 Change of plan, it seems like in the front end and tests the angles inputted are in degrees
+
+
+
+### 5:09PM Relay debugging
+
+There's some buggy semantics I have to resolve. I don't think the test is wrong, I think I've mixed up clockwise and anticlockwise
+
+-> delta is positive because it's calculated...but really it should be negative. 
+Best way is to just make delta free of negative signs so we don't need to mess about.
+
+The test is correct. 

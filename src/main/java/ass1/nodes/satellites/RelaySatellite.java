@@ -19,12 +19,14 @@ public class RelaySatellite extends Satellite {
     private void setInitialLinearVelocity(Angle radians) {
 
         if (radians.toDegrees() < 345.0 && radians.toDegrees() > 190.0) {
-            setLinearVelocity(1500);
+            // Relay goes clockwise
+            setLinearVelocity(-1.0 * 1500);
             return;
         }
 
-        // Satellite in (140°, 190°) or (345°, 360°] or [0°, 140°)
-        setLinearVelocity(-1.0 * 1500);
+        // Start at in (140°, 190°) or (345°, 360°] or [0°, 140°)
+        // Relay goes anticlockwise
+        setLinearVelocity(1.0 * 1500);
     }
 
     public NetworkNodeType type() {
@@ -33,7 +35,7 @@ public class RelaySatellite extends Satellite {
 
     @Override
     public void move() {
-
+        
         /*
          * "This means it can briefly exceed the boundary" i.e. set position, then do
          * the correction.
@@ -43,7 +45,7 @@ public class RelaySatellite extends Satellite {
          */
 
         Angle newPosition = getPosition();
-        newPosition = newPosition.add(delta());
+        newPosition = newPosition.subtract(delta());
 
         if (!(getPosition().toDegrees() > 140.0 && getPosition().toDegrees() < 190.0)) {
             // Not in relay region
