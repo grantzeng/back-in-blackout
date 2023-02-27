@@ -19,14 +19,14 @@ public class RelaySatellite extends Satellite {
     private void setInitialLinearVelocity(Angle radians) {
 
         if (radians.toDegrees() < 345.0 && radians.toDegrees() > 190.0) {
-            // Relay goes clockwise
-            setLinearVelocity(-1.0 * 1500);
+            // Relay goes clockwise, which is caused by a positive linear velocity
+            setLinearVelocity(1500);
             return;
         }
 
         // Start at in (140°, 190°) or (345°, 360°] or [0°, 140°)
-        // Relay goes anticlockwise
-        setLinearVelocity(1.0 * 1500);
+        // Relay goes anticlockwise, which is caused by a negative linear velocity
+        setLinearVelocity(-1.0 * 1500);
     }
 
     public NetworkNodeType type() {
@@ -35,35 +35,22 @@ public class RelaySatellite extends Satellite {
 
     @Override
     public void move() {
-        
-        /*
-         * "This means it can briefly exceed the boundary" i.e. set position, then do
-         * the correction.
-         * 
-         * My idea: if not in (140, 190), then just keep going whatever you've been told
-         * to do
-         */
 
-        Angle newPosition = getPosition();
-        newPosition = newPosition.subtract(delta());
+        Angle oldPosition = getPosition();
 
-        if (!(getPosition().toDegrees() > 140.0 && getPosition().toDegrees() < 190.0)) {
-            // Not in relay region
-            setPosition(newPosition);
+        setPosition(getPosition().subtract(signedDelta()));
+
+        if (!(oldPosition.toDegrees() > 140.0 && oldPosition.toDegrees() < 190.0)) {
+            // Not in relay region, do not do boundary checks
             return;
         }
 
-        // In edge case, need to reverse
-        if ((orientation() == ANTICLOCKWISE && newPosition.toDegrees() > 180.0)
-                || (orientation() == CLOCKWISE && newPosition.toDegrees() < 140.0)) {
-            setPosition(newPosition);
+        // In relay region, do boundary checks
+        if ((orientation() == ANTICLOCKWISE && getPosition().toDegrees() > 180.0)
+                || (orientation() == CLOCKWISE && getPosition().toDegrees() < 140.0)) {
             reverse();
             return;
         }
-
-        setPosition(newPosition);
-        // In relay region, but not edge case
-        // setPosition(newPosition);
     }
 
     private void reverse() {
