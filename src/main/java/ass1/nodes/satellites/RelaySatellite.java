@@ -30,7 +30,6 @@ public class RelaySatellite extends Satellite {
 
     @Override
     public void move() {
-        Angle delta = Angle.fromRadians(getLinearVelocity() / getHeight());
 
         /*
          * "This means it can briefly exceed the boundary" i.e. set position, then do
@@ -40,7 +39,7 @@ public class RelaySatellite extends Satellite {
          * to do
          */
 
-        Angle newPosition = getPosition().add(delta);
+        Angle newPosition = getPosition().add(delta());
 
         if (!(getPosition().toDegrees() > 140.0 && getPosition().toDegrees() < 190.0)) {
             // Not in relay region

@@ -8,5 +8,8 @@ public abstract class Satellite extends NetworkNode {
     protected Satellite(String id, double height, Angle radians) {
         super(id, height, radians);
     }
-
+    
+    protected Angle delta() {
+        return Angle.fromRadians(getLinearVelocity() / getHeight());
+    }
 }
