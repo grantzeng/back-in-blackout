@@ -6,16 +6,16 @@ import unsw.utils.AngleNormaliser;
 
 public abstract class NetworkNode {
     private String id;
-    private Angle position;         // radians
-    private double height;          // km
-    private double linearVelocity;  // km/min
+    private Angle position; // radians
+    private double height; // km
+    private double linearVelocity; // km/min
 
     // private Server server;
 
-    protected NetworkNode(String id, double height, Angle position) {
+    protected NetworkNode(String id, double height, Angle radians) {
         this.id = id;
         setHeight(height);
-        this.position = position;
+        setPosition(radians);
     }
 
     // Motion related things
@@ -27,12 +27,18 @@ public abstract class NetworkNode {
         return linearVelocity;
     }
 
+    /**
+     * Returns position (in radians)
+     * 
+     * @return
+     */
     protected Angle getPosition() {
         return position;
     }
-    
+
     /**
      * Sets position (in radians)
+     * 
      * @param radians
      */
     protected void setPosition(Angle radians) {

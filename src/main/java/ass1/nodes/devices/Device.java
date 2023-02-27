@@ -6,8 +6,8 @@ import static unsw.utils.MathsHelper.RADIUS_OF_JUPITER;
 
 public abstract class Device extends NetworkNode {
 
-    protected Device(String id, Angle degrees) {
-        super(id, RADIUS_OF_JUPITER, degrees);
+    protected Device(String id, Angle radians) {
+        super(id, RADIUS_OF_JUPITER, radians);
         setLinearVelocity(0.0);
     }
 

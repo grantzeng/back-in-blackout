@@ -6,8 +6,8 @@ import unsw.utils.Angle;
 
 public class HandheldDevice extends Device {
 
-    public HandheldDevice(String id, Angle degrees) {
-        super(id, degrees);
+    public HandheldDevice(String id, Angle radians) {
+        super(id, radians);
     }
     
     public NetworkNodeType type() {

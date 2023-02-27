@@ -5,8 +5,8 @@ import static ass1.nodes.NetworkNodeType.LaptopDevice;
 import unsw.utils.Angle;
 
 public class LaptopDevice extends Device {
-    public LaptopDevice(String id, Angle degrees) {
-        super(id, degrees);
+    public LaptopDevice(String id, Angle radians) {
+        super(id, radians);
     }
 
     public NetworkNodeType type() {

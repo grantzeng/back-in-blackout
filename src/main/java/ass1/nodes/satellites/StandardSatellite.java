@@ -5,8 +5,8 @@ import static ass1.nodes.NetworkNodeType.StandardSatellite;
 import unsw.utils.Angle;
 
 public class StandardSatellite extends Satellite {
-    public StandardSatellite(String id, double height, Angle degrees) {
-        super(id, height, degrees);
+    public StandardSatellite(String id, double height, Angle radians) {
+        super(id, height, radians);
         setLinearVelocity(-2500.0);
     }
 

@@ -5,8 +5,8 @@ import unsw.utils.Angle;
 
 public abstract class Satellite extends NetworkNode {
 
-    protected Satellite(String id, double height, Angle degrees) {
-        super(id, height, degrees);
+    protected Satellite(String id, double height, Angle radians) {
+        super(id, height, radians);
     }
 
 }
