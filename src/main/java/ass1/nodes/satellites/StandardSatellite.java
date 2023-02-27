@@ -16,11 +16,10 @@ public class StandardSatellite extends Satellite {
 
     @Override
     public void move() {
+        // Δω = v / r
+        Angle delta = Angle.fromRadians(getLinearVelocity() / getHeight());
 
-        Angle delta = Angle.fromDegrees(getLinearVelocity() / getHeight());
-
-        setPositionDegrees(getPositionDegrees().add(delta));
-
+        setPosition(getPosition().add(delta));
     };
 
 }
