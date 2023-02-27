@@ -16,12 +16,12 @@ public class RelaySatellite extends Satellite {
     private void setInitialLinearVelocity(Angle radians) {
 
         if (radians.toDegrees() < 345.0 && radians.toDegrees() > 190.0) {
-            setLinearVelocity(-1.0 * 1500);
+            setLinearVelocity(1500);
             return;
         }
 
         // Satellite in (140°, 190°) or (345°, 360°] or [0°, 140°)
-        setLinearVelocity(1500);
+        setLinearVelocity(-1.0 * 1500);
     }
 
     public NetworkNodeType type() {
@@ -49,9 +49,9 @@ public class RelaySatellite extends Satellite {
         }
 
         // In edge case, need to reverse
-        if ((orientation() == ANTICLOCKWISE && newPosition.toDegrees() > 190.0)
+        if ((orientation() == ANTICLOCKWISE && newPosition.toDegrees() > 180.0)
                 || (orientation() == CLOCKWISE && newPosition.toDegrees() < 140.0)) {
-
+            setPosition(newPosition);
             reverse();
             return;
         }
