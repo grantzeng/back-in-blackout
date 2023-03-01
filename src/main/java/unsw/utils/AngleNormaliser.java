@@ -3,7 +3,7 @@ package unsw.utils;
 public class AngleNormaliser {
     /**
      * Given an angle in radians, normalises it to be between [0, 2π)
-     * 
+     *
      * @param radians
      * @return
      */

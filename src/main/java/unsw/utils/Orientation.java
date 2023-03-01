@@ -1,6 +1,6 @@
 package unsw.utils;
 
 public enum Orientation {
-    CLOCKWISE, 
+    CLOCKWISE,
     ANTICLOCKWISE,
 }
