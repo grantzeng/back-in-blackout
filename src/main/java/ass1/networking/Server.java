@@ -1,5 +1,6 @@
 package ass1.networking;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,8 @@ public class Server {
         this.receivingBandwidth = receivingBandwidth;
         this.bytesCap = bytesCap;
         this.fileCountCap = fileCountCap;
+        files = new HashMap<String, File>();
+        connections = new ArrayList<Connection>();
     }
 
     public void addFile(File file) {

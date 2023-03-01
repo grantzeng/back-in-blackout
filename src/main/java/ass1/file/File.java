@@ -11,10 +11,10 @@ public class File {
     private TransmissionStatus transmissionStatus;
 
     // Complete file constructor
-    public File(String filename, String data, int size) {
+    public File(String filename, String content) {
         this.filename = filename;
-        this.data = data;
-        this.size = size;
+        this.data = content;
+        this.size = content.length();
         this.transmissionStatus = COMPLETE;
     }
 

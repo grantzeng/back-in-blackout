@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import ass1.file.File;
 import ass1.nodes.NetworkNode;
 import ass1.nodes.devices.DesktopDevice;
 import ass1.nodes.devices.Device;
@@ -81,8 +82,14 @@ public class BlackoutController {
                 .map(satellite -> satellite.getInfo().getDeviceId()).collect(Collectors.toList());
     }
 
+    /**
+     * @pre deviceId is a valid device id
+     * @param deviceId
+     * @param filename
+     * @param content
+     */
     public void addFileToDevice(String deviceId, String filename, String content) {
-        // TODO: Task 1g)
+      ((Device) nodes.get(deviceId)).addFile(new File(filename, content));
     }
 
     public EntityInfoResponse getInfo(String id) {

@@ -75,6 +75,10 @@ public abstract class NetworkNode {
         this.server = server;
     }
 
+    protected Server getServer() {
+        return server;
+    }
+
     /*
      * Motion related
      */
