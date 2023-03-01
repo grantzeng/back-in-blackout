@@ -1,8 +1,8 @@
 package ass1.networking;
 
 public enum TransmissionStatus {
-    COMPLETE, 
-    UPLOADING, 
+    COMPLETE,
+    UPLOADING,
     DOWNLOADING,
     TRANSIENT,
 }

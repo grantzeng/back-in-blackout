@@ -5,6 +5,9 @@ import unsw.utils.Angle;
 import unsw.utils.AngleNormaliser;
 import unsw.utils.Orientation;
 import static unsw.utils.Orientation.CLOCKWISE;
+
+import ass1.networking.Server;
+
 import static unsw.utils.Orientation.ANTICLOCKWISE;
 
 public abstract class NetworkNode {
@@ -13,12 +16,13 @@ public abstract class NetworkNode {
     private double height; // km
     private double linearVelocity; // km/min
 
-    // private Server server;
+    private Server server;
 
     protected NetworkNode(String id, double height, Angle radians) {
         this.id = id;
         setHeight(height);
         setPosition(radians);
+        setServer();
     }
 
     // Motion related things
@@ -32,7 +36,7 @@ public abstract class NetworkNode {
 
     /**
      * Returns position (in radians)
-     * 
+     *
      * @return
      */
     protected Angle getPosition() {
@@ -59,6 +63,8 @@ public abstract class NetworkNode {
         }
         this.height = height;
     }
+    
+    protected abstract void setServer();
 
     protected Angle signedDelta() {
         // -1.0 is because a +ve linear velocity causes a clockwise rotation, which is

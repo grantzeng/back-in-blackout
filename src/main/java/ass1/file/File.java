@@ -21,6 +21,10 @@ public class File {
 
     }
 
+    public String getFilename() {
+        return filename;
+    }
+
     public String read(int position) {
         return "";
     }
