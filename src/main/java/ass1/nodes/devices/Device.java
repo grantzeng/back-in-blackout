@@ -1,6 +1,7 @@
 package ass1.nodes.devices;
 
 import ass1.nodes.NetworkNode;
+import ass1.networking.Server;
 import unsw.utils.Angle;
 import static unsw.utils.MathsHelper.RADIUS_OF_JUPITER;
 
@@ -16,10 +17,10 @@ public abstract class Device extends NetworkNode {
         System.out.println("Devices don't move");
         return;
     }
-    
+
     @Override
-    protected void setServer() {
-        
+    protected void initialiseServer() {
+        setServer(new Server(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE));
     }
 
 }

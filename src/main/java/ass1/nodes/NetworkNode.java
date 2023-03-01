@@ -22,7 +22,7 @@ public abstract class NetworkNode {
         this.id = id;
         setHeight(height);
         setPosition(radians);
-        setServer();
+        initialiseServer();
     }
 
     // Motion related things
@@ -65,14 +65,19 @@ public abstract class NetworkNode {
     }
 
     /*
-        Tranmissionr related
-    */
-    protected abstract void setServer();
+     * File server related
+     */
+
+    protected abstract void initialiseServer();
+
+    protected void setServer(Server server) {
+        this.server = server;
+    }
 
 
     /*
-        Motion related
-    */
+     * Motion related
+     */
     protected Angle signedDelta() {
         // -1.0 is because a +ve linear velocity causes a clockwise rotation, which is
         // defined as -ve under MathsHelper

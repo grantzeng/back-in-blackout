@@ -1,7 +1,7 @@
 package ass1.nodes.satellites;
 
+import ass1.networking.Server;
 import ass1.nodes.NetworkNodeType;
-import static ass1.nodes.NetworkNodeType.TeleportingSatellite;
 import unsw.utils.Angle;
 import static unsw.utils.Orientation.ANTICLOCKWISE;
 import static unsw.utils.Orientation.CLOCKWISE;
@@ -12,8 +12,13 @@ public class TeleportingSatellite extends Satellite {
         setLinearVelocity(1000.0);
     }
 
+    @Override
+    protected void initialiseServer() {
+        setServer(new Server(200, Integer.MAX_VALUE, 10, 15));
+    }
+
     public NetworkNodeType type() {
-        return TeleportingSatellite;
+        return NetworkNodeType.TeleportingSatellite;
     }
 
     @Override
