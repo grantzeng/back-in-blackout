@@ -197,7 +197,6 @@ Server:
 
 
 Connection:
-- type: ConnectionType  // incoming or outgoing
 - endpoint: Connection  // the other end of the connection
 - resource: File        // file being read from or read to
 - origin: String        // which network node data is coming from (from us or from somewhere else?) 

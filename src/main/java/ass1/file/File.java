@@ -15,14 +15,14 @@ public class File {
         this.filename = filename;
         this.data = content;
         this.size = content.length();
-        this.transmissionStatus = COMPLETE;
+        this.transmissionStatus = TransmissionStatus.COMPLETE;
     }
 
     // Empty file constructor for client receiving data
     public File(String filename, int size) {
         this.filename = filename;
         this.size = size;
-        this.transmissionStatus = DOWNLOADING;
+        this.transmissionStatus = TransmissionStatus.DOWNLOADING;
     }
 
     public String getFilename() {
@@ -47,6 +47,14 @@ public class File {
             return;
         }
         data += string;
+    }
+
+    public void setTransmissionStatus() {
+        if (transmissionStatus == COMPLETE) {
+            transmissionStatus = DOWNLOADING;
+        } else {
+            transmissionStatus = COMPLETE;
+        }
     }
 
     public FileInfoResponse getFileInfoResponse() {
