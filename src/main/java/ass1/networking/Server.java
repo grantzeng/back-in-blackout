@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import ass1.file.File;
+import ass1.networking.connections.Connection;
 import unsw.response.models.FileInfoResponse;
 
 public class Server {
