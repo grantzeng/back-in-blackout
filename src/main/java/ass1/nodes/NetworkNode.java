@@ -49,7 +49,8 @@ public abstract class NetworkNode {
      * @param radians
      */
     protected void setPosition(Angle radians) {
-        this.position = AngleNormaliser.normalise(radians);
+        AngleNormaliser normaliser = new AngleNormaliser();
+        this.position = normaliser.normalise(radians);
     }
 
     protected double getHeight() {
@@ -73,7 +74,6 @@ public abstract class NetworkNode {
     protected void setServer(Server server) {
         this.server = server;
     }
-
 
     /*
      * Motion related
