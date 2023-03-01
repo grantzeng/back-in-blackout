@@ -16,5 +16,10 @@ public abstract class Device extends NetworkNode {
         System.out.println("Devices don't move");
         return;
     }
+    
+    @Override
+    protected void setServer() {
+        
+    }
 
 }

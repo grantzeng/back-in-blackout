@@ -45,7 +45,7 @@ public abstract class NetworkNode {
 
     /**
      * Sets position (in radians)
-     * 
+     *
      * @param radians
      */
     protected void setPosition(Angle radians) {
@@ -63,9 +63,16 @@ public abstract class NetworkNode {
         }
         this.height = height;
     }
-    
+
+    /*
+        Tranmissionr related
+    */
     protected abstract void setServer();
 
+
+    /*
+        Motion related
+    */
     protected Angle signedDelta() {
         // -1.0 is because a +ve linear velocity causes a clockwise rotation, which is
         // defined as -ve under MathsHelper
@@ -82,7 +89,7 @@ public abstract class NetworkNode {
     public abstract NetworkNodeType type();
 
     public EntityInfoResponse getInfo() {
-        return new EntityInfoResponse(id, position, height, type().toString());
+        return new EntityInfoResponse(id, position, height, type().toString(), server.contentsToString());
     }
 
 }
