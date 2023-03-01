@@ -1,9 +1,8 @@
-package ass1.networking;
+package ass1.file;
 
 public enum TransmissionStatus {
     COMPLETE,
-    UPLOADING,
     DOWNLOADING,
-    TRANSIENT,
+    TRANSIENT
 }
 
