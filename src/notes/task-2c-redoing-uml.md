@@ -219,7 +219,17 @@ File
 
 
 ### Getting transmission to tick over
+Getting everything ready: 
+- Clean out any bad references
+- flush buffers from incoming sockets
+- removing finished files 
+- Reset stuff
 
+> I think it's really in this "getting everything ready" phase, that is where you'll be closing off the transmission
+
+THEN DO STUFFS. 
+
+Go through each network entity and tell it to keep tapping all the outgoing connections it has until they get rate limited 
 
 ### Closing off a transmission
 
