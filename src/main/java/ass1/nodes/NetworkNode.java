@@ -66,6 +66,12 @@ public abstract class NetworkNode {
     }
 
     /*
+    *  Communicability related
+    */
+    // protected abstract List<NetworkNodeType> supports();
+
+
+    /*
      * File server related
      */
 

@@ -115,6 +115,7 @@ public class BlackoutController {
 
     public List<String> communicableEntitiesInRange(String id) {
         // TODO: Task 2 b)
+        // return nodes.get(id).communicableEntitiesInRange();
         return new ArrayList<>();
     }
 

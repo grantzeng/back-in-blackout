@@ -32,6 +32,11 @@ public class RelaySatellite extends Satellite {
         setLinearVelocity(-1.0 * 1500);
     }
 
+    ///private static List<NetworkNode> supports;
+    //public List<NetworkNode> supports() {
+    //    return ArrayList.
+    //}
+
     public NetworkNodeType type() {
         return NetworkNodeType.RelaySatellite;
     }
