@@ -89,7 +89,7 @@ public class BlackoutController {
      * @param content
      */
     public void addFileToDevice(String deviceId, String filename, String content) {
-      ((Device) nodes.get(deviceId)).addFile(new File(filename, content));
+        ((Device) nodes.get(deviceId)).addFile(new File(filename, content));
     }
 
     public EntityInfoResponse getInfo(String id) {
@@ -98,9 +98,12 @@ public class BlackoutController {
 
     public void simulate() {
 
+        // Garbage collect + reset counters etc. + move
         for (NetworkNode node : nodes.values()) {
             node.move();
         }
+
+        // Transmission stuffs
     }
 
     /**
