@@ -18,6 +18,7 @@ import ass1.nodes.satellites.StandardSatellite;
 import ass1.nodes.satellites.TeleportingSatellite;
 import unsw.response.models.EntityInfoResponse;
 import unsw.utils.Angle;
+import unsw.utils.MathsHelper;
 
 public class BlackoutController {
     private Map<String, NetworkNode> nodes = new HashMap<>();
@@ -116,10 +117,43 @@ public class BlackoutController {
         }
     }
 
+    /**
+     * Functions for updating communicability graph - Just a nested for loop (find a
+     * better way to pairs of objects later)
+     * 
+     * @param id
+     * @return
+     */
+    public void updateVisibleNeighbours() {
+        List<NetworkNode> visible = new ArrayList<>();
+
+        for (NetworkNode server : nodes.values()) {
+
+            for (NetworkNode client : nodes.values()) {
+
+                if (client.equals(server)) {
+                    continue;
+                }
+
+                if (MathsHelper.isVisible(server.getHeight(), server.getPosition(), client.getHeight(),
+                        client.getPosition())) {
+                    visible.add(client);
+                }
+
+                server.setVisible(visible);
+                visible = new ArrayList<>();
+            }
+        }
+    }
+
+    /**
+     * @pre: updateVisibleNeighbours() has been run, i.e. visibility graph has been
+     *       updated
+     * @param id
+     * @return
+     */
     public List<String> communicableEntitiesInRange(String id) {
-        // TODO: Task 2 b)
-        // return nodes.get(id).communicableEntitiesInRange();
-        return new ArrayList<>();
+        return nodes.get(id).communicableEntitiesInRange();
     }
 
     public void sendFile(String fileName, String fromId, String toId) throws FileTransferException {

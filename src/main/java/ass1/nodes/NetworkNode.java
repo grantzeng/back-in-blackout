@@ -4,13 +4,17 @@ import unsw.response.models.EntityInfoResponse;
 import unsw.response.models.FileInfoResponse;
 import unsw.utils.Angle;
 import unsw.utils.AngleNormaliser;
+import unsw.utils.MathsHelper;
 import unsw.utils.Orientation;
 import static unsw.utils.Orientation.CLOCKWISE;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+import java.util.stream.Collectors;
 
 import ass1.connections.Connection;
 import ass1.file.File;
@@ -43,7 +47,7 @@ public abstract class NetworkNode {
      *
      * @return
      */
-    protected Angle getPosition() {
+    public Angle getPosition() {
         return position;
     }
 
@@ -57,7 +61,7 @@ public abstract class NetworkNode {
         this.position = normaliser.normalise(radians);
     }
 
-    protected double getHeight() {
+    public double getHeight() {
         return height;
     }
 
@@ -77,10 +81,10 @@ public abstract class NetworkNode {
     /*
      * File server related
      */
-
-    // Remove file server clas
     private Map<String, File> files;
     private List<Connection> connections;
+    private List<NetworkNode> visible; // Updated by blackout controller at every tick
+    private List<NetworkNode> communicable; // Cache communicable results every tick
 
     private int sendingBandwidth;
     private int receivingBandwidth;
@@ -99,6 +103,7 @@ public abstract class NetworkNode {
     protected void setServer(int bytesCap, int fileCountCap, int sendingBandwidth, int receivingBandwidth) {
         files = new HashMap<String, File>();
         connections = new ArrayList<Connection>();
+        visible = new ArrayList<NetworkNode>();
 
         this.sendingBandwidth = sendingBandwidth;
         this.receivingBandwidth = receivingBandwidth;
@@ -112,6 +117,66 @@ public abstract class NetworkNode {
 
     protected void setFiles(Map<String, File> files) {
         this.files = files;
+    }
+
+    /*
+     * Functions for determining who is in sending range of this
+     */
+    public String getId() {
+        return id;
+    }
+
+    public List<NetworkNode> getVisible() {
+        return visible;
+    }
+
+    public void setVisible(List<NetworkNode> visible) {
+        this.visible = visible;
+    }
+
+    /**
+     * @Pre visibility graph must be updated across whole system (i.e. Blackout
+     *      controller must have done set up for tick)
+     */
+
+    private boolean supportsSendingTo(NetworkNode node) {
+        return node.supports().contains(type());
+    }
+
+    private boolean hasRangeToSendTo(NetworkNode target) {
+        double distance = MathsHelper.getDistance(height, position, target.getHeight(), target.getPosition());
+        return distance <= maxRange();
+    }
+
+    protected abstract int maxRange();
+
+    protected abstract List<NetworkNodeType> supports();
+
+    public abstract NetworkNodeType type();
+
+    private void findCommunicableEntitiesInRange() {
+        List<NetworkNode> visited = new ArrayList<>();
+        Queue<NetworkNode> queue = new ArrayDeque<>();
+        queue.add(this);
+        visited.add(this);
+
+        while (!queue.isEmpty()) {
+            NetworkNode curr = queue.poll();
+            for (NetworkNode visible : curr.getVisible()) {
+                if (curr.supportsSendingTo(visible) && curr.hasRangeToSendTo(visible) && !visited.contains(visible)) {
+                    visited.add(visible);
+                    if (visible.type() == NetworkNodeType.RelaySatellite) {
+                        queue.add(visible);
+                    }
+                }
+            }
+        }
+    }
+
+    public List<String> communicableEntitiesInRange() {
+        findCommunicableEntitiesInRange(); // We can optimise this later, just make it run every iteration this time
+        return communicable.stream().filter(entity -> entity != this).map(node -> node.getId())
+                .collect(Collectors.toList());
     }
 
     /*
@@ -129,9 +194,7 @@ public abstract class NetworkNode {
 
     public abstract void move();
 
-    // Returning network node information
-    public abstract NetworkNodeType type();
-
+    //
     private Map<String, FileInfoResponse> serverContents() {
         Map<String, FileInfoResponse> info = new HashMap<>();
 
