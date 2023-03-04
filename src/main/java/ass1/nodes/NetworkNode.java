@@ -185,8 +185,13 @@ public abstract class NetworkNode {
         return communicable.stream().map(node -> node.getId()).collect(Collectors.toList());
     }
 
-    /*
-     * Motion related
+    /**
+     *
+     * MOTION RELATED FUNCTIONALITY
+     * 
+     * 
+     * 
+     * @return
      */
     protected Angle signedDelta() {
         // -1.0 is because a +ve linear velocity causes a clockwise rotation, which is

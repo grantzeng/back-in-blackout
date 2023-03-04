@@ -36,7 +36,9 @@ public class BlackoutController {
         for (NetworkNode server : nodes.values()) {
             for (NetworkNode client : nodes.values()) {
 
-                if (client == server) { continue;}
+                if (client == server) {
+                    continue;
+                }
 
                 if (MathsHelper.isVisible(server.getHeight(), server.getPosition(), client.getHeight(),
                         client.getPosition())) {
