@@ -205,19 +205,14 @@ public abstract class NetworkNode {
 
     public abstract void move();
 
-    //
-    private Map<String, FileInfoResponse> serverContents() {
+    public EntityInfoResponse getInfo() {
         Map<String, FileInfoResponse> info = new HashMap<>();
 
         for (File file : files.values()) {
             info.put(file.getFileInfoResponse().getFilename(), file.getFileInfoResponse());
         }
 
-        return info;
-    }
-
-    public EntityInfoResponse getInfo() {
-        return new EntityInfoResponse(id, position, height, type().toString(), serverContents());
+        return new EntityInfoResponse(id, position, height, type().toString(), info);
     }
 
 }
