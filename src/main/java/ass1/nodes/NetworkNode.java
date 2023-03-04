@@ -1,12 +1,19 @@
 package ass1.nodes;
 
 import unsw.response.models.EntityInfoResponse;
+import unsw.response.models.FileInfoResponse;
 import unsw.utils.Angle;
 import unsw.utils.AngleNormaliser;
 import unsw.utils.Orientation;
 import static unsw.utils.Orientation.CLOCKWISE;
 
-import ass1.networking.Server;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import ass1.connections.Connection;
+import ass1.file.File;
 
 import static unsw.utils.Orientation.ANTICLOCKWISE;
 
@@ -16,13 +23,10 @@ public abstract class NetworkNode {
     private double height; // km
     private double linearVelocity; // km/min
 
-    private Server server;
-
     protected NetworkNode(String id, double height, Angle radians) {
         this.id = id;
         setHeight(height);
         setPosition(radians);
-        initialiseServer();
     }
 
     // Motion related things
@@ -66,23 +70,48 @@ public abstract class NetworkNode {
     }
 
     /*
-    *  Communicability related
-    */
+     * Communicability related
+     */
     // protected abstract List<NetworkNodeType> supports();
-
 
     /*
      * File server related
      */
 
-    protected abstract void initialiseServer();
+    // Remove file server clas
+    private Map<String, File> files;
+    private List<Connection> connections;
 
-    protected void setServer(Server server) {
-        this.server = server;
+    private int sendingBandwidth;
+    private int receivingBandwidth;
+    private int bytesCap;
+    private int fileCountCap;
+
+    /**
+     * Initialises variables that form a server, with server storage and
+     * transmission constraints
+     * 
+     * @param bytesCap
+     * @param fileCountCap
+     * @param sendingBandwidth
+     * @param receivingBandwidth
+     */
+    protected void setServer(int bytesCap, int fileCountCap, int sendingBandwidth, int receivingBandwidth) {
+        files = new HashMap<String, File>();
+        connections = new ArrayList<Connection>();
+
+        this.sendingBandwidth = sendingBandwidth;
+        this.receivingBandwidth = receivingBandwidth;
+        this.bytesCap = bytesCap;
+        this.fileCountCap = fileCountCap;
     }
 
-    protected Server getServer() {
-        return server;
+    protected Map<String, File> getFiles() {
+        return files;
+    }
+
+    protected void setFiles(Map<String, File> files) {
+        this.files = files;
     }
 
     /*
@@ -103,8 +132,18 @@ public abstract class NetworkNode {
     // Returning network node information
     public abstract NetworkNodeType type();
 
+    private Map<String, FileInfoResponse> serverContents() {
+        Map<String, FileInfoResponse> info = new HashMap<>();
+
+        for (File file : files.values()) {
+            info.put(file.getFileInfoResponse().getFilename(), file.getFileInfoResponse());
+        }
+
+        return info;
+    }
+
     public EntityInfoResponse getInfo() {
-        return new EntityInfoResponse(id, position, height, type().toString(), server.contentsToString());
+        return new EntityInfoResponse(id, position, height, type().toString(), serverContents());
     }
 
 }

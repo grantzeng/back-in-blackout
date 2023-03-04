@@ -1,7 +1,6 @@
 package ass1.nodes.satellites;
 
 import ass1.nodes.NetworkNodeType;
-import ass1.networking.Server;
 
 import unsw.utils.Angle;
 import static unsw.utils.Orientation.ANTICLOCKWISE;
@@ -12,12 +11,9 @@ public class RelaySatellite extends Satellite {
     public RelaySatellite(String id, double height, Angle radians) {
         super(id, height, radians);
         setInitialLinearVelocity(radians);
+        setServer(0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
-    @Override
-    protected void initialiseServer() {
-        setServer(new Server(0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE));
-    }
 
     private void setInitialLinearVelocity(Angle radians) {
 

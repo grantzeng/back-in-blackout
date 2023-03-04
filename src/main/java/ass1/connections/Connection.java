@@ -1,4 +1,4 @@
-package ass1.networking.connections;
+package ass1.connections;
 
 import ass1.file.File;
 
