@@ -9,6 +9,7 @@ import ass1.file.File;
 public abstract class Connection {
     private File resource;
     private String origin;
+    private int bytesAllocation = 0;
     private int bytesRemaining = 0;
 
 

@@ -155,10 +155,7 @@ public abstract class NetworkNode {
 
     public abstract NetworkNodeType type();
 
-    /**
-     * Basically BFS on visibility graph with filtering for communicablity
-     */
-    private void findCommunicableEntitiesInRange() {
+    public List<String> communicableEntitiesInRange() {
         List<NetworkNode> visited = new ArrayList<>();
         Queue<NetworkNode> queue = new ArrayDeque<>();
         queue.add(this);
@@ -178,12 +175,17 @@ public abstract class NetworkNode {
 
         // Post processing: remove us from sending files to ourselves
         communicable = visited.stream().filter(entity -> entity != this).collect(Collectors.toList());
-    }
-
-    public List<String> communicableEntitiesInRange() {
-        findCommunicableEntitiesInRange(); // We can optimise this later, just make it run every iteration this time
+        
         return communicable.stream().map(node -> node.getId()).collect(Collectors.toList());
     }
+    
+    /*
+    
+        Dealing with transmission 
+    
+    */
+    
+    
 
     /**
      *
