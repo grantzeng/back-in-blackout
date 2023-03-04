@@ -145,15 +145,18 @@ public abstract class NetworkNode {
 
     private boolean hasRangeToSendTo(NetworkNode target) {
         double distance = MathsHelper.getDistance(height, position, target.getHeight(), target.getPosition());
-        return distance <= maxRange();
+        return distance <= range();
     }
 
-    protected abstract int maxRange();
+    protected abstract double range();
 
     protected abstract List<NetworkNodeType> supports();
 
     public abstract NetworkNodeType type();
 
+    /**
+     * Basically BFS on visibility graph with filtering for communicablity
+     */
     private void findCommunicableEntitiesInRange() {
         List<NetworkNode> visited = new ArrayList<>();
         Queue<NetworkNode> queue = new ArrayDeque<>();
@@ -171,12 +174,14 @@ public abstract class NetworkNode {
                 }
             }
         }
+
+        // Post processing: remove us from sending files to ourselves
+        communicable = visited.stream().filter(entity -> entity != this).collect(Collectors.toList());
     }
 
     public List<String> communicableEntitiesInRange() {
         findCommunicableEntitiesInRange(); // We can optimise this later, just make it run every iteration this time
-        return communicable.stream().filter(entity -> entity != this).map(node -> node.getId())
-                .collect(Collectors.toList());
+        return communicable.stream().map(node -> node.getId()).collect(Collectors.toList());
     }
 
     /*

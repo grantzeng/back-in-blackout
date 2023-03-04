@@ -7,8 +7,14 @@ public class LaptopDevice extends Device {
     public LaptopDevice(String id, Angle radians) {
         super(id, radians);
     }
-
+    
+    @Override
     public NetworkNodeType type() {
         return NetworkNodeType.LaptopDevice;
+    }
+    
+    @Override
+    public double range() {
+        return 100000.0;
     }
 }
