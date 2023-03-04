@@ -1,9 +1,19 @@
 package ass1.nodes.satellites;
 
 import ass1.nodes.NetworkNodeType;
+import static ass1.nodes.NetworkNodeType.RelaySatellite;
+import static ass1.nodes.NetworkNodeType.StandardSatellite;
+import static ass1.nodes.NetworkNodeType.TeleportingSatellite;
+import static ass1.nodes.NetworkNodeType.HandheldDevice;
+import static ass1.nodes.NetworkNodeType.DesktopDevice;
+import static ass1.nodes.NetworkNodeType.LaptopDevice;
+
 import unsw.utils.Angle;
 import static unsw.utils.Orientation.ANTICLOCKWISE;
 import static unsw.utils.Orientation.CLOCKWISE;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class TeleportingSatellite extends Satellite {
     public TeleportingSatellite(String id, double height, Angle radians) {
@@ -12,8 +22,18 @@ public class TeleportingSatellite extends Satellite {
         setServer(200, Integer.MAX_VALUE, 10, 15);
     }
 
+    public double range() {
+        return 150000.0;
+    }
+
+    public List<NetworkNodeType> supports() {
+        return Arrays.asList(HandheldDevice, LaptopDevice, DesktopDevice, StandardSatellite, RelaySatellite,
+                TeleportingSatellite);
+
+    }
+
     public NetworkNodeType type() {
-        return NetworkNodeType.TeleportingSatellite;
+        return TeleportingSatellite;
     }
 
     @Override

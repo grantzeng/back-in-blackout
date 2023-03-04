@@ -27,12 +27,6 @@ public abstract class Device extends NetworkNode {
         return;
     }
     
-    @Override 
-    public List<NetworkNodeType> supports() {
-        return Arrays.asList(StandardSatellite, RelaySatellite, TeleportingSatellite);
-    }
-
-    
     public void addFile(File file) { 
         Map<String, File> files = getFiles(); 
         files.put(file.getFilename(), file);

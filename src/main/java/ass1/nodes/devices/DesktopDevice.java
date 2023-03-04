@@ -17,7 +17,7 @@ public class DesktopDevice extends Device {
     }
 
     public List<NetworkNodeType> supports() {
-        return Arrays.asList(StandardSatellite, RelaySatellite, TeleportingSatellite);
+        return Arrays.asList(RelaySatellite, TeleportingSatellite);
     }
 
     public NetworkNodeType type() {
