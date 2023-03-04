@@ -104,6 +104,7 @@ public abstract class NetworkNode {
         files = new HashMap<String, File>();
         connections = new ArrayList<Connection>();
         visible = new ArrayList<NetworkNode>();
+        communicable = new ArrayList<NetworkNode>();
 
         this.sendingBandwidth = sendingBandwidth;
         this.receivingBandwidth = receivingBandwidth;

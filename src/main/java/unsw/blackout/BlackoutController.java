@@ -23,6 +23,31 @@ import unsw.utils.MathsHelper;
 public class BlackoutController {
     private Map<String, NetworkNode> nodes = new HashMap<>();
 
+    /**
+     * Functions for updating communicability graph - Just a nested for loop (find a
+     * better way to pairs of objects later)
+     * 
+     * @param id
+     * @return
+     */
+    public void updateVisibleNeighbours() {
+        List<NetworkNode> visible = new ArrayList<>();
+
+        for (NetworkNode server : nodes.values()) {
+            for (NetworkNode client : nodes.values()) {
+
+                if (client == server) { continue;}
+
+                if (MathsHelper.isVisible(server.getHeight(), server.getPosition(), client.getHeight(),
+                        client.getPosition())) {
+                    visible.add(client);
+                }
+            }
+            server.setVisible(visible);
+            visible = new ArrayList<>();
+        }
+    }
+
     public void createDevice(String deviceId, String type, Angle position) {
         switch (type) {
         case "HandheldDevice":
@@ -38,6 +63,7 @@ public class BlackoutController {
             System.out.println("No device was added to Blackout");
             break;
         }
+        updateVisibleNeighbours();
     }
 
     /**
@@ -46,6 +72,7 @@ public class BlackoutController {
      */
     public void removeDevice(String deviceId) {
         nodes.remove(deviceId);
+        updateVisibleNeighbours();
     }
 
     public void createSatellite(String satelliteId, String type, double height, Angle position) {
@@ -63,6 +90,7 @@ public class BlackoutController {
             System.out.println("No satellite was added to Blackout");
             break;
         }
+        updateVisibleNeighbours();
     }
 
     /**
@@ -71,6 +99,7 @@ public class BlackoutController {
      */
     public void removeSatellite(String satelliteId) {
         nodes.remove(satelliteId);
+        updateVisibleNeighbours();
     }
 
     public List<String> listDeviceIds() {
@@ -98,12 +127,11 @@ public class BlackoutController {
     }
 
     public void simulate() {
-
         // Garbage collect + reset counters etc. + move
         for (NetworkNode node : nodes.values()) {
             node.move();
         }
-
+        updateVisibleNeighbours();
         // Transmission stuffs
     }
 
@@ -114,35 +142,6 @@ public class BlackoutController {
     public void simulate(int numberOfMinutes) {
         for (int i = 0; i < numberOfMinutes; i++) {
             simulate();
-        }
-    }
-
-    /**
-     * Functions for updating communicability graph - Just a nested for loop (find a
-     * better way to pairs of objects later)
-     * 
-     * @param id
-     * @return
-     */
-    public void updateVisibleNeighbours() {
-        List<NetworkNode> visible = new ArrayList<>();
-
-        for (NetworkNode server : nodes.values()) {
-
-            for (NetworkNode client : nodes.values()) {
-
-                if (client.equals(server)) {
-                    continue;
-                }
-
-                if (MathsHelper.isVisible(server.getHeight(), server.getPosition(), client.getHeight(),
-                        client.getPosition())) {
-                    visible.add(client);
-                }
-
-                server.setVisible(visible);
-                visible = new ArrayList<>();
-            }
         }
     }
 
