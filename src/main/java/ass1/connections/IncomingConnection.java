@@ -12,7 +12,7 @@ public class IncomingConnection extends Connection {
         buffer = "";
     }
 
-    public void receive(String ch) {
+    public ResponseCode receive(String ch) {
         if (ch.length() > 1) {
             throw new IllegalArgumentException("Can only receive one byte at a time");
         }

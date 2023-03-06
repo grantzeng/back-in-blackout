@@ -28,6 +28,10 @@ public class File {
     public String getFilename() {
         return filename;
     }
+    
+    public int getSize() {
+        return size;
+    }
 
     public String read(int position) {
         return "";

@@ -86,8 +86,8 @@ public abstract class NetworkNode {
     private List<NetworkNode> visible; // Updated by blackout controller at every tick
     private List<NetworkNode> communicable; // Cache communicable results every tick
 
-    private int sendingBandwidth;
-    private int receivingBandwidth;
+    private int maxSendingBandwidth;
+    private int maxReceivingBandwidth;
     private int bytesCap;
     private int fileCountCap;
 
@@ -106,8 +106,8 @@ public abstract class NetworkNode {
         visible = new ArrayList<NetworkNode>();
         communicable = new ArrayList<NetworkNode>();
 
-        this.sendingBandwidth = sendingBandwidth;
-        this.receivingBandwidth = receivingBandwidth;
+        this.maxSendingBandwidth = sendingBandwidth;
+        this.maxReceivingBandwidth = receivingBandwidth;
         this.bytesCap = bytesCap;
         this.fileCountCap = fileCountCap;
     }
@@ -184,6 +184,21 @@ public abstract class NetworkNode {
         Dealing with transmission 
     
     */
+    
+    // resource checks
+    public void sendFile(String filename, NetworkNode client) {
+        // 
+    }
+    
+    protected void checkFileExists(String filename, NetworkNode client) {
+    
+    }
+    
+    protected void checkBandwidthAvailable()
+    
+    // open a connection 
+    
+    
     
     
 
