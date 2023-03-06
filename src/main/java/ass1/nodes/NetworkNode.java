@@ -288,6 +288,7 @@ public abstract class NetworkNode {
     }
 
     public void transmitData() {
+        System.out.println("transmitData()");
         // Server hammers each connection object until rate limited
         for (Connection connection : connections) {
             if (connection.getType() == SENDING) {
@@ -303,9 +304,9 @@ public abstract class NetworkNode {
 
         for (Connection connection : connections) {
             if (connection.getType() == RECIEVING) {
-                connection.reset(receivingAllocation);
+                connection.setByteAllocation(receivingAllocation);
             } else {
-                connection.reset(sendingAllocation);
+                connection.setByteAllocation(sendingAllocation);
             }
         }
 
@@ -317,6 +318,9 @@ public abstract class NetworkNode {
         // Clean up any completed connection objects
 
         // Reset everything else
+        for (Connection connection : connections) {
+            connection.reset();
+        }
     }
 
     /**

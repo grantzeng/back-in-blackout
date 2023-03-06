@@ -108,7 +108,7 @@ public class Connection {
         return OK;
     }
 
-    public void flush() {
+    private void flush() {
         System.out.println("Flush buffer to file");
         resource.append(buffer);
         buffer = "";
@@ -122,15 +122,21 @@ public class Connection {
         }
 
         // Keep trying to write to endpoint socket until rate limited
-        while (endpoint.write(resource.read(fp)) != ResponseCode.RATE_LIMITED) {
+        String letter = resource.read(fp);
+        while (endpoint.write(letter) != ResponseCode.RATE_LIMITED) {
+            System.out.println("fp: " + fp + " " + letter);
             fp++;
         }
 
     }
 
-    public void reset(int bytesAllocation) {
+    public void setByteAllocation(int bytesAllocation) {
         this.bytesAllocation = bytesAllocation;
+    }
+
+    public void reset() {
         this.bytesUsed = 0;
+        flush();
         hit = false;
     }
 }

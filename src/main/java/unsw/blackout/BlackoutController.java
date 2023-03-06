@@ -136,7 +136,9 @@ public class BlackoutController {
 
         // Garbage collect + reset counters etc. + move
         for (NetworkNode node : nodes.values()) {
-            node.move();
+            if (node instanceof Satellite) {
+                node.move();
+            }
         }
 
         updateVisibleNeighbours();
