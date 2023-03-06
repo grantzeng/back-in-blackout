@@ -46,7 +46,7 @@ public class Connection {
         this.fileSize = resource.getSize();
         this.fp = 0;
         this.type = SENDING;
-        System.out.println("sending: " + this);
+        // System.out.println("sending: " + this);
     }
 
     public ConnectionType getType() {
@@ -58,11 +58,14 @@ public class Connection {
     }
 
     public void connect(Connection endpoint) {
+        System.out.println("connect()");
+        System.out.println("    " + this);
+        System.out.println("    " + endpoint);
 
-        if (endpoint != null) {
+        if (this.endpoint != null) {
             System.out.println("Source already been set, cannot change");
-            System.out.println("I am: " + this);
-            System.out.println("Sending to: " + this);
+            System.out.println("    I am: " + this);
+            System.out.println("    Sending to: " + this.endpoint);
             return;
         }
 

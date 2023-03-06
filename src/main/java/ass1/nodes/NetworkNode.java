@@ -214,7 +214,7 @@ public abstract class NetworkNode {
     public void sendFile(String filename, NetworkNode client)
             throws VirtualFileNotFoundException, VirtualFileNoBandwidthException {
 
-        // System.out.println("sendFile()");
+        System.out.println("sendFile()");
 
         File source = files.get(filename);
 
@@ -228,14 +228,14 @@ public abstract class NetworkNode {
 
         // Create connection object, and try to give to client, otherwise clean it up
         Connection sourcepoint = new Connection(files.get(filename), this);
-        System.out.println("Created sourcepoint: " + sourcepoint);
+        System.out.println("    Created sourcepoint: " + sourcepoint);
         connections.add(sourcepoint);
         setBandwidths();
 
         try {
             client.acceptDataConnection(sourcepoint, filename, files.get(filename).getSize());
         } catch (Exception e) {
-            System.out.println("Client rejected connection");
+            System.out.println("    Client rejected connection");
             connections.remove(sourcepoint);
             setBandwidths();
         }
@@ -277,8 +277,8 @@ public abstract class NetworkNode {
         files.put(filename, emptyFile);
 
         Connection endpoint = new Connection(emptyFile, this, memoryRequired);
-        System.out.println("Created endpoint: " + endpoint);
-        System.out.println("Give endpoint to sourcepoint");
+        System.out.println("    Created endpoint: " + endpoint);
+        System.out.println("    Give endpoint to sourcepoint");
 
         sourcepoint.connect(endpoint);
         // endpoint.connect(sourcepoint);

@@ -21,12 +21,14 @@ public class TestTask2Transmission {
         bc.createDevice("d1", "HandheldDevice", Angle.fromDegrees(0));
         bc.addFileToDevice("d1", "asdf", "asdf");
         assertDoesNotThrow(() -> bc.sendFile("asdf", "d1", "s1"));
+        /* 
         System.out.println();
         System.out.println(bc.getInfo("d1"));
         System.out.println();
         System.out.println();
         System.out.println(bc.getInfo("s1"));
         System.out.println();
+        */
         bc.simulate();
     }
 
