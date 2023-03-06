@@ -1,5 +1,9 @@
 package ass1.nodes;
 
+import unsw.blackout.FileTransferException.VirtualFileNotFoundException;
+import unsw.blackout.FileTransferException.VirtualFileNoBandwidthException;
+import unsw.blackout.FileTransferException.VirtualFileAlreadyExistsException;
+import unsw.blackout.FileTransferException.VirtualFileNoStorageSpaceException;
 import unsw.response.models.EntityInfoResponse;
 import unsw.response.models.FileInfoResponse;
 import unsw.utils.Angle;
@@ -17,7 +21,11 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 
 import ass1.connections.Connection;
+import static ass1.connections.ConnectionType.RECIEVING;
+import static ass1.connections.ConnectionType.SENDING;
+
 import ass1.file.File;
+import ass1.file.TransmissionStatus;
 
 import static unsw.utils.Orientation.ANTICLOCKWISE;
 
@@ -89,7 +97,7 @@ public abstract class NetworkNode {
     private int maxSendingBandwidth;
     private int maxReceivingBandwidth;
     private int bytesCap;
-    private int fileCountCap;
+    private int filesCap;
 
     /**
      * Initialises variables that form a server, with server storage and
@@ -109,7 +117,7 @@ public abstract class NetworkNode {
         this.maxSendingBandwidth = sendingBandwidth;
         this.maxReceivingBandwidth = receivingBandwidth;
         this.bytesCap = bytesCap;
-        this.fileCountCap = fileCountCap;
+        this.filesCap = fileCountCap;
     }
 
     protected Map<String, File> getFiles() {
@@ -175,32 +183,93 @@ public abstract class NetworkNode {
 
         // Post processing: remove us from sending files to ourselves
         communicable = visited.stream().filter(entity -> entity != this).collect(Collectors.toList());
-        
+
         return communicable.stream().map(node -> node.getId()).collect(Collectors.toList());
     }
-    
+
     /*
-    
-        Dealing with transmission 
-    
-    */
-    
-    // resource checks
-    public void sendFile(String filename, NetworkNode client) {
-        // 
+     * 
+     * Dealing with transmission
+     * 
+     */
+
+    private int countReceiving() {
+        return Math.toIntExact(connections.stream().filter(connection -> connection.getType() == RECIEVING).count());
     }
-    
-    protected void checkFileExists(String filename, NetworkNode client) {
-    
+
+    private int countSending() {
+        return Math.toIntExact(connections.stream().filter(connection -> connection.getType() == SENDING).count());
     }
-    
-    protected void checkBandwidthAvailable()
-    
-    // open a connection 
-    
-    
-    
-    
+
+    // Might be able to turn these into functions within functions to make it look
+    // smaller
+    private int receivingChannelWidth() {
+        return maxReceivingBandwidth / (countReceiving() + 1);
+    }
+
+    public int sendingChannelWidth() {
+        return maxSendingBandwidth / (countSending() + 1);
+    }
+
+    public void sendFile(String filename, NetworkNode client)
+            throws VirtualFileNotFoundException, VirtualFileNoBandwidthException {
+            
+        File source = files.get(filename);
+        if (source == null || source.getStatus() == TransmissionStatus.PARTIAL) {
+            throw new VirtualFileNotFoundException(filename);
+        }
+
+        if (sendingChannelWidth() == 0) {
+            throw new VirtualFileNoBandwidthException(id);
+        }
+
+        // Create connection object, and try to give to client, otherwise clean it up 
+        Connection sourcepoint = new Connection(files.get(filename), this);
+        connections.add(sourcepoint);
+
+        try {
+            client.acceptDataConnection(sourcepoint, filename, files.get(filename).getSize());
+        } catch (Exception e) {
+            connections.remove(sourcepoint);
+        }
+
+    }
+
+    private int memoryUsage() {
+        return files.values().stream().map(file -> file.getSize()).reduce(0, Integer::sum);
+    }
+
+    public void acceptDataConnection(Connection sourcepoint, String filename, int memoryRequired)
+            throws VirtualFileNoBandwidthException, VirtualFileAlreadyExistsException,
+            VirtualFileNoStorageSpaceException {
+
+        // recject if no down bandwidth
+        if (receivingChannelWidth() == 0) {
+            throw new VirtualFileNoBandwidthException(id);
+        }
+
+        // Reject connection if file already exists
+        if (files.get(filename) != null) {
+            throw new VirtualFileAlreadyExistsException(id);
+        }
+
+        // Reject connection if reached file cap
+        if (files.size() + 1 > filesCap) {
+            throw new VirtualFileNoStorageSpaceException("Max Files Reached");
+        }
+
+        // Reject connection if reached bytes cap
+        if (memoryUsage() + memoryRequired > bytesCap) {
+            throw new VirtualFileNoStorageSpaceException("Max Bytes Reached");
+        }
+
+        // Create connection object
+        File emptyFile = files.put(filename, new File(filename, memoryRequired));
+        Connection endpoint = new Connection(emptyFile, this, memoryRequired);
+        sourcepoint.connect(endpoint);
+        connections.add(endpoint);
+
+    }
 
     /**
      *

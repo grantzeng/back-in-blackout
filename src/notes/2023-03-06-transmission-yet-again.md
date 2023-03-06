@@ -128,14 +128,15 @@ class NetworkNode {
        Methods that report on List<Connections>
     }
     */
+    /*
     private int countReceiving() {
-        return 0; 
+        return Math.toIntExact(connections.stream().filter(connection -> connection.getType == RECIEVING).count()); 
     }
     
     private int countSending() {
-        return 0; 
+        return Math.toIntExact(connections.stream().filter(connection -> connection.getType == SENDING).count());
     }
-
+    // Might be able to turn these into functions within functions to make it look smaller
     private void receivingChannelWidth() {
         return maxReceivingBandwidth / (countReceiving() + 1);
     }
@@ -143,6 +144,8 @@ class NetworkNode {
     public boolean sendingChannelWidth() {
         return maxSendingBandwidth / (countSending() + 1);
     }
+    
+    */
     
     /* File sending functionality */
     public void sendFile(String filename, NetworkNode client) {
@@ -156,7 +159,9 @@ class NetworkNode {
         }
         
         // Create connection object, and give it to the clinet
-        client.acceptDataConnection(new Connection(/* TO FIGURE THIS OUT*/), files.get(filename).getSize());        
+        Connection sourcepoint = files.get(filename), this);
+        connections.append(sourcepoint);
+        client.acceptDataConnection(sourcepoint, files.get(filename).getSize());        
         
     }
     
@@ -183,7 +188,8 @@ class NetworkNode {
         }
         
         // Create connection object 
-        Connection endpoint = new Connection(/**/); // Figure this one out 
+        File emptyFile = files.put(filename, new File(filename, memoryRequired));
+        Connection endpoint = new Connection(emptyFile, this, memoryRequired); 
         sourcepoint.connect(endpoint);
         connections.append(endpoint);
         
@@ -194,6 +200,11 @@ class NetworkNode {
     
     public void transmitData() {
         // Server hammers each connection object until rate limited
+        for (Connection connection: connections) {
+            if (connection.getType() == SENDING) {
+                connection.send();
+            }
+        }
     }
     
     
@@ -203,7 +214,11 @@ class NetworkNode {
     
     public void afterTick() {
         // Clean up unused connection objects
+        
+        
         // Clean up any completed connection objects
+        
+        // Reset everything else 
     }
 
 }
