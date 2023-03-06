@@ -36,6 +36,7 @@ public class Connection {
         this.fileSize = fileSize;
         this.fp = 0;
         this.type = RECIEVING;
+        System.out.println("receiving: " + this);
     }
 
     public Connection(File sourceFile, NetworkNode origin) {
@@ -45,6 +46,7 @@ public class Connection {
         this.fileSize = resource.getSize();
         this.fp = 0;
         this.type = SENDING;
+        System.out.println("sending: " + this);
     }
 
     public ConnectionType getType() {
@@ -59,6 +61,8 @@ public class Connection {
 
         if (endpoint != null) {
             System.out.println("Source already been set, cannot change");
+            System.out.println("I am: " + this);
+            System.out.println("Sending to: " + this);
             return;
         }
 

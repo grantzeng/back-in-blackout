@@ -37,12 +37,21 @@ public class File {
         return size;
     }
 
+    /**
+     * @pre position is a valid data index
+     * @param position
+     * @return
+     */
     public String read(int position) {
-        return "";
+        return data.substring(position, position + 1);
     }
 
     public String read() {
         return data;
+    }
+
+    public void truncate() {
+        data = "";
     }
 
     public void append(String string) {

@@ -27,6 +27,7 @@ public class TestTask2Transmission {
         System.out.println();
         System.out.println(bc.getInfo("s1"));
         System.out.println();
+        bc.simulate();
     }
 
 }

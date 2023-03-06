@@ -228,12 +228,14 @@ public abstract class NetworkNode {
 
         // Create connection object, and try to give to client, otherwise clean it up
         Connection sourcepoint = new Connection(files.get(filename), this);
+        System.out.println("Created sourcepoint: " + sourcepoint);
         connections.add(sourcepoint);
         setBandwidths();
 
         try {
             client.acceptDataConnection(sourcepoint, filename, files.get(filename).getSize());
         } catch (Exception e) {
+            System.out.println("Client rejected connection");
             connections.remove(sourcepoint);
             setBandwidths();
         }
@@ -247,7 +249,8 @@ public abstract class NetworkNode {
     public void acceptDataConnection(Connection sourcepoint, String filename, int memoryRequired)
             throws VirtualFileNoBandwidthException, VirtualFileAlreadyExistsException,
             VirtualFileNoStorageSpaceException {
-        // System.out.println("acceptDataConnection()");
+        System.out.println("acceptDataConnection()");
+        System.out.println(sourcepoint);
 
         // recject if no down bandwidth
         if (receivingChannelWidth() == 0) {
@@ -271,10 +274,15 @@ public abstract class NetworkNode {
 
         // Create connection object
         File emptyFile = new File(filename, memoryRequired);
-        System.out.println("CreatedEmptyFile");
         files.put(filename, emptyFile);
+
         Connection endpoint = new Connection(emptyFile, this, memoryRequired);
+        System.out.println("Created endpoint: " + endpoint);
+        System.out.println("Give endpoint to sourcepoint");
+
         sourcepoint.connect(endpoint);
+        // endpoint.connect(sourcepoint);
+
         connections.add(endpoint);
         setBandwidths();
     }
