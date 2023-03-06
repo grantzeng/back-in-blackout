@@ -129,12 +129,26 @@ public class BlackoutController {
     }
 
     public void simulate() {
+
+        for (NetworkNode node : nodes.values()) {
+            node.setBandwidths();
+        }
+
         // Garbage collect + reset counters etc. + move
         for (NetworkNode node : nodes.values()) {
             node.move();
         }
+
         updateVisibleNeighbours();
         // Transmission stuffs
+
+        for (NetworkNode node : nodes.values()) {
+            node.transmitData();
+        }
+
+        for (NetworkNode node : nodes.values()) {
+            node.tickCleanUp();
+        }
     }
 
     /**
@@ -158,7 +172,7 @@ public class BlackoutController {
     }
 
     public void sendFile(String fileName, String fromId, String toId) throws FileTransferException {
-        // TODO: Task 2 c)
+        (nodes.get(fromId)).sendFile(fileName, nodes.get(toId));
     }
 
     public void createDevice(String deviceId, String type, Angle position, boolean isMoving) {

@@ -208,11 +208,11 @@ class NetworkNode {
     }
     
     
-    public void beforeTick() {
+    public void tickSetUp() {
         // Set up bandwidth 
     }
     
-    public void afterTick() {
+    public void tickCleanUp() {
         // Clean up unused connection objects
         
         
