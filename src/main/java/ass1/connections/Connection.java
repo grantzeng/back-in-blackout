@@ -75,7 +75,7 @@ public class Connection {
     // Implement rate limiting behaviour
     protected ResponseCode logByteUsage() {
         if (bytesUsed == bytesAllocation) {
-            System.out.println("Used all available bytes");
+            System.out.println("    Used all available bytes");
             return RATE_LIMITED;
         }
         if (!hit) {
@@ -100,7 +100,7 @@ public class Connection {
     public ResponseCode write(String content) {
         for (String asciiChar : content.split("")) {
             if (logByteUsage() == RATE_LIMITED) {
-                System.out.println("Cannot write any more to buffer");
+                System.out.println("    Cannot write any more to buffer");
                 return RATE_LIMITED;
             }
             buffer += asciiChar;
@@ -109,7 +109,7 @@ public class Connection {
     }
 
     private void flush() {
-        System.out.println("Flush buffer to file");
+        System.out.println("    Flush buffer to file");
         resource.append(buffer);
         buffer = "";
 
@@ -123,8 +123,8 @@ public class Connection {
 
         // Keep trying to write to endpoint socket until rate limited
         String letter = resource.read(fp);
+        System.out.println("fp: " + fp + " " + letter);
         while (endpoint.write(letter) != ResponseCode.RATE_LIMITED) {
-            System.out.println("fp: " + fp + " " + letter);
             fp++;
         }
 
@@ -135,6 +135,7 @@ public class Connection {
     }
 
     public void reset() {
+        System.out.println("reset()");
         this.bytesUsed = 0;
         flush();
         hit = false;
