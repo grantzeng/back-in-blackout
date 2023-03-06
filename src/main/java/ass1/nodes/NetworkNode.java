@@ -234,7 +234,7 @@ public abstract class NetworkNode {
             throws VirtualFileNoBandwidthException, VirtualFileAlreadyExistsException,
             VirtualFileNoStorageSpaceException {
         System.out.println("acceptDataConnection()");
-        System.out.println(sourcepoint);
+        // System.out.println(sourcepoint);
 
         // recject if no down bandwidth
         if (receivingChannelWidth() == 0) {
@@ -289,7 +289,8 @@ public abstract class NetworkNode {
     }
 
     public void transmitData() {
-        System.out.println("transmitData()");
+        System.out.println(connections);
+        // System.out.println("transmitData()");
         // Server hammers each connection object until rate limited
         for (Connection connection : connections) {
             if (connection.getType() == SENDING) {
@@ -314,14 +315,14 @@ public abstract class NetworkNode {
     }
 
     public void tickCleanUp() {
-        // Clean up unused connection objects
-
-        // Clean up any completed connection objects
+        // Clean up unused or completed connection objects
+        connections = connections.stream().filter(connection -> connection.markedForRemove())
+                .collect(Collectors.toList());
 
         // Reset everything else
-        System.out.println(this);
+        // System.out.println(this);
         for (Connection connection : connections) {
-            System.out.println("Reset: " + connection);
+            // System.out.println("Reset: " + connection);
             connection.reset();
         }
     }
@@ -347,14 +348,14 @@ public abstract class NetworkNode {
     public abstract void move();
 
     public EntityInfoResponse getInfo() {
-        System.out.println(this);
+        // System.out.println(this);
         Map<String, FileInfoResponse> info = new HashMap<>();
 
         for (File file : files.values()) {
             info.put(file.getFileInfoResponse().getFilename(), file.getFileInfoResponse());
         }
 
-        System.out.println(info);
+        // System.out.println(info);
 
         return new EntityInfoResponse(id, position, height, type().toString(), info);
     }

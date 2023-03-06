@@ -94,6 +94,7 @@ public class Connection {
             if (logByteUsage() == RATE_LIMITED) {
                 return RATE_LIMITED;
             }
+            hit = true;
             buffer += asciiChar;
         }
         return OK;
@@ -106,6 +107,7 @@ public class Connection {
 
     public void send() {
         if (fp >= fileSize) {
+            System.out.println("Tranmission complete!");
             resource.setStatusComplete();
             return;
         }
@@ -114,6 +116,7 @@ public class Connection {
         String letter = resource.read(fp);
         while (endpoint.write(letter) != ResponseCode.RATE_LIMITED) {
             logByteUsage();
+            hit = true;
             fp++;
         }
     }
@@ -126,10 +129,17 @@ public class Connection {
         this.bytesUsed = 0;
         flush();
         if (fp == fileSize) {
-            System.out.println(resource);
-            System.out.println(origin);
+            // System.out.println(resource);
+            // System.out.println(origin);
+            System.out.println("Done!");
             resource.setStatusComplete();
         }
         hit = false;
+    }
+
+    public boolean markedForRemove() {
+        System.out.println(type.toString() + " " + hit + " fp:" + fp + " " + fileSize);
+
+        return (hit == false && type == RECIEVING) || (fp == fileSize && type == SENDING);
     }
 }
