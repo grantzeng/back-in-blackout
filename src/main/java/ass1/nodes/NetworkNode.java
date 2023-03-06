@@ -213,8 +213,9 @@ public abstract class NetworkNode {
 
     public void sendFile(String filename, NetworkNode client)
             throws VirtualFileNotFoundException, VirtualFileNoBandwidthException {
-            
+
         File source = files.get(filename);
+
         if (source == null || source.getStatus() == TransmissionStatus.PARTIAL) {
             throw new VirtualFileNotFoundException(filename);
         }
@@ -223,7 +224,7 @@ public abstract class NetworkNode {
             throw new VirtualFileNoBandwidthException(id);
         }
 
-        // Create connection object, and try to give to client, otherwise clean it up 
+        // Create connection object, and try to give to client, otherwise clean it up
         Connection sourcepoint = new Connection(files.get(filename), this);
         connections.add(sourcepoint);
 
@@ -264,7 +265,8 @@ public abstract class NetworkNode {
         }
 
         // Create connection object
-        File emptyFile = files.put(filename, new File(filename, memoryRequired));
+        File emptyFile = new File(filename, memoryRequired);
+        files.put(filename, emptyFile);
         Connection endpoint = new Connection(emptyFile, this, memoryRequired);
         sourcepoint.connect(endpoint);
         connections.add(endpoint);
