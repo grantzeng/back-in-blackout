@@ -30,6 +30,8 @@ public class TestTask2Transmission {
         bc.simulate();
         bc.simulate();
         bc.simulate();
+        bc.simulate();
+        bc.simulate();
         System.out.println(bc.getInfo("s1"));
     }
 

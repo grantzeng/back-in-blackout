@@ -36,7 +36,6 @@ public class Connection {
         this.fileSize = fileSize;
         this.fp = 0;
         this.type = RECIEVING;
-        System.out.println("receiving: " + this);
     }
 
     public Connection(File sourceFile, NetworkNode origin) {
@@ -46,7 +45,6 @@ public class Connection {
         this.fileSize = resource.getSize();
         this.fp = 0;
         this.type = SENDING;
-        // System.out.println("sending: " + this);
     }
 
     public ConnectionType getType() {
@@ -58,14 +56,8 @@ public class Connection {
     }
 
     public void connect(Connection endpoint) {
-        System.out.println("connect()");
-        System.out.println("    " + this);
-        System.out.println("    " + endpoint);
-
         if (this.endpoint != null) {
             System.out.println("Source already been set, cannot change");
-            System.out.println("    I am: " + this);
-            System.out.println("    Sending to: " + this.endpoint);
             return;
         }
 
@@ -75,7 +67,7 @@ public class Connection {
     // Implement rate limiting behaviour
     protected ResponseCode logByteUsage() {
         if (bytesUsed == bytesAllocation) {
-            System.out.println("    Used all available bytes");
+            // System.out.println("Used all available bytes");
             return RATE_LIMITED;
         }
         if (!hit) {
@@ -100,7 +92,6 @@ public class Connection {
     public ResponseCode write(String content) {
         for (String asciiChar : content.split("")) {
             if (logByteUsage() == RATE_LIMITED) {
-                System.out.println("    Cannot write any more to buffer");
                 return RATE_LIMITED;
             }
             buffer += asciiChar;
@@ -109,25 +100,22 @@ public class Connection {
     }
 
     private void flush() {
-        System.out.println("    Flush buffer to file");
         resource.append(buffer);
         buffer = "";
-
     }
 
     public void send() {
-        if (fp > fileSize) {
-            System.out.println("File is complete");
+        if (fp >= fileSize) {
+            resource.setStatusComplete();
             return;
         }
 
         // Keep trying to write to endpoint socket until rate limited
         String letter = resource.read(fp);
-        System.out.println("fp: " + fp + " " + letter);
         while (endpoint.write(letter) != ResponseCode.RATE_LIMITED) {
+            logByteUsage();
             fp++;
         }
-
     }
 
     public void setByteAllocation(int bytesAllocation) {
@@ -135,9 +123,13 @@ public class Connection {
     }
 
     public void reset() {
-        System.out.println("reset()");
         this.bytesUsed = 0;
         flush();
+        if (fp == fileSize) {
+            System.out.println(resource);
+            System.out.println(origin);
+            resource.setStatusComplete();
+        }
         hit = false;
     }
 }

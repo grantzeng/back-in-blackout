@@ -22,6 +22,7 @@ import unsw.utils.MathsHelper;
 
 public class BlackoutController {
     private Map<String, NetworkNode> nodes = new HashMap<>();
+    private int clock = 0;
 
     /**
      * Functions for updating communicability graph - Just a nested for loop (find a
@@ -130,6 +131,7 @@ public class BlackoutController {
 
     public void simulate() {
 
+        System.out.println("\n" + clock + "\n");
         for (NetworkNode node : nodes.values()) {
             node.setBandwidths();
         }
@@ -151,6 +153,8 @@ public class BlackoutController {
         for (NetworkNode node : nodes.values()) {
             node.tickCleanUp();
         }
+
+        clock++;
     }
 
     /**

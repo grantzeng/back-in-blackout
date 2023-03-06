@@ -64,7 +64,9 @@ public class File {
 
     public void setStatusComplete() {
         if (status == PARTIAL) {
+            System.out.println(this + " is now marked as complete");
             status = COMPLETE;
+            return;
         }
         System.out.println("File is complete");
     }

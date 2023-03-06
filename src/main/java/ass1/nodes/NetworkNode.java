@@ -192,24 +192,8 @@ public abstract class NetworkNode {
      * Dealing with transmission
      * 
      */
-
-    private int countReceiving() {
-        return Math.toIntExact(connections.stream().filter(connection -> connection.getType() == RECIEVING).count());
-    }
-
-    private int countSending() {
-        return Math.toIntExact(connections.stream().filter(connection -> connection.getType() == SENDING).count());
-    }
-
     // Might be able to turn these into functions within functions to make it look
     // smaller
-    private int receivingChannelWidth() {
-        return maxReceivingBandwidth / (countReceiving() + 1);
-    }
-
-    public int sendingChannelWidth() {
-        return maxSendingBandwidth / (countSending() + 1);
-    }
 
     public void sendFile(String filename, NetworkNode client)
             throws VirtualFileNotFoundException, VirtualFileNoBandwidthException {
@@ -230,7 +214,7 @@ public abstract class NetworkNode {
         Connection sourcepoint = new Connection(files.get(filename), this);
         System.out.println("    Created sourcepoint: " + sourcepoint);
         connections.add(sourcepoint);
-        setBandwidths();
+        // setBandwidths();
 
         try {
             client.acceptDataConnection(sourcepoint, filename, files.get(filename).getSize());
@@ -277,14 +261,31 @@ public abstract class NetworkNode {
         files.put(filename, emptyFile);
 
         Connection endpoint = new Connection(emptyFile, this, memoryRequired);
-        System.out.println("    Created endpoint: " + endpoint);
-        System.out.println("    Give endpoint to sourcepoint");
-
         sourcepoint.connect(endpoint);
-        // endpoint.connect(sourcepoint);
 
         connections.add(endpoint);
-        setBandwidths();
+        // setBandwidths();
+    }
+
+    private int receivingChannelWidth() {
+        int countReceiving = Math
+                .toIntExact(connections.stream().filter(connection -> connection.getType() == RECIEVING).count());
+        if (countReceiving == 0) {
+            return maxReceivingBandwidth;
+        }
+        System.out.println(id + "::countReceiving: " + countReceiving);
+        return maxReceivingBandwidth / (countReceiving);
+    }
+
+    private int sendingChannelWidth() {
+        int countSending = Math
+                .toIntExact(connections.stream().filter(connection -> connection.getType() == SENDING).count());
+
+        if (countSending == 0) {
+            return maxSendingBandwidth;
+        }
+        System.out.println(id + "::counntSending: " + countSending);
+        return maxSendingBandwidth / (countSending + 1);
     }
 
     public void transmitData() {
@@ -318,7 +319,9 @@ public abstract class NetworkNode {
         // Clean up any completed connection objects
 
         // Reset everything else
+        System.out.println(this);
         for (Connection connection : connections) {
+            System.out.println("Reset: " + connection);
             connection.reset();
         }
     }
