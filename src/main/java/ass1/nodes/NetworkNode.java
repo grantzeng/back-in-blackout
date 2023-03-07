@@ -283,6 +283,10 @@ public abstract class NetworkNode {
      * 
      */
     public void beforeTick() {
+        
+        // Remove connections to out of range entities
+        connections = connections.stream().filter(c -> communicableEntitiesInRange().contains(c.getDestination())).collect(Collectors.toList());
+        
 
         int receivingAllocation = receivingChannelWidth();
         int sendingAllocation = sendingChannelWidth();

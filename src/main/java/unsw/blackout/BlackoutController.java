@@ -31,7 +31,7 @@ public class BlackoutController {
      * @param id
      * @return
      */
-    public void updateVisibleNeighbours() {
+    private void updateVisibilityGraph() {
         List<NetworkNode> visible = new ArrayList<>();
 
         for (NetworkNode server : nodes.values()) {
@@ -66,7 +66,7 @@ public class BlackoutController {
             System.out.println("No device was added to Blackout");
             break;
         }
-        updateVisibleNeighbours();
+        updateVisibilityGraph();
     }
 
     /**
@@ -75,7 +75,7 @@ public class BlackoutController {
      */
     public void removeDevice(String deviceId) {
         nodes.remove(deviceId);
-        updateVisibleNeighbours();
+        updateVisibilityGraph();
     }
 
     public void createSatellite(String satelliteId, String type, double height, Angle position) {
@@ -93,7 +93,7 @@ public class BlackoutController {
             System.out.println("No satellite was added to Blackout");
             break;
         }
-        updateVisibleNeighbours();
+        updateVisibilityGraph();
     }
 
     /**
@@ -102,7 +102,7 @@ public class BlackoutController {
      */
     public void removeSatellite(String satelliteId) {
         nodes.remove(satelliteId);
-        updateVisibleNeighbours();
+        updateVisibilityGraph();
     }
 
     public List<String> listDeviceIds() {
@@ -132,17 +132,14 @@ public class BlackoutController {
     public void simulate() {
 
         System.out.println("\n" + clock + "\n");
-        
+
+        nodes.values().stream().forEach(n -> n.move());
+        updateVisibilityGraph();
+
         nodes.values().stream().forEach(n -> n.beforeTick());
-        
-        nodes.values().stream().forEach(n-> n.move());
-        
-        updateVisibleNeighbours();
-        
         nodes.values().stream().forEach(n -> n.transmit());
-        
         nodes.values().stream().forEach(n -> n.afterTick());
-        
+
         clock++;
     }
 
