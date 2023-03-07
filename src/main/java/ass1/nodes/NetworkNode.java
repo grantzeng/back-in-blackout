@@ -233,7 +233,8 @@ public abstract class NetworkNode {
             throw new VirtualFileNoBandwidthException(id);
         }
 
-        if (files.get(filename) != null) {
+        File target = files.get(filename);
+        if (target != null) {
             throw new VirtualFileAlreadyExistsException(id);
         }
 
@@ -258,35 +259,28 @@ public abstract class NetworkNode {
     private int receivingChannelWidth() {
         int countReceiving = Math
                 .toIntExact(connections.stream().filter(c -> c instanceof ReceivingConnection).count());
-
-        if (countReceiving == 0) {
-            return maxReceivingBandwidth;
-        }
-
+        if (countReceiving == 0) { return maxReceivingBandwidth; }
         System.out.println(id + "::countReceiving: " + countReceiving);
         return maxReceivingBandwidth / (countReceiving);
     }
 
     private int sendingChannelWidth() {
         int countSending = Math.toIntExact(connections.stream().filter(c -> c instanceof SendingConnection).count());
-
-        if (countSending == 0) {
-            return maxSendingBandwidth;
-        }
+        if (countSending == 0) { return maxSendingBandwidth; }
         System.out.println(id + "::counntSending: " + countSending);
         return maxSendingBandwidth / (countSending + 1);
     }
 
     /*
      * 
-     * Make transmissions tick over
+     * Removes out of range connections and allocates bandwidth to connections
      * 
      */
     public void beforeTick() {
-        
+
         // Remove connections to out of range entities
-        connections = connections.stream().filter(c -> communicableEntitiesInRange().contains(c.getDestination())).collect(Collectors.toList());
-        
+        connections = connections.stream().filter(c -> communicableEntitiesInRange().contains(c.getDestination()))
+                .collect(Collectors.toList());
 
         int receivingAllocation = receivingChannelWidth();
         int sendingAllocation = sendingChannelWidth();
@@ -316,6 +310,9 @@ public abstract class NetworkNode {
         }
     }
 
+    /**
+     * Removes finished connection objects and resets all connection objects
+     */
     public void afterTick() {
 
         connections = connections.stream().filter(c -> !c.isFinished()).collect(Collectors.toList());
