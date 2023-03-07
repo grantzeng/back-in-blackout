@@ -21,9 +21,8 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 
 import ass1.connections.Connection;
-import static ass1.connections.ConnectionType.RECIEVING;
-import static ass1.connections.ConnectionType.SENDING;
-
+import ass1.connections.ReceivingConnection;
+import ass1.connections.SendingConnection;
 import ass1.file.File;
 import ass1.file.TransmissionStatus;
 
@@ -181,7 +180,6 @@ public abstract class NetworkNode {
             }
         }
 
-        // Post processing: remove us from sending files to ourselves
         communicable = visited.stream().filter(entity -> entity != this).collect(Collectors.toList());
 
         return communicable.stream().map(node -> node.getId()).collect(Collectors.toList());
@@ -192,8 +190,7 @@ public abstract class NetworkNode {
      * Dealing with transmission
      * 
      */
-    // Might be able to turn these into functions within functions to make it look
-    // smaller
+
 
     public void sendFile(String filename, NetworkNode client)
             throws VirtualFileNotFoundException, VirtualFileNoBandwidthException {
@@ -210,18 +207,15 @@ public abstract class NetworkNode {
             throw new VirtualFileNoBandwidthException(id);
         }
 
-        // Create connection object, and try to give to client, otherwise clean it up
-        Connection sourcepoint = new Connection(files.get(filename), this);
+        SendingConnection sourcepoint = new SendingConnection(source, id, source.getSize());
         System.out.println("    Created sourcepoint: " + sourcepoint);
         connections.add(sourcepoint);
-        // setBandwidths();
 
         try {
             client.acceptDataConnection(sourcepoint, filename, files.get(filename).getSize());
         } catch (Exception e) {
             System.out.println("    Client rejected connection");
             connections.remove(sourcepoint);
-            setBandwidths();
         }
 
     }
@@ -230,49 +224,43 @@ public abstract class NetworkNode {
         return files.values().stream().map(file -> file.getSize()).reduce(0, Integer::sum);
     }
 
-    public void acceptDataConnection(Connection sourcepoint, String filename, int memoryRequired)
+    public void acceptDataConnection(SendingConnection sourcepoint, String filename, int memoryRequired)
             throws VirtualFileNoBandwidthException, VirtualFileAlreadyExistsException,
             VirtualFileNoStorageSpaceException {
-        System.out.println("acceptDataConnection()");
-        // System.out.println(sourcepoint);
 
-        // recject if no down bandwidth
         if (receivingChannelWidth() == 0) {
             throw new VirtualFileNoBandwidthException(id);
         }
 
-        // Reject connection if file already exists
         if (files.get(filename) != null) {
             throw new VirtualFileAlreadyExistsException(id);
         }
 
-        // Reject connection if reached file cap
         if (files.size() + 1 > filesCap) {
             throw new VirtualFileNoStorageSpaceException("Max Files Reached");
         }
 
-        // Reject connection if reached bytes cap
         if (memoryUsage() + memoryRequired > bytesCap) {
             throw new VirtualFileNoStorageSpaceException("Max Bytes Reached");
         }
 
-        // Create connection object
-        File emptyFile = new File(filename, memoryRequired);
-        files.put(filename, emptyFile);
+        File empty = new File(filename, memoryRequired);
+        files.put(filename, empty);
 
-        Connection endpoint = new Connection(emptyFile, this, memoryRequired);
+        ReceivingConnection endpoint = new ReceivingConnection(empty, id, memoryRequired);
         sourcepoint.connect(endpoint);
 
         connections.add(endpoint);
-        // setBandwidths();
     }
 
     private int receivingChannelWidth() {
         int countReceiving = Math
                 .toIntExact(connections.stream().filter(connection -> connection.getType() == RECIEVING).count());
+                
         if (countReceiving == 0) {
             return maxReceivingBandwidth;
         }
+        
         System.out.println(id + "::countReceiving: " + countReceiving);
         return maxReceivingBandwidth / (countReceiving);
     }
@@ -287,44 +275,54 @@ public abstract class NetworkNode {
         System.out.println(id + "::counntSending: " + countSending);
         return maxSendingBandwidth / (countSending + 1);
     }
-
-    public void transmitData() {
-        System.out.println(connections);
-        // System.out.println("transmitData()");
-        // Server hammers each connection object until rate limited
-        for (Connection connection : connections) {
-            if (connection.getType() == SENDING) {
-                connection.send();
-            }
-        }
-    }
-
-    public void setBandwidths() {
+    
+    
+    /*
+    
+        Make transmissions tick over
+    
+    */
+    public void beforeTick() {
         // Set up bandwidth
         int receivingAllocation = receivingChannelWidth();
         int sendingAllocation = sendingChannelWidth();
+        
 
         for (Connection connection : connections) {
-            if (connection.getType() == RECIEVING) {
+            if (connection instanceof ReceivingConnection) {
                 connection.setByteAllocation(receivingAllocation);
-            } else {
+            } else if (connection instanceof SendingConnection) {
                 connection.setByteAllocation(sendingAllocation);
+            } else {
+                System.out.println("Wtf is this connection?");
             }
         }
 
     }
-
-    public void tickCleanUp() {
-        // Clean up unused or completed connection objects
-        connections = connections.stream().filter(connection -> connection.markedForRemove())
-                .collect(Collectors.toList());
-
-        // Reset everything else
-        // System.out.println(this);
+    
+    
+    public void tickOver() {
+    
+        System.out.println(connections);
+        
         for (Connection connection : connections) {
-            // System.out.println("Reset: " + connection);
-            connection.reset();
+            if (connection instanceof SendingConnection) {
+                connection.send();
+            } else {
+                System.out.println(connection.getClass().toString());
+            }
         }
+    }
+
+
+    public void afterTick() {
+    
+        connections = connections.stream().filter(c -> !c.isFinished()).collect(Collectors.toList());
+    
+        connections.stream().forEach(c -> c.reset());
+        
+
+
     }
 
     /**
@@ -348,14 +346,12 @@ public abstract class NetworkNode {
     public abstract void move();
 
     public EntityInfoResponse getInfo() {
-        // System.out.println(this);
+        
         Map<String, FileInfoResponse> info = new HashMap<>();
 
         for (File file : files.values()) {
             info.put(file.getFileInfoResponse().getFilename(), file.getFileInfoResponse());
         }
-
-        // System.out.println(info);
 
         return new EntityInfoResponse(id, position, height, type().toString(), info);
     }
