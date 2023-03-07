@@ -191,7 +191,6 @@ public abstract class NetworkNode {
      * 
      */
 
-
     public void sendFile(String filename, NetworkNode client)
             throws VirtualFileNotFoundException, VirtualFileNoBandwidthException {
 
@@ -210,12 +209,14 @@ public abstract class NetworkNode {
         SendingConnection sourcepoint = new SendingConnection(source, id, source.getSize());
         System.out.println("    Created sourcepoint: " + sourcepoint);
         connections.add(sourcepoint);
+        beforeTick();
 
         try {
             client.acceptDataConnection(sourcepoint, filename, files.get(filename).getSize());
         } catch (Exception e) {
             System.out.println("    Client rejected connection");
             connections.remove(sourcepoint);
+            beforeTick();
         }
 
     }
@@ -251,23 +252,23 @@ public abstract class NetworkNode {
         sourcepoint.connect(endpoint);
 
         connections.add(endpoint);
+        beforeTick();
     }
 
     private int receivingChannelWidth() {
         int countReceiving = Math
-                .toIntExact(connections.stream().filter(connection -> connection.getType() == RECIEVING).count());
-                
+                .toIntExact(connections.stream().filter(c -> c instanceof ReceivingConnection).count());
+
         if (countReceiving == 0) {
             return maxReceivingBandwidth;
         }
-        
+
         System.out.println(id + "::countReceiving: " + countReceiving);
         return maxReceivingBandwidth / (countReceiving);
     }
 
     private int sendingChannelWidth() {
-        int countSending = Math
-                .toIntExact(connections.stream().filter(connection -> connection.getType() == SENDING).count());
+        int countSending = Math.toIntExact(connections.stream().filter(c -> c instanceof SendingConnection).count());
 
         if (countSending == 0) {
             return maxSendingBandwidth;
@@ -275,18 +276,16 @@ public abstract class NetworkNode {
         System.out.println(id + "::counntSending: " + countSending);
         return maxSendingBandwidth / (countSending + 1);
     }
-    
-    
+
     /*
-    
-        Make transmissions tick over
-    
-    */
+     * 
+     * Make transmissions tick over
+     * 
+     */
     public void beforeTick() {
-        // Set up bandwidth
+
         int receivingAllocation = receivingChannelWidth();
         int sendingAllocation = sendingChannelWidth();
-        
 
         for (Connection connection : connections) {
             if (connection instanceof ReceivingConnection) {
@@ -299,12 +298,11 @@ public abstract class NetworkNode {
         }
 
     }
-    
-    
-    public void tickOver() {
-    
+
+    public void transmit() {
+
         System.out.println(connections);
-        
+
         for (Connection connection : connections) {
             if (connection instanceof SendingConnection) {
                 connection.send();
@@ -314,15 +312,11 @@ public abstract class NetworkNode {
         }
     }
 
-
     public void afterTick() {
-    
+
         connections = connections.stream().filter(c -> !c.isFinished()).collect(Collectors.toList());
-    
+
         connections.stream().forEach(c -> c.reset());
-        
-
-
     }
 
     /**
@@ -346,7 +340,7 @@ public abstract class NetworkNode {
     public abstract void move();
 
     public EntityInfoResponse getInfo() {
-        
+
         Map<String, FileInfoResponse> info = new HashMap<>();
 
         for (File file : files.values()) {

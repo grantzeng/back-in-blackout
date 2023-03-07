@@ -27,6 +27,23 @@ public class ReceivingConnection extends Connection {
         active = true; 
     }
     
+       /**
+        For NetworkNode
+    */
+    @Override
+    public void setByteAllocation(int allocation) {
+        bytesAllocation = allocation;
+    }
+    
+    public String getDestination() {
+        return destination;
+    }
+    
+    @Override
+    public void send() {
+        System.out.println("This is a receiving socket, cannot send");
+    }
+    
     public ConnectionStatus write(String character) {
     
         if (!active) {

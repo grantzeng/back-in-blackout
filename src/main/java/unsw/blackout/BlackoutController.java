@@ -132,28 +132,17 @@ public class BlackoutController {
     public void simulate() {
 
         System.out.println("\n" + clock + "\n");
-        for (NetworkNode node : nodes.values()) {
-            node.setBandwidths();
-        }
-
-        // Garbage collect + reset counters etc. + move
-        for (NetworkNode node : nodes.values()) {
-            if (node instanceof Satellite) {
-                node.move();
-            }
-        }
-
+        
+        nodes.values().stream().forEach(n -> n.beforeTick());
+        
+        nodes.values().stream().forEach(n-> n.move());
+        
         updateVisibleNeighbours();
-        // Transmission stuffs
-
-        for (NetworkNode node : nodes.values()) {
-            node.transmitData();
-        }
-
-        for (NetworkNode node : nodes.values()) {
-            node.tickCleanUp();
-        }
-
+        
+        nodes.values().stream().forEach(n -> n.transmit());
+        
+        nodes.values().stream().forEach(n -> n.afterTick());
+        
         clock++;
     }
 

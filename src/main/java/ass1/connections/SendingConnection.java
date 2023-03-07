@@ -27,7 +27,23 @@ public class SendingConnection extends Connection {
         fp = 0; 
         active = false; 
     }
-
+    
+    
+    /**
+        For NetworkNode
+    */
+    @Override
+    public void setByteAllocation(int allocation) {
+        bytesAllocation = allocation;
+    }
+    
+    public String getDestination() {
+        return destination;
+    }
+    
+    /*
+        Accepting sockets
+    */
     public void connect(ReceivingConnection endpoint) {
         if (this.endpoint != null) {
             System.out.println("Sourcepoint has already acquired endpoint reference");
