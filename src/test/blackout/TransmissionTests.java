@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static unsw.utils.MathsHelper.RADIUS_OF_JUPITER;
 
@@ -24,7 +25,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import static blackout.TestHelpers.assertListAreEqualIgnoringOrder;
 
-public class TestTransmission {
+public class TransmissionTests {
     BlackoutController bc;
 
     @BeforeEach
@@ -136,35 +137,52 @@ public class TestTransmission {
         for (int i = 0; i < 37; i++) {
             bc.createSatellite("r" + i, "RelaySatellite", RADIUS_OF_JUPITER + 3000, Angle.fromDegrees(i * 10));
         }
-        
+
         bc.createDevice("d1", "LaptopDevice", Angle.fromDegrees(0));
         bc.createSatellite("s1", "StandardSatellite", RADIUS_OF_JUPITER + 3000, Angle.fromDegrees(180));
         String z = "z".repeat(80);
         bc.addFileToDevice("d1", "z", z);
-        assertDoesNotThrow(() -> bc.sendFile("z","d1", "s1"));
-        
+        assertDoesNotThrow(() -> bc.sendFile("z", "d1", "s1"));
+
         for (int i = 0; i < 80; i++) {
-            assertEquals(new FileInfoResponse("z", z, z.length(), false),bc.getInfo("s1").getFiles().get("z"));
+            assertEquals(new FileInfoResponse("z", z, z.length(), false), bc.getInfo("s1").getFiles().get("z"));
             bc.simulate();
         }
         bc.simulate(90);
-    
-        assertEquals(new FileInfoResponse("z", z, z.length(), true),bc.getInfo("s1").getFiles().get("z"));
+
+        assertEquals(new FileInfoResponse("z", z, z.length(), true), bc.getInfo("s1").getFiles().get("z"));
     }
 
     // Test upload bandwidth is divided evenly
     @Test
     public void testDownloadBandwidthChanges() {
-        
+        String z = "z".repeat(20);
+        String a = "a".repeat(20);
+
+        bc.createDevice("d1", "HandheldDevice", Angle.fromDegrees(0));
+
+        for (int i = 0; i < 3; i++) {
+            bc.createSatellite("t" + i, "TeleportingSatellite", RADIUS_OF_JUPITER + 100000000, Angle.fromDegrees(0));
+        }
+
+        bc.addFileToDevice("d1", "z", z);
+        bc.addFileToDevice("d1", "a", a);
+        assertDoesNotThrow(() -> bc.sendFile("z", "d1", "t0"));
+        assertDoesNotThrow(() -> bc.sendFile("a", "d1", "t0"));
+        bc.simulate(z.length() + 1);
+        assertEquals(new FileInfoResponse("z", z, z.length(), true), bc.getInfo("t0").getFiles().get("z"));
+
+        assertDoesNotThrow(() -> bc.sendFile("z", "t0", "t1"));
+        assertDoesNotThrow(() -> bc.sendFile("a", "t0", "t2"));
+        bc.simulate();
+        assertEquals(new FileInfoResponse("z", "z".repeat(5), 20, false), bc.getInfo("t1").getFiles().get("z"));
+        assertEquals(new FileInfoResponse("a", "a".repeat(5), 20, false), bc.getInfo("t2").getFiles().get("a"));
+        bc.removeSatellite("t2");
+        bc.simulate();
+        assertEquals(new FileInfoResponse("z", "z".repeat(15), 20, false), bc.getInfo("t1").getFiles().get("z"));
+        ;
     }
 
-    // Test bandwidth updates correctly if goes out of range
-
-    // Test server network node can send to multiple clients at once if have
-    @Test
-    public void testCanSendMultipleFiles() {
-        
-    }
     // bandwidth
 
     /*
@@ -175,21 +193,52 @@ public class TestTransmission {
     // Test goes out of range
     // - client network node should remove partial file
     @Test
-    public void testDownloadingFileRemovedIfReceipientOutOfRange(){ 
-        
-    }
+    public void testDownloadingFileRemovedIfReceipientOutOfRange() {
 
-    // Test file transmission completes
-    // - client network node should have complete file
-    @Test
-    public void testNormalTransmissionOK() {
-    
+        bc.createDevice("d1", "DesktopDevice", Angle.fromDegrees(135));
+        bc.createSatellite("s1", "StandardSatellite", RADIUS_OF_JUPITER + 1, Angle.fromDegrees(135));
+        bc.addFileToDevice("d1", "z", "z".repeat(80));
+        assertDoesNotThrow(() -> bc.sendFile("z", "d1", "s1"));
+        bc.simulate();
+        assertEquals(new FileInfoResponse("z", "z", 80, false), bc.getInfo("s1").getFiles().get("z"));
+
+        bc.simulate(40);
+        assertNull(bc.getInfo("s1").getFiles().get("z"));
+
     }
 
     // Test teleporting satellite's insane behaviour
     @Test
-    public void testPsychoticTeleportingSatelliteBehaviour() {
-    
-        // TODO
+    public void testTeleportingSatelliteCorrruptDeviceSource() {
+
+        String msg = "It's a great day for the Irish";
+        String corruptMsg = "I's a grea day for he Irish";
+
+        bc.createDevice("d1", "DesktopDevice", Angle.fromDegrees(180));
+        bc.createSatellite("t1", "TeleportingSatellite", RADIUS_OF_JUPITER + 100, Angle.fromDegrees(179));
+        bc.addFileToDevice("d1", "msg", msg);
+        assertEquals(new FileInfoResponse("msg", msg, msg.length(), true), bc.getInfo("d1").getFiles().get("msg"));
+        bc.simulate(5);
+        assertEquals(new FileInfoResponse("msg", corruptMsg, corruptMsg.length(), true),
+                bc.getInfo("d1").getFiles().get("msg"));
+
     }
-}   
+
+    @Test
+    public void testTeleportingSatelliteCorruptsRemaining() {
+        String msg = "zztttz";
+        String corruptMsg = msg.replaceAll("[tT]", "");
+        bc.createDevice("d1", "LaptopDevice", Angle.fromDegrees(177));
+        bc.createSatellite("t1", "TeleportingSatellite", RADIUS_OF_JUPITER + 10000, Angle.fromDegrees(175));
+        bc.addFileToDevice("d1", "msg", msg);
+        assertDoesNotThrow(() -> bc.sendFile("msg", "d1", "t1"));
+        bc.simulate(msg.length());
+
+        bc.createSatellite("s1", "StandardSatellite", RADIUS_OF_JUPITER + 1000, bc.getInfo("t1").getPosition());
+        assertDoesNotThrow(() -> bc.sendFile("msg", "t1", "s1"));
+        assertDoesNotThrow(() -> bc.simulate(3));
+        
+        assertEquals(new FileInfoResponse("msg", corruptMsg, corruptMsg.length(), true), bc.getInfo("s1").getFiles().get("msg"));
+
+    }
+}
