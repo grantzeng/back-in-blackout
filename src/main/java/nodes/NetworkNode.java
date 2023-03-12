@@ -8,6 +8,7 @@ import helpers.AngleNormaliser;
 import unsw.response.models.EntityInfoResponse;
 import unsw.response.models.FileInfoResponse;
 import unsw.utils.Angle;
+import unsw.utils.MathsHelper;
 
 public abstract class NetworkNode {
     private String id;
@@ -26,10 +27,15 @@ public abstract class NetworkNode {
     }
         
     protected abstract List<NodeType> supports();
-
+    
+    public boolean canSendTo(NetworkNode node) {
+        return supports().contains(node.type()) && MathsHelper.getDistance(height, position, node.getHeight(), node.getPosition()) < range();
+    }
+    
     public abstract NodeType type();
 
     protected abstract double range();
+
 
     public String getId() {
         return id;
@@ -68,5 +74,5 @@ public abstract class NetworkNode {
     public EntityInfoResponse getInfo() {
         return new EntityInfoResponse(id, position, height, type().toString(), getServerInfoResponse());
     }
-
+    
 }
