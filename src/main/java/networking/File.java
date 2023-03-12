@@ -6,7 +6,7 @@ public class File {
 
     private String filename;
     private String data = "";
-    private int size = 0;
+    private int size;
     private FileStatus status;
 
     public enum FileStatus {

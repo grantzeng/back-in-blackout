@@ -130,8 +130,10 @@ public class BlackoutController {
      * @param content
      */
     public void addFileToDevice(String deviceId, String filename, String content) {
+        File complete = new File(filename, content);
         try {
-            (servers.get(deviceId)).addFile(new File(filename, content));
+
+            (servers.get(deviceId)).addFile(complete);
 
         } catch (Exception e) {
             System.out.println("Could not add file to device");
@@ -147,15 +149,12 @@ public class BlackoutController {
         System.out.println("\n" + clock + "\n");
 
         nodes.values().stream().forEach(n -> n.move());
-
         update();
 
         transmissionManager.closeOutOfRangeTransmissions();
-
         servers.values().stream().forEach(s -> s.allocateBandwidthToConnections());
-
         transmissionManager.processTransmissions();
-        
+
         clock++;
     }
 
