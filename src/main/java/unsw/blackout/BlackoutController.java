@@ -148,6 +148,9 @@ public class BlackoutController {
 
         nodes.values().stream().forEach(n -> n.move());
         update();
+        
+        transmissionManager.closeOutOfRangeTransmissions();
+        transmissionManager.processTransmissions();
 
         /*
          * nodes.values().stream().forEach(n -> n.beforeTick());
