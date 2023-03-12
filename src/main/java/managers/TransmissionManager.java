@@ -20,7 +20,7 @@ public class TransmissionManager {
 
             File target = client.createFile(source.getFilename(), source.getSize());
             
-            Connection connection = new Connection(source, target, server, client);
+            Connection connection = new Connection(source, target, server, client, this);
             connections.add(connection);
             
         } catch (Exception e) {
@@ -30,7 +30,7 @@ public class TransmissionManager {
     
     public void closeOutOfRangeTransmissions() {
         for (Connection connection: connections) {
-            if (connection.closeIfOutOfRange(this)) {
+            if (connection.closeIfOutOfRange()) {
                 closeTransmission(connection);
             }
         }
