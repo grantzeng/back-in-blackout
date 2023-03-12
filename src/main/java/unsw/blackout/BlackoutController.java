@@ -36,6 +36,7 @@ import unsw.utils.MathsHelper;
 public class BlackoutController {
     private Map<String, NetworkNode> nodes = new HashMap<>(); // Entity position state
     private Map<String, Server> servers = new HashMap<>(); // File transmission state
+    private TransmissionManager transmissionManager = new TransmissionManager();
 
     private int clock = 0;
 
@@ -177,12 +178,12 @@ public class BlackoutController {
      */
     public List<String> communicableEntitiesInRange(String id) {
         // return nodes.get(id).communicableEntitiesInRange();
-        return CommunicabilityManager.communicableEntitiesInRange(nodes.get(id)).stream().map(n -> n.getId())
+        return CommunicabilityManager.findCommunicableEntitiesInRange(nodes.get(id)).stream().map(n -> n.getId())
                 .collect(Collectors.toList());
     }
 
     public void sendFile(String fileName, String fromId, String toId) throws FileTransferException {
-        // (nodes.get(fromId)).sendFile(fileName, nodes.get(toId));
+        transmissionManager.registerTransmission(fileName, servers.get(fromId), servers.get(toId));
     }
 
     public void createDevice(String deviceId, String type, Angle position, boolean isMoving) {

@@ -13,7 +13,7 @@ import networking.Server;
 import nodes.NetworkNode;
 
 public class CommunicabilityManager {
-    public static List<NetworkNode> communicableEntitiesInRange(NetworkNode node) {
+    public static List<NetworkNode> findCommunicableEntitiesInRange(NetworkNode node) {
 
         List<NetworkNode> visited = new ArrayList<>();
         Queue<NetworkNode> queue = new ArrayDeque<>();
@@ -40,7 +40,7 @@ public class CommunicabilityManager {
         for (Server server : servers.values()) {
             Map<String, Server> communicable = new HashMap<>();
 
-            communicableEntitiesInRange(server.getOwner()).stream().map(n -> n.getServer())
+            findCommunicableEntitiesInRange(server.getOwner()).stream().map(n -> n.getServer())
                     .forEach(s -> communicable.put(s.getId(), s));
 
             server.setCommunicable(communicable);
