@@ -35,7 +35,7 @@ public abstract class NetworkNode {
         return id;
     }
 
-    protected double getHeight() {
+    public double getHeight() {
         return height;
     }
 
@@ -43,7 +43,7 @@ public abstract class NetworkNode {
         this.height = height;
     }
 
-    protected Angle getPosition() {
+    public Angle getPosition() {
         return position;
     }
 
