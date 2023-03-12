@@ -149,7 +149,11 @@ public class BlackoutController {
         update();
 
         transmissionManager.closeOutOfRangeTransmissions();
-        servers.values().stream().forEach(s -> s.allocateBandwidthToConnections());
+
+        for (Server server : servers.values()) {
+            server.allocateBandwidthToConnections();
+        }
+
         transmissionManager.processTransmissions();
 
         clock++;
