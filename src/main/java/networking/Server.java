@@ -44,11 +44,13 @@ public class Server {
     }
 
     public void addFile(File file) {
-        if (!Arrays.asList(DesktopDevice, LaptopDevice, HandheldDevice).contains(owner.type())) {
-            System.out.println("Can only add complete files to Devices");
-            return;
-        }
         files.put(file.getFilename(), file);
+        /*
+         * if (!Arrays.asList(DesktopDevice, LaptopDevice,
+         * HandheldDevice).contains(owner.type())) {
+         * System.out.println("Can only add complete files to Devices"); return; }
+         * files.put(file.getFilename(), file);
+         */
     }
 
     public File createFile(String filename, int size)

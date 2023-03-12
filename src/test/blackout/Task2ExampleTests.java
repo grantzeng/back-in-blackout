@@ -61,6 +61,7 @@ public class Task2ExampleTests {
 
         String msg = "Hey";
         controller.addFileToDevice("DeviceC", "FileAlpha", msg);
+        
         assertThrows(FileTransferException.VirtualFileNotFoundException.class,
                 () -> controller.sendFile("NonExistentFile", "DeviceC", "Satellite1"));
 

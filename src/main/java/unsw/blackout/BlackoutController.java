@@ -131,13 +131,10 @@ public class BlackoutController {
      */
     public void addFileToDevice(String deviceId, String filename, String content) {
         File complete = new File(filename, content);
-        try {
+        System.out.println(complete);
+        
+        (servers.get(deviceId)).addFile(complete);
 
-            (servers.get(deviceId)).addFile(complete);
-
-        } catch (Exception e) {
-            System.out.println("Could not add file to device");
-        }
     }
 
     public EntityInfoResponse getInfo(String id) {
