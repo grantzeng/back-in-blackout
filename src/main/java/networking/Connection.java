@@ -36,8 +36,10 @@ public class Connection {
     
     public boolean closeIfOutOfRange(TransmissionManager transmissionManager) {
         if (!server.getOwner().canSendTo(client.getOwner())) {
-            close(transmissionManager);
+            transmissionManager.closeTransmission(this);
             target.setStatus(FileStatus.TRANSIENT);
+            server.unplug(this); 
+            client.unplug(this, target);
             return true; 
         }
         return false; 
@@ -47,7 +49,7 @@ public class Connection {
     public void close(TransmissionManager transmissionManager) {
         transmissionManager.closeTransmission(this);
         server.unplug(this);
-        client.unplug(this, target);
+        client.unplug(this);
     }
 
 }

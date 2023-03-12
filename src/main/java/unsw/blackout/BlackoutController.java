@@ -17,7 +17,6 @@ import static nodes.NetworkNode.NodeType.TeleportingSatellite;
 import managers.CommunicabilityManager;
 import managers.TransmissionManager;
 import managers.VisibilityManager;
-import networking.Connection;
 import networking.File;
 import networking.Server;
 
@@ -31,7 +30,6 @@ import nodes.TeleportingSatellite;
 
 import unsw.response.models.EntityInfoResponse;
 import unsw.utils.Angle;
-import unsw.utils.MathsHelper;
 
 public class BlackoutController {
     private Map<String, NetworkNode> nodes = new HashMap<>(); // Entity position state

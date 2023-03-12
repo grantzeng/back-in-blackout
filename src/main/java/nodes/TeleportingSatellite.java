@@ -36,7 +36,7 @@ public class TeleportingSatellite extends NetworkNode {
     }
 
     public double range() {
-        return 200000.0;
+        return TELEPORTING_SATELLITE_RANGE;
     }
 
     public List<NodeType> supports() {

@@ -142,7 +142,7 @@ public class Server {
 
     public void unplug(Connection connection, File file) {
         unplug(connection);
-        files.remove(file);
+        files.remove(file.getFilename());
     }
 
     public Map<String, FileInfoResponse> getServerInfoResponse() {
