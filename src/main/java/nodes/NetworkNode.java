@@ -27,7 +27,7 @@ public abstract class NetworkNode {
         
     protected abstract List<NodeType> supports();
 
-    protected abstract NodeType type();
+    public abstract NodeType type();
 
     protected abstract double range();
 

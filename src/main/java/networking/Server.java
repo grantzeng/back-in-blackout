@@ -29,6 +29,10 @@ public class Server {
         this.maxFiles = maxFiles; 
     }
     
+    public void addFile(File file) {
+        return;
+    }
+    
     public File getFile(String filename){ 
         return files.get(filename);
     }

@@ -1,12 +1,12 @@
 package managers;
 
-import java.util.List;
+import java.util.Map;
 
 import networking.Server;
 
 public class CommunicabilityManager {
 
-    public static void update(List<Server> servers) {
+    public static void update(Map<String, Server> servers) {
         
     }
     
