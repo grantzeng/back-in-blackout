@@ -2,6 +2,7 @@ package managers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import unsw.blackout.FileTransferException.VirtualFileNotFoundException;
 import unsw.blackout.FileTransferException.VirtualFileNoBandwidthException;
@@ -17,7 +18,7 @@ public class TransmissionManager {
 
     public void registerTransmission(String filename, Server server, Server client) throws VirtualFileNotFoundException,
             VirtualFileNoBandwidthException, VirtualFileAlreadyExistsException, VirtualFileNoStorageSpaceException {
-        
+
         File source = server.getFile(filename);
         server.checkUploadingBandwidthAvailable();
         client.checkDownloadingBandwidthAvailable();
@@ -45,11 +46,13 @@ public class TransmissionManager {
     }
 
     public void closeOutOfRangeTransmissions() {
-        for (Connection connection : connections) {
-            if (connection.closeIfOutOfRange()) {
-                closeTransmission(connection);
-            }
+
+        List<Connection> toClose = connections.stream().filter(c -> c.outOfRange()).collect(Collectors.toList());
+
+        for (Connection stale : toClose) {
+            stale.close();
         }
+
     }
 
     public void closeTransmission(Connection connection) {

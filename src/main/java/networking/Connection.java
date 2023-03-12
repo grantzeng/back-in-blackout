@@ -14,7 +14,8 @@ public class Connection {
     private int upspeed = 0;
     private int downspeed = 0;
 
-    public Connection(File source, File emptyFile, Server server, Server client, TransmissionManager transmissionManager) {
+    public Connection(File source, File emptyFile, Server server, Server client,
+            TransmissionManager transmissionManager) {
         this.source = source;
         target = emptyFile;
         this.server = server;
@@ -32,31 +33,23 @@ public class Connection {
     }
 
     public void transmit() {
-        int bytes = Math.min(upspeed, downspeed); 
+        int bytes = Math.min(upspeed, downspeed);
         while (fp < fileSize && bytes > 0) {
             target.append(source.read(fp));
-            fp++; 
+            fp++;
             bytes--;
         }
-        
+
         if (fp == fileSize) {
             target.setStatus(FileStatus.COMPLETE);
             close();
         }
     }
-    
-    public boolean closeIfOutOfRange() {
-        if (!server.getOwner().canSendTo(client.getOwner())) {
-            transmissionManager.closeTransmission(this);
-            target.setStatus(FileStatus.TRANSIENT);
-            server.unplug(this); 
-            client.unplug(this, target);
-            return true; 
-        }
-        return false; 
-        
+
+    public boolean outOfRange() {
+        return server.getOwner().canSendTo(client.getOwner());
     }
-    
+
     public void close() {
         transmissionManager.closeTransmission(this);
         server.unplug(this);
