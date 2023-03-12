@@ -129,12 +129,12 @@ public class BlackoutController {
      * @param filename
      * @param content
      */
+
     public void addFileToDevice(String deviceId, String filename, String content) {
         File complete = new File(filename, content);
         System.out.println(complete);
-        
-        (servers.get(deviceId)).addFile(complete);
 
+        (servers.get(deviceId)).addFile(complete);
     }
 
     public EntityInfoResponse getInfo(String id) {
