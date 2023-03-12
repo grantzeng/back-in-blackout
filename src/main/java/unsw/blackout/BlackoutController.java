@@ -131,7 +131,12 @@ public class BlackoutController {
      * @param content
      */
     public void addFileToDevice(String deviceId, String filename, String content) {
-        (servers.get(deviceId)).addFile(new File(filename, content));
+        try {
+            (servers.get(deviceId)).addFile(new File(filename, content));
+
+        } catch (Exception e) {
+            System.out.println("Could not add file to device");
+        }
     }
 
     public EntityInfoResponse getInfo(String id) {
@@ -176,7 +181,7 @@ public class BlackoutController {
     }
 
     public void sendFile(String fileName, String fromId, String toId) throws FileTransferException {
-        //(nodes.get(fromId)).sendFile(fileName, nodes.get(toId));
+        // (nodes.get(fromId)).sendFile(fileName, nodes.get(toId));
     }
 
     public void createDevice(String deviceId, String type, Angle position, boolean isMoving) {
