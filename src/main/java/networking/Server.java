@@ -23,10 +23,15 @@ public class Server {
 
     public Server(NetworkNode owner, int maxFiles, int maxBytes, int maxUpload, int maxDownload) {
         this.owner = owner;
+        id = owner.getId();
         this.maxUpload = maxUpload;
         this.maxDownload = maxDownload;
         this.maxBytes = maxBytes;
         this.maxFiles = maxFiles;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public void addFile(File file) throws VirtualFileNoStorageSpaceException {
@@ -51,6 +56,10 @@ public class Server {
 
     public NetworkNode getOwner() {
         return owner;
+    }
+
+    public void setCommunicable(Map<String, Server> communicable) {
+        this.communicable = communicable;
     }
 
     public void allocateBandwidthToConnections() {

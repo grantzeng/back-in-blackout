@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import helpers.AngleNormaliser;
+import networking.Server;
 import unsw.response.models.EntityInfoResponse;
 import unsw.response.models.FileInfoResponse;
 import unsw.utils.Angle;
@@ -27,6 +28,8 @@ public abstract class NetworkNode {
     }
         
     protected abstract List<NodeType> supports();
+    
+    public abstract Server getServer(); 
     
     public boolean canSendTo(NetworkNode node) {
         return supports().contains(node.type()) && MathsHelper.getDistance(height, position, node.getHeight(), node.getPosition()) < range();

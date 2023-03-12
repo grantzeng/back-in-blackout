@@ -35,7 +35,10 @@ public class StandardSatellite extends NetworkNode {
         server = new Server(this, 80, 3, 1, 1);
         return server;
     }
-
+    
+    public Server getServer() {
+        return server;
+    }
     public double range() {
         return STANDARD_SATELLITE_RANGE;
     }

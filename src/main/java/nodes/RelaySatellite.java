@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import networking.Server;
+
 import static nodes.NetworkNode.NodeType.DesktopDevice;
 import static nodes.NetworkNode.NodeType.HandheldDevice;
 import static nodes.NetworkNode.NodeType.LaptopDevice;
@@ -18,10 +20,21 @@ import unsw.utils.Angle;
 public class RelaySatellite extends NetworkNode {
     private static final double RELAY_SATELLITE_RANGE = 300000.0;
     private double linearVelocity;
+    private Server server;
 
     public RelaySatellite(String id, double height, Angle position) {
         super(id, position, height);
         setInitialLinearVelocity(position);
+    }
+    
+    
+    public Server setServer() {
+        server = new Server(this, 200, Integer.MAX_VALUE, 10, 15);
+        return server;
+    }
+    
+    public Server getServer() {
+        return server;
     }
 
     private void setInitialLinearVelocity(Angle radians) {

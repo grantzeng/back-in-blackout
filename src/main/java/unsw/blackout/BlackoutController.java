@@ -177,7 +177,8 @@ public class BlackoutController {
      */
     public List<String> communicableEntitiesInRange(String id) {
         // return nodes.get(id).communicableEntitiesInRange();
-        return CommunicabilityManager.communicableEntitiesInRange(nodes.get(id));
+        return CommunicabilityManager.communicableEntitiesInRange(nodes.get(id)).stream().map(n -> n.getId())
+                .collect(Collectors.toList());
     }
 
     public void sendFile(String fileName, String fromId, String toId) throws FileTransferException {

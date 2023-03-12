@@ -27,6 +27,10 @@ public class HandheldDevice extends NetworkNode {
         server = new Server(this, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
         return server;
     }
+    
+    public Server getServer() {
+        return server;
+    }
 
     @Override
     public List<NodeType> supports() {

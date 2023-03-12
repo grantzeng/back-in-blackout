@@ -31,6 +31,10 @@ public class TeleportingSatellite extends NetworkNode {
         return server;
     }
 
+    public Server getServer() {
+        return server;
+    }
+
     public double range() {
         return 200000.0;
     }

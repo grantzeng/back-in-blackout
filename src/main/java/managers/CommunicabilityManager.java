@@ -2,6 +2,7 @@ package managers;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -12,7 +13,7 @@ import networking.Server;
 import nodes.NetworkNode;
 
 public class CommunicabilityManager {
-    public static List<String> communicableEntitiesInRange(NetworkNode node) {
+    public static List<NetworkNode> communicableEntitiesInRange(NetworkNode node) {
 
         List<NetworkNode> visited = new ArrayList<>();
         Queue<NetworkNode> queue = new ArrayDeque<>();
@@ -31,10 +32,19 @@ public class CommunicabilityManager {
             }
         }
 
-        return visited.stream().filter(n -> n != node).map(n -> n.getId()).collect(Collectors.toList());
+        return visited.stream().filter(n -> n != node).collect(Collectors.toList());
     }
 
     public static void update(Map<String, Server> servers) {
+
+        for (Server server : servers.values()) {
+            Map<String, Server> communicable = new HashMap<>();
+
+            communicableEntitiesInRange(server.getOwner()).stream().map(n -> n.getServer())
+                    .forEach(s -> communicable.put(s.getId(), s));
+
+            server.setCommunicable(communicable);
+        }
 
     }
 
