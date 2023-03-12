@@ -38,10 +38,12 @@ public class CommunicabilityManager {
     public static void update(Map<String, Server> servers) {
 
         for (Server server : servers.values()) {
+
             Map<String, Server> communicable = new HashMap<>();
 
-            findCommunicableEntitiesInRange(server.getOwner()).stream().map(n -> n.getServer())
-                    .forEach(s -> communicable.put(s.getId(), s));
+            for (NetworkNode node : findCommunicableEntitiesInRange(server.getOwner())) {
+                communicable.put(node.getId(), node.getServer());
+            }
 
             server.setCommunicable(communicable);
         }

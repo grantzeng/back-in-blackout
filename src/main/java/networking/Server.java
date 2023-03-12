@@ -95,7 +95,6 @@ public class Server {
         }
 
         int downloads = downloading.size();
-
         if (downloads != 0) {
             downloading.stream().forEach(c -> c.setDownspeed(downloads == 1 ? maxDownload : maxDownload / downloads));
         }

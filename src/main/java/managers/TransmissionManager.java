@@ -17,7 +17,7 @@ public class TransmissionManager {
 
     public void registerTransmission(String filename, Server server, Server client) throws VirtualFileNotFoundException,
             VirtualFileNoBandwidthException, VirtualFileAlreadyExistsException, VirtualFileNoStorageSpaceException {
-
+        
         File source = server.getFile(filename);
         server.checkUploadingBandwidthAvailable();
         client.checkDownloadingBandwidthAvailable();
@@ -31,6 +31,7 @@ public class TransmissionManager {
 
         server.addUploadingConnection(connection);
         client.addDownloadingConnection(connection);
+
     }
 
     public void processTransmissions() {
