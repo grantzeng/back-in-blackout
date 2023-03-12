@@ -34,7 +34,13 @@ public class TransmissionManager {
     }
 
     public void processTransmissions() {
-        connections.stream().forEach(c -> c.transmit());
+
+        for (int i = 0; i < connections.size(); i++) {
+            connections.get(i).transmit();
+        }
+
+        // Functional syntax was causing ConcurrentModificationException?
+        // connections.stream().forEach(c -> c.transmit());
     }
 
     public void closeOutOfRangeTransmissions() {
