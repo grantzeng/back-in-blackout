@@ -57,7 +57,7 @@ public class TransmissionTests {
         assertThrows(VirtualFileNotFoundException.class, () -> bc.sendFile("hello", "s1", "s2"));
 
         // File should be complete so can transfer from s1 to s2
-        bc.simulate(4);
+        bc.simulate(5);
         assertDoesNotThrow(() -> bc.sendFile("hello", "s1", " s2"));
     }
 
@@ -75,7 +75,7 @@ public class TransmissionTests {
         bc.simulate();
 
         // s1 already downloading from d1, should throw
-        assertThrows(VirtualFileNoBandwidthException.class, () -> bc.sendFile("hi", "d1", "s1"));
+        assertThrows(VirtualFileAlreadyExistsException.class, () -> bc.sendFile("hi", "d1", "s1"));
 
         bc.simulate(4);
 
