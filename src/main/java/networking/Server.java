@@ -30,13 +30,13 @@ public class Server {
     private int maxBytes;
     private int maxFiles;
 
-    public Server(NetworkNode owner, int maxFiles, int maxBytes, int maxUpload, int maxDownload) {
+    public Server(NetworkNode owner, int maxBytes, int maxFiles, int maxUpload, int maxDownload) {
         this.owner = owner;
         id = owner.getId();
-        this.maxUpload = maxUpload;
-        this.maxDownload = maxDownload;
         this.maxBytes = maxBytes;
         this.maxFiles = maxFiles;
+        this.maxUpload = maxUpload;
+        this.maxDownload = maxDownload;
     }
 
     public String getId() {
