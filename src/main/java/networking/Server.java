@@ -62,6 +62,7 @@ public class Server {
         checkStorageSpaceAvailable(size);
 
         File emptyFile = new File(filename, size);
+        files.put(filename, emptyFile);
         return emptyFile;
     }
 
