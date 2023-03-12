@@ -91,12 +91,16 @@ public class Server {
     public void allocateBandwidthToConnections() {
         int uploads = uploading.size();
         if (uploads != 0) {
-            uploading.stream().forEach(c -> c.setUpspeed(uploads == 1 ? maxUpload : maxUpload / uploads));
+            int bandwidth = uploads == 1 ? maxUpload : maxUpload / uploads;
+            System.out.println(this + " upload bandwidth is " + bandwidth);
+            uploading.stream().forEach(c -> c.setUpspeed(bandwidth));
         }
 
         int downloads = downloading.size();
         if (downloads != 0) {
-            downloading.stream().forEach(c -> c.setDownspeed(downloads == 1 ? maxDownload : maxDownload / downloads));
+            int bandwidth = downloads == 1 ? maxDownload : maxDownload / downloads;
+            System.out.println(this + " download bandwidth is " + bandwidth);
+            downloading.stream().forEach(c -> c.setDownspeed(bandwidth));
         }
     }
 
@@ -139,10 +143,12 @@ public class Server {
     }
 
     public void addUploadingConnection(Connection uploading) {
+        System.out.println(this + " got uploading connection " + uploading);
         this.uploading.add(uploading);
     }
 
     public void addDownloadingConnection(Connection downloading) {
+        System.out.println(this + " got downloading connection " + downloading);
         this.downloading.add(downloading);
     }
 

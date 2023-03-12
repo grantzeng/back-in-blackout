@@ -36,9 +36,12 @@ public class Connection {
     }
 
     public void transmit() {
+        System.out.println(this + " is now transmitting");
         int bytes = Math.min(upspeed, downspeed);
         while (fp < fileSize && bytes > 0) {
-            target.append(source.read(fp));
+            String letter = source.read(fp);
+            System.out.println(this + " sending: " + letter);
+            target.append(letter);
             fp++;
             bytes--;
         }
@@ -47,10 +50,6 @@ public class Connection {
             target.setStatus(FileStatus.COMPLETE);
             close();
         }
-    }
-
-    public boolean outOfRange() {
-        return server.getOwner().canSendTo(client.getOwner());
     }
 
     public void close() {
