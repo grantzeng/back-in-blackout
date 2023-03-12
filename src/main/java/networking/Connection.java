@@ -10,9 +10,9 @@ public class Connection {
     private Server client;
     private TransmissionManager transmissionManager;
     private int fileSize;
-    private int fp = 0;
-    private int upspeed = 0;
-    private int downspeed = 0;
+    private int fp;
+    private int upspeed;
+    private int downspeed;
 
     public Connection(File source, File emptyFile, Server server, Server client,
             TransmissionManager transmissionManager) {
@@ -21,6 +21,9 @@ public class Connection {
         this.server = server;
         this.client = client;
         this.transmissionManager = transmissionManager;
+        fp = 0;
+        upspeed = 0;
+        downspeed = 0;
         fileSize = source.getSize();
     }
 

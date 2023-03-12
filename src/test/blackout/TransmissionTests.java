@@ -135,8 +135,10 @@ public class TransmissionTests {
     // Test transmission works through relays
     @Test
     public void testTransmissionWorksThroughRelays() {
-        for (int i = 0; i < 37; i++) {
-            bc.createSatellite("r" + i, "RelaySatellite", RADIUS_OF_JUPITER + 3000, Angle.fromDegrees(i * 10));
+        for (int i = 0; i < 360; i++) {
+            // bc.createSatellite("r" + i, "RelaySatellite", RADIUS_OF_JUPITER + 3000,
+            // Angle.fromDegrees(i));
+            bc.createSatellite("r" + i, "RelaySatellite", RADIUS_OF_JUPITER + 5000, Angle.fromDegrees(i));
         }
 
         bc.createDevice("d1", "LaptopDevice", Angle.fromDegrees(0));
@@ -146,7 +148,8 @@ public class TransmissionTests {
         assertDoesNotThrow(() -> bc.sendFile("z", "d1", "s1"));
 
         for (int i = 0; i < 80; i++) {
-            assertEquals(new FileInfoResponse("z", z, z.length(), false), bc.getInfo("s1").getFiles().get("z"));
+            assertEquals(new FileInfoResponse("z", "z".repeat(i), z.length(), false),
+                    bc.getInfo("s1").getFiles().get("z"));
             bc.simulate();
         }
         bc.simulate(90);
@@ -197,13 +200,13 @@ public class TransmissionTests {
     public void testDownloadingFileRemovedIfReceipientOutOfRange() {
 
         bc.createDevice("d1", "DesktopDevice", Angle.fromDegrees(135));
-        bc.createSatellite("s1", "StandardSatellite", RADIUS_OF_JUPITER + 1, Angle.fromDegrees(135));
+        bc.createSatellite("s1", "StandardSatellite", RADIUS_OF_JUPITER + 1, Angle.fromDegrees(140));
         bc.addFileToDevice("d1", "z", "z".repeat(80));
         assertDoesNotThrow(() -> bc.sendFile("z", "d1", "s1"));
         bc.simulate();
         assertEquals(new FileInfoResponse("z", "z", 80, false), bc.getInfo("s1").getFiles().get("z"));
 
-        bc.simulate(40);
+        bc.simulate(60);
         assertNull(bc.getInfo("s1").getFiles().get("z"));
 
     }
@@ -238,8 +241,9 @@ public class TransmissionTests {
         bc.createSatellite("s1", "StandardSatellite", RADIUS_OF_JUPITER + 1000, bc.getInfo("t1").getPosition());
         assertDoesNotThrow(() -> bc.sendFile("msg", "t1", "s1"));
         assertDoesNotThrow(() -> bc.simulate(3));
-        
-        assertEquals(new FileInfoResponse("msg", corruptMsg, corruptMsg.length(), true), bc.getInfo("s1").getFiles().get("msg"));
+
+        assertEquals(new FileInfoResponse("msg", corruptMsg, corruptMsg.length(), true),
+                bc.getInfo("s1").getFiles().get("msg"));
 
     }
 }
