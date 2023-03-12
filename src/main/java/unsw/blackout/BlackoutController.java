@@ -6,49 +6,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import ass1.file.File;
-import ass1.nodes.NetworkNode;
-import ass1.nodes.devices.DesktopDevice;
-import ass1.nodes.devices.Device;
-import ass1.nodes.devices.HandheldDevice;
-import ass1.nodes.devices.LaptopDevice;
-import ass1.nodes.satellites.RelaySatellite;
-import ass1.nodes.satellites.Satellite;
-import ass1.nodes.satellites.StandardSatellite;
-import ass1.nodes.satellites.TeleportingSatellite;
+import managers.CommunicabilityManager;
+import managers.TransmissionManager;
+import managers.VisibilityManager;
+import networking.Connection;
+import networking.File;
+import networking.Server;
+
+import nodes.DesktopDevice;
+import nodes.HandheldDevice;
+import nodes.LaptopDevice;
+import nodes.NetworkNode;
+import nodes.RelaySatellite;
+import nodes.StandardSatellite;
+import nodes.TeleportingSatellite;
+
 import unsw.response.models.EntityInfoResponse;
 import unsw.utils.Angle;
 import unsw.utils.MathsHelper;
 
 public class BlackoutController {
-    private Map<String, NetworkNode> nodes = new HashMap<>();
+    private List<NetworkNode> nodes = new ArrayList<>();
+    private List<Server> servers = new ArrayList<>();
+
     private int clock = 0;
 
-    /**
-     * Functions for updating communicability graph - Just a nested for loop (find a
-     * better way to pairs of objects later)
-     * 
-     * @param id
-     * @return
-     */
-    private void updateVisibilityGraph() {
-        List<NetworkNode> visible = new ArrayList<>();
-
-        for (NetworkNode server : nodes.values()) {
-            for (NetworkNode client : nodes.values()) {
-
-                if (client == server) {
-                    continue;
-                }
-
-                if (MathsHelper.isVisible(server.getHeight(), server.getPosition(), client.getHeight(),
-                        client.getPosition())) {
-                    visible.add(client);
-                }
-            }
-            server.setVisible(visible);
-            visible = new ArrayList<>();
-        }
+    private void update() {
+        VisibilityManager.update(nodes);
+        CommunicabilityManager.update(servers);
     }
 
     public void createDevice(String deviceId, String type, Angle position) {
@@ -66,7 +51,7 @@ public class BlackoutController {
             System.out.println("No device was added to Blackout");
             break;
         }
-        updateVisibilityGraph();
+        update();
     }
 
     /**
@@ -75,7 +60,7 @@ public class BlackoutController {
      */
     public void removeDevice(String deviceId) {
         nodes.remove(deviceId);
-        updateVisibilityGraph();
+        update();
     }
 
     public void createSatellite(String satelliteId, String type, double height, Angle position) {
@@ -93,7 +78,7 @@ public class BlackoutController {
             System.out.println("No satellite was added to Blackout");
             break;
         }
-        updateVisibilityGraph();
+        update();
     }
 
     /**
@@ -102,7 +87,7 @@ public class BlackoutController {
      */
     public void removeSatellite(String satelliteId) {
         nodes.remove(satelliteId);
-        updateVisibilityGraph();
+        update();
     }
 
     public List<String> listDeviceIds() {
@@ -134,7 +119,7 @@ public class BlackoutController {
         System.out.println("\n" + clock + "\n");
 
         nodes.values().stream().forEach(n -> n.move());
-        updateVisibilityGraph();
+        update();
 
         nodes.values().stream().forEach(n -> n.beforeTick());
         nodes.values().stream().forEach(n -> n.transmit());
