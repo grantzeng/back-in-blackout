@@ -139,11 +139,11 @@ public class Server {
         }
     }
 
-    public void openUploadingConnection(Connection uploading) {
+    public void addUploadingConnection(Connection uploading) {
         this.uploading.add(uploading);
     }
 
-    public void openDownloadingConnection(Connection downloading) {
+    public void addDownloadingConnection(Connection downloading) {
         this.downloading.add(downloading);
     }
 

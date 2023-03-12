@@ -13,36 +13,38 @@ import networking.Server;
 import networking.File;
 
 public class TransmissionManager {
-    private List<Connection> connections = new ArrayList<>(); 
+    private List<Connection> connections = new ArrayList<>();
 
-    public void registerTransmission(String filename, Server server, Server client) throws VirtualFileNotFoundException, 
-    VirtualFileNoBandwidthException, VirtualFileAlreadyExistsException, VirtualFileNoStorageSpaceException{
+    public void registerTransmission(String filename, Server server, Server client) throws VirtualFileNotFoundException,
+            VirtualFileNoBandwidthException, VirtualFileAlreadyExistsException, VirtualFileNoStorageSpaceException {
 
         File source = server.getFile(filename);
         server.checkUploadingBandwidthAvailable();
-        client.checkDownloadingBandwidthAvailable();    
+        client.checkDownloadingBandwidthAvailable();
         client.checkFileNotAlreadyExists(filename);
-        client.checkStorageSpaceAvailable(source.getSize()); 
+        client.checkStorageSpaceAvailable(source.getSize());
 
         File target = client.createFile(source.getFilename(), source.getSize());
-            
+
         Connection connection = new Connection(source, target, server, client, this);
         connections.add(connection);
-            
+
+        server.addUploadingConnection(connection);
+        client.addDownloadingConnection(connection);
     }
-    
+
     public void processTransmissions() {
         connections.stream().forEach(c -> c.transmit());
     }
-    
+
     public void closeOutOfRangeTransmissions() {
-        for (Connection connection: connections) {
+        for (Connection connection : connections) {
             if (connection.closeIfOutOfRange()) {
                 closeTransmission(connection);
             }
         }
     }
-    
+
     public void closeTransmission(Connection connection) {
         connections.remove(connection);
     }
