@@ -1,11 +1,11 @@
 package networking;
 
 import managers.TransmissionManager;
+import networking.File.FileStatus;
 
 public class Connection {
     private File source;
     private File target;
-    private TransmissionManager transmissionManager;
     private Server server;
     private Server client;
     private int fileSize;
@@ -13,13 +13,12 @@ public class Connection {
     private int upspeed = 0;
     private int downspeed = 0;
 
-    public Connection(File source, File emptyFile, Server server, Server client,
-            TransmissionManager transmissionManager) {
+    public Connection(File source, File emptyFile, Server server, Server client) {
         this.source = source;
         target = emptyFile;
         this.server = server;
         this.client = client;
-        this.transmissionManager = transmissionManager;
+
         fileSize = source.getSize();
     }
 
@@ -34,11 +33,21 @@ public class Connection {
     public void transmit() {
 
     }
-
+    
+    public boolean closeIfOutOfRange(TransmissionManager transmissionManager) {
+        if (!server.getOwner().canSendTo(client.getOwner())) {
+            close(transmissionManager);
+            target.setStatus(FileStatus.TRANSIENT);
+            return true; 
+        }
+        return false; 
+        
+    }
+    
     public void close(TransmissionManager transmissionManager) {
         transmissionManager.closeTransmission(this);
         server.unplug(this);
-        client.unplug(this);
+        client.unplug(this, target);
     }
 
 }

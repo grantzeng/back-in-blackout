@@ -126,11 +126,11 @@ public class Server {
             throw new VirtualFileAlreadyExistsException(filename + " already exists on " + id + "'s server");
         }
     }
-    
+
     public void openUploadingConnection(Connection uploading) {
         this.uploading.add(uploading);
     }
-    
+
     public void openDownloadingConnection(Connection downloading) {
         this.downloading.add(downloading);
     }
@@ -138,6 +138,11 @@ public class Server {
     public void unplug(Connection connection) {
         uploading.remove(connection);
         downloading.remove(connection);
+    }
+
+    public void unplug(Connection connection, File file) {
+        unplug(connection);
+        files.remove(file);
     }
 
     public Map<String, FileInfoResponse> getServerInfoResponse() {

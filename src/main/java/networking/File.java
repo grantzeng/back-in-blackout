@@ -3,22 +3,27 @@ package networking;
 import unsw.response.models.FileInfoResponse;
 
 public class File {
+
     private String filename;
     private String data = "";
     private int size = 0;
-    private boolean isComplete;
+    private FileStatus status;
+
+    public enum FileStatus {
+        COMPLETE, PARTIAL, TRANSIENT
+    }
 
     public File(String filename, String content) {
         this.filename = filename;
         this.data = content;
         this.size = content.length();
-        this.isComplete = true;
+        this.status = FileStatus.COMPLETE;
     }
 
     public File(String filename, int size) {
         this.filename = filename;
         this.size = size;
-        this.isComplete = false;
+        this.status = FileStatus.PARTIAL;
     }
 
     public String getFilename() {
@@ -26,7 +31,7 @@ public class File {
     }
 
     public boolean isComplete() {
-        return isComplete;
+        return status == FileStatus.COMPLETE;
     }
 
     public int getSize() {
@@ -57,18 +62,13 @@ public class File {
         }
         data += string;
     }
-
-    public void setStatusComplete() {
-
-        if (!isComplete) {
-            System.out.println(this + " is now marked as complete");
-            isComplete = true;
-        }
-
+    
+    public void setStatus(FileStatus status) {
+        this.status = status; 
     }
 
     public FileInfoResponse getFileInfoResponse() {
-        return new FileInfoResponse(filename, data, size, isComplete);
+        return new FileInfoResponse(filename, data, size, status == FileStatus.COMPLETE);
     }
 
 }
