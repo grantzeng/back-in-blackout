@@ -87,13 +87,15 @@ public class Server {
 
     public void allocateBandwidthToConnections() {
         int uploads = uploading.size();
-        int uploadBytesToAllocate = uploads == 1 ? maxUpload : maxUpload / uploads;
-        uploading.stream().forEach(c -> c.setUpspeed(uploadBytesToAllocate));
+        if (uploads != 0) {
+            uploading.stream().forEach(c -> c.setUpspeed(uploads == 1 ? maxUpload : maxUpload / uploads));
+        }
 
         int downloads = downloading.size();
-        int downloadBytestoAllocate = downloads == 1 ? maxDownload : maxDownload / downloads;
-        downloading.stream().forEach(c -> c.setDownspeed(downloadBytestoAllocate));
 
+        if (downloads != 0) {
+            downloading.stream().forEach(c -> c.setDownspeed(downloads == 1 ? maxDownload : maxDownload / downloads));
+        }
     }
 
     public void checkStorageSpaceAvailable(int bytesRequired) throws VirtualFileNoStorageSpaceException {

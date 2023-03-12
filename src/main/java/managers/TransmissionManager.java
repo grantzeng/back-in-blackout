@@ -1,5 +1,6 @@
 package managers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import unsw.blackout.FileTransferException.VirtualFileNotFoundException;
@@ -12,7 +13,7 @@ import networking.Server;
 import networking.File;
 
 public class TransmissionManager {
-    private List<Connection> connections;
+    private List<Connection> connections = new ArrayList<>(); 
 
     public void registerTransmission(String filename, Server server, Server client) throws VirtualFileNotFoundException, 
     VirtualFileNoBandwidthException, VirtualFileAlreadyExistsException, VirtualFileNoStorageSpaceException{

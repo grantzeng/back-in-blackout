@@ -147,17 +147,15 @@ public class BlackoutController {
         System.out.println("\n" + clock + "\n");
 
         nodes.values().stream().forEach(n -> n.move());
+
         update();
-        
+
         transmissionManager.closeOutOfRangeTransmissions();
+
+        servers.values().stream().forEach(s -> s.allocateBandwidthToConnections());
+
         transmissionManager.processTransmissions();
-
-        /*
-         * nodes.values().stream().forEach(n -> n.beforeTick());
-         * nodes.values().stream().forEach(n -> n.transmit());
-         * nodes.values().stream().forEach(n -> n.afterTick());
-         */
-
+        
         clock++;
     }
 
