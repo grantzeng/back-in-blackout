@@ -19,21 +19,18 @@ public class TransmissionManager {
     public void registerTransmission(String filename, Server server, Server client) throws VirtualFileNotFoundException,
             VirtualFileNoBandwidthException, VirtualFileAlreadyExistsException, VirtualFileNoStorageSpaceException {
 
-        if (server == null) {
-            System.out.println("server is NULL!?");
-
-        }
-
-        if (client == null) {
-            System.out.println("client is NULL!?");
-        }
-        // assert server != null;
-        // assert client != null;
+        /*
+         * It would be possible to just pass the reference back and forth to a server
+         * object
+         * 
+         * This is obviously feature envy, but also it's the obvious way to deal with a
+         * cross cutting concern.
+         */
 
         File source = server.getFile(filename);
         server.checkUploadingBandwidthAvailable();
-        client.checkDownloadingBandwidthAvailable();
         client.checkFileNotAlreadyExists(filename);
+        client.checkDownloadingBandwidthAvailable();
         client.checkStorageSpaceAvailable(source.getSize());
 
         File target = client.createFile(source.getFilename(), source.getSize());
@@ -52,7 +49,7 @@ public class TransmissionManager {
             connections.get(i).transmit();
         }
 
-        // Functional syntax was causing ConcurrentModificationException?
+        // NB: Functional syntax causes ConcurrentModificationException, oops
         // connections.stream().forEach(c -> c.transmit());
     }
 

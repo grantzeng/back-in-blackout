@@ -64,6 +64,13 @@ public class TransmissionTests {
         assertEquals(new FileInfoResponse("hello", "hello", 5, true), bc.getInfo("s1").getFiles().get("hello"));
 
         assertDoesNotThrow(() -> bc.sendFile("hello", "s1", "s2"));
+        bc.simulate(5);
+
+        // Should be complete on s2
+        assertEquals(new FileInfoResponse("hello", "hello", 5, true), bc.getInfo("s2").getFiles().get("hello"));
+
+        // Source file should not be corrupted
+        assertEquals(new FileInfoResponse("hello", "hello", 5, true), bc.getInfo("s1").getFiles().get("hello"));
     }
 
     // Test file already exists on target or is currently downloading
@@ -77,7 +84,9 @@ public class TransmissionTests {
 
         // file does not exist on s1, should not throw
         assertDoesNotThrow(() -> bc.sendFile("hi", "d1", "s1"));
+        //assertEquals(new FileInfoResponse("hi", "", 3, false), bc.getInfo("s1").getFiles().get("hi"));
         bc.simulate();
+        //assertEquals(new FileInfoResponse("hi", "f", 3, false), bc.getInfo("s1").getFiles().get("hi"));
 
         // s1 already downloading from d1, should throw
         assertThrows(VirtualFileAlreadyExistsException.class, () -> bc.sendFile("hi", "d1", "s1"));
@@ -95,7 +104,8 @@ public class TransmissionTests {
         bc.createDevice("d1", "HandheldDevice", Angle.fromDegrees(45));
 
         bc.addFileToDevice("d1", "hi", "hello");
-        assertDoesNotThrow(() -> bc.sendFile("hi", "d1", "d2"));
+        assertDoesNotThrow(() -> bc.sendFile("hi", "d1", "s1"));
+        //assertThrows(VirtualFileNoBandwidthException.class, () -> bc.sendFile("hi", "d1", "s1"));
 
         bc.createSatellite("s2", "StandardSatellite", RADIUS_OF_JUPITER + 3000, bc.getInfo("s1").getPosition());
         bc.createSatellite("s3", "StandardSatellite", RADIUS_OF_JUPITER + 3000, bc.getInfo("s1").getPosition());
