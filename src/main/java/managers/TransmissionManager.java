@@ -19,6 +19,17 @@ public class TransmissionManager {
     public void registerTransmission(String filename, Server server, Server client) throws VirtualFileNotFoundException,
             VirtualFileNoBandwidthException, VirtualFileAlreadyExistsException, VirtualFileNoStorageSpaceException {
 
+        if (server == null) {
+            System.out.println("server is NULL!?");
+
+        }
+
+        if (client == null) {
+            System.out.println("client is NULL!?");
+        }
+        // assert server != null;
+        // assert client != null;
+
         File source = server.getFile(filename);
         server.checkUploadingBandwidthAvailable();
         client.checkDownloadingBandwidthAvailable();
@@ -47,12 +58,11 @@ public class TransmissionManager {
 
     public void closeOutOfRangeTransmissions() {
         /*
-        List<Connection> toClose = connections.stream().filter(c -> c.outOfRange()).collect(Collectors.toList());
-
-        for (Connection stale : toClose) {
-            stale.close();
-        }
-        */
+         * List<Connection> toClose = connections.stream().filter(c ->
+         * c.outOfRange()).collect(Collectors.toList());
+         * 
+         * for (Connection stale : toClose) { stale.close(); }
+         */
     }
 
     public void closeTransmission(Connection connection) {

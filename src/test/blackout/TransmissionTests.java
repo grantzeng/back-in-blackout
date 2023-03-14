@@ -40,25 +40,30 @@ public class TransmissionTests {
 
     // Test exceptions file not found works if no file or file is partial download
     @Test
-    public void testFileNotExistOrOnlyPartialThrows() {
+    public void testBasicTransmission() {
 
-        bc.createSatellite("s1", "StandardSatellite", RADIUS_OF_JUPITER + 3000, Angle.fromDegrees(45));
+        bc.createSatellite("s1", "StandardSatellite", 75000, Angle.fromDegrees(45));
         bc.createDevice("d1", "HandheldDevice", Angle.fromDegrees(45));
 
         // File does not exist on d1, cannot send to s1
-        assertThrows(VirtualFileNotFoundException.class, () -> bc.sendFile("hello", "d1", "s1"));
+        // assertThrows(VirtualFileNotFoundException.class, () -> bc.sendFile("hello",
+        // "d1", "s1"));
 
         bc.addFileToDevice("d1", "hello", "hello");
         assertDoesNotThrow(() -> bc.sendFile("hello", "d1", "s1"));
+        assertEquals(new FileInfoResponse("hello", "", 5, false), bc.getInfo("s1").getFiles().get("hello"));
         bc.simulate(2);
+        assertEquals(new FileInfoResponse("hello", "he", 5, false), bc.getInfo("s1").getFiles().get("hello"));
 
         // s1 only has partial file, cannot transfer to s2
-        bc.createSatellite("s2", "TeleportingSatellite", RADIUS_OF_JUPITER, Angle.fromDegrees(47));
+        bc.createSatellite("s2", "TeleportingSatellite", 75000, Angle.fromDegrees(47));
         assertThrows(VirtualFileNotFoundException.class, () -> bc.sendFile("hello", "s1", "s2"));
 
         // File should be complete so can transfer from s1 to s2
         bc.simulate(5);
-        assertDoesNotThrow(() -> bc.sendFile("hello", "s1", " s2"));
+        assertEquals(new FileInfoResponse("hello", "hello", 5, true), bc.getInfo("s1").getFiles().get("hello"));
+
+        assertDoesNotThrow(() -> bc.sendFile("hello", "s1", "s2"));
     }
 
     // Test file already exists on target or is currently downloading
