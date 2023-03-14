@@ -84,11 +84,9 @@ public class TransmissionTests {
 
         // file does not exist on s1, should not throw
         assertDoesNotThrow(() -> bc.sendFile("hi", "d1", "s1"));
-        // assertEquals(new FileInfoResponse("hi", "", 3, false),
-        // bc.getInfo("s1").getFiles().get("hi"));
+        assertEquals(new FileInfoResponse("hi", "", 3, false), bc.getInfo("s1").getFiles().get("hi"));
         bc.simulate();
-        // assertEquals(new FileInfoResponse("hi", "f", 3, false),
-        // bc.getInfo("s1").getFiles().get("hi"));
+        assertEquals(new FileInfoResponse("hi", "f", 3, false), bc.getInfo("s1").getFiles().get("hi"));
 
         // s1 already downloading from d1, should throw
         assertThrows(VirtualFileAlreadyExistsException.class, () -> bc.sendFile("hi", "d1", "s1"));
@@ -129,7 +127,7 @@ public class TransmissionTests {
         List<Integer> range = new ArrayList<Integer>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
         for (Integer i : range) {
             bc.createSatellite("c" + i, "StandardSatellite", bc.getInfo("t1").getHeight(),
-                    bc.getInfo("ti").getPosition());
+                    bc.getInfo("t1").getPosition());
         }
         range.remove(10);
 
