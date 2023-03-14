@@ -84,9 +84,11 @@ public class TransmissionTests {
 
         // file does not exist on s1, should not throw
         assertDoesNotThrow(() -> bc.sendFile("hi", "d1", "s1"));
-        //assertEquals(new FileInfoResponse("hi", "", 3, false), bc.getInfo("s1").getFiles().get("hi"));
+        // assertEquals(new FileInfoResponse("hi", "", 3, false),
+        // bc.getInfo("s1").getFiles().get("hi"));
         bc.simulate();
-        //assertEquals(new FileInfoResponse("hi", "f", 3, false), bc.getInfo("s1").getFiles().get("hi"));
+        // assertEquals(new FileInfoResponse("hi", "f", 3, false),
+        // bc.getInfo("s1").getFiles().get("hi"));
 
         // s1 already downloading from d1, should throw
         assertThrows(VirtualFileAlreadyExistsException.class, () -> bc.sendFile("hi", "d1", "s1"));
@@ -100,18 +102,19 @@ public class TransmissionTests {
     @Test
     public void testUploadingBandwidthFullThrows() {
 
-        bc.createSatellite("s1", "StandardSatellite", RADIUS_OF_JUPITER + 3000, Angle.fromDegrees(45));
         bc.createDevice("d1", "HandheldDevice", Angle.fromDegrees(45));
+        bc.createSatellite("s1", "StandardSatellite", RADIUS_OF_JUPITER + 3000, Angle.fromDegrees(45));
 
-        bc.addFileToDevice("d1", "hi", "hello");
+        bc.addFileToDevice("d1", "hi", "f".repeat(8));
         assertDoesNotThrow(() -> bc.sendFile("hi", "d1", "s1"));
-        //assertThrows(VirtualFileNoBandwidthException.class, () -> bc.sendFile("hi", "d1", "s1"));
+        bc.addFileToDevice("d1", "foo", "foo");
+        assertThrows(VirtualFileNoBandwidthException.class, () -> bc.sendFile("foo", "d1", "s1"));
 
         bc.createSatellite("s2", "StandardSatellite", RADIUS_OF_JUPITER + 3000, bc.getInfo("s1").getPosition());
-        bc.createSatellite("s3", "StandardSatellite", RADIUS_OF_JUPITER + 3000, bc.getInfo("s1").getPosition());
-        bc.simulate(5);
+        bc.simulate(9);
+        assertEquals(new FileInfoResponse("hi", "f".repeat(8), 8, true), bc.getInfo("s1").getFiles().get("hi"));
 
-        assertDoesNotThrow(() -> bc.sendFile("h1", "s1", "s2"));
+        assertDoesNotThrow(() -> bc.sendFile("hi", "s1", "s2"));
         assertThrows(VirtualFileNoBandwidthException.class, () -> bc.sendFile("hi", "s1", "s3"));
     }
 
