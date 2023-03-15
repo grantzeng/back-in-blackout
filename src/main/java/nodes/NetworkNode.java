@@ -81,6 +81,10 @@ public abstract class NetworkNode {
         return getServer().createEmptyFile(filename, size);
     }
 
+    public void addFile(File file) {
+        getServer().addFile(file);
+    }
+
     public void addUploadConnection(Connection conn) {
         getServer().addUploadConnection(conn);
     }
@@ -146,6 +150,13 @@ public abstract class NetworkNode {
     protected abstract List<NodeType> supports();
 
     protected abstract double range();
+
+    /*
+     * Free resources tagged with if out of
+     */
+    public void free() {
+        getServer().free();
+    }
 
     /*
      * Entity info response

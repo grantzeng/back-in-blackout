@@ -71,7 +71,7 @@ public class Server {
 
         return files.get(filename);
     }
-    
+
     public void removeFile(String filename) {
         files.remove(filename);
     }
@@ -112,16 +112,16 @@ public class Server {
         }
     }
 
-    public void checkDownloadResourcesAvailable(String filename, int filesize)
-        throws VirtualFileAlreadyExistsException, VirtualFileNoBandwidthException, VirtualFileNoStorageSpaceException{
+    public void checkDownloadResourcesAvailable(String filename, int filesize) throws VirtualFileAlreadyExistsException,
+            VirtualFileNoBandwidthException, VirtualFileNoStorageSpaceException {
         if (files.get(filename) != null) {
             throw new VirtualFileAlreadyExistsException(filename);
         }
-        
+
         if (downloading.size() != 0 && maxDownload / (downloading.size() + 1) == 0) {
             throw new VirtualFileNoBandwidthException(owner.getId());
         }
-       
+
         int usage = files.values().stream().map(f -> f.getSize()).reduce(0, Integer::sum);
         if (filesize + usage > maxBytes) {
             throw new VirtualFileNoStorageSpaceException("Max bytes reached");
@@ -130,7 +130,7 @@ public class Server {
         if (files.size() + 1 > maxFiles) {
             throw new VirtualFileNoStorageSpaceException("Max files reached");
         }
-    
+
     }
     /*
      * public void allocateBandwidthToConnections() { int uploads =
@@ -145,6 +145,17 @@ public class Server {
      * downloading.stream().forEach(c -> c.setDownspeed(bandwidth)); } }
      */
 
+    /*
+     * Free resources if
+     */
+    public void free() {
+        System.out.println("free() not yet implemented!");
+    }
+
+    /*
+     * 
+     * Entity Info
+     */
     public Map<String, FileInfoResponse> getServerInfoResponse() {
 
         Map<String, FileInfoResponse> info = new HashMap<>();

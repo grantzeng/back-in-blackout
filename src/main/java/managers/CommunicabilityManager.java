@@ -37,10 +37,10 @@ public class CommunicabilityManager {
         return communicable;
     }
 
-    public static void update(List<NetworkNode> nodes) {
+    public static void update(Map<String, NetworkNode> nodes) {
 
-        for (NetworkNode server : nodes) {
-            for (NetworkNode client : nodes) {
+        for (NetworkNode server : nodes.values()) {
+            for (NetworkNode client : nodes.values()) {
                 if (server == client) {
                     continue;
                 }

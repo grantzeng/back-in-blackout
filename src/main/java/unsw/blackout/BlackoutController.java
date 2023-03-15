@@ -13,6 +13,8 @@ import static nodes.NetworkNode.NodeType.LaptopDevice;
 import static nodes.NetworkNode.NodeType.StandardSatellite;
 import static nodes.NetworkNode.NodeType.RelaySatellite;
 import static nodes.NetworkNode.NodeType.TeleportingSatellite;
+import static nodes.NetworkNode.NodeType.Device;
+import static nodes.NetworkNode.NodeType.Satellite;
 
 import managers.CommunicabilityManager;
 import managers.TransmissionManager;
@@ -33,14 +35,14 @@ import unsw.utils.Angle;
 
 public class BlackoutController {
     private Map<String, NetworkNode> nodes = new HashMap<>();
-    
+
     private TransmissionManager transmissionManager = new TransmissionManager();
 
     private int clock = 0;
 
-    private void update() {
+    private void updateCommunicability() {
         VisibilityManager.update(nodes);
-        CommunicabilityManager.update(nodes.values());
+        CommunicabilityManager.update(nodes);
     }
 
     public void createDevice(String deviceId, String type, Angle position) {
@@ -49,23 +51,20 @@ public class BlackoutController {
         case "HandheldDevice":
             HandheldDevice handheldDevice = new HandheldDevice(deviceId, position);
             nodes.put(deviceId, handheldDevice);
-            servers.put(deviceId, handheldDevice.setServer());
             break;
         case "LaptopDevice":
             LaptopDevice laptopDevice = new LaptopDevice(deviceId, position);
             nodes.put(deviceId, laptopDevice);
-            servers.put(deviceId, laptopDevice.setServer());
             break;
         case "DesktopDevice":
             DesktopDevice desktopDevice = new DesktopDevice(deviceId, position);
             nodes.put(deviceId, desktopDevice);
-            servers.put(deviceId, desktopDevice.setServer());
             break;
         default:
             System.out.println("No device was added to Blackout");
             return;
         }
-        update();
+        updateCommunicability();
     }
 
     /**
@@ -73,9 +72,9 @@ public class BlackoutController {
      * @param deviceId
      */
     public void removeDevice(String deviceId) {
-        nodes.remove(deviceId);
-        servers.remove(deviceId);
-        update();
+        NetworkNode node = nodes.remove(deviceId);
+        node.free();
+        updateCommunicability();
     }
 
     public void createSatellite(String satelliteId, String type, double height, Angle position) {
@@ -87,18 +86,16 @@ public class BlackoutController {
         case "StandardSatellite":
             StandardSatellite standardSatellite = new StandardSatellite(satelliteId, height, position);
             nodes.put(satelliteId, standardSatellite);
-            servers.put(satelliteId, standardSatellite.setServer());
             break;
         case "TeleportingSatellite":
             TeleportingSatellite teleportingSatellite = new TeleportingSatellite(satelliteId, height, position);
             nodes.put(satelliteId, teleportingSatellite);
-            servers.put(satelliteId, teleportingSatellite.setServer());
             break;
         default:
             System.out.println("No device was added to Blackout");
             return;
         }
-        update();
+        updateCommunicability();
     }
 
     /**
@@ -106,21 +103,19 @@ public class BlackoutController {
      * @param satelliteId
      */
     public void removeSatellite(String satelliteId) {
-        nodes.remove(satelliteId);
-        servers.remove(satelliteId);
-        update();
+        NetworkNode node = nodes.remove(satelliteId);
+        node.free();
+        updateCommunicability();
     }
 
     public List<String> listDeviceIds() {
-        return nodes.values().stream()
-                .filter(node -> Arrays.asList(DesktopDevice, LaptopDevice, HandheldDevice).contains(node.type()))
-                .map(device -> device.getId()).collect(Collectors.toList());
+        return nodes.values().stream().filter(node -> node.type() == Device).map(device -> device.getId())
+                .collect(Collectors.toList());
     }
 
     public List<String> listSatelliteIds() {
-        return nodes.values().stream().filter(
-                node -> Arrays.asList(RelaySatellite, StandardSatellite, TeleportingSatellite).contains(node.type()))
-                .map(device -> device.getId()).collect(Collectors.toList());
+        return nodes.values().stream().filter(node -> node.type() == Satellite).map(satellite -> satellite.getId())
+                .collect(Collectors.toList());
     }
 
     /**
@@ -134,7 +129,7 @@ public class BlackoutController {
         File complete = new File(filename, content);
         System.out.println(complete);
 
-        (servers.get(deviceId)).addFile(complete);
+        (nodes.get(deviceId)).addFile(complete);
     }
 
     public EntityInfoResponse getInfo(String id) {
@@ -145,18 +140,21 @@ public class BlackoutController {
 
         System.out.println("\n" + clock + "\n");
 
-        nodes.values().stream().forEach(n -> n.move());
-        update();
+        nodes.values().stream().forEach(node -> node.move());
+        updateCommunicability();
 
-        transmissionManager.closeOutOfRangeTransmissions();
-
-        for (Server server : servers.values()) {
-            server.allocateBandwidthToConnections();
-        }
-
-        transmissionManager.processTransmissions();
-
-        clock++;
+        /*
+         * nodes.values().stream().forEach(n -> n.move()); update();
+         * 
+         * transmissionManager.closeOutOfRangeTransmissions();
+         * 
+         * for (Server server : servers.values()) {
+         * server.allocateBandwidthToConnections(); }
+         * 
+         * transmissionManager.processTransmissions();
+         * 
+         * clock++;
+         */
     }
 
     /**
