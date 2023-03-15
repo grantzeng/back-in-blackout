@@ -23,7 +23,7 @@ public class CommunicabilityManager {
         while (!queue.isEmpty()) {
             NetworkNode curr = queue.poll();
             for (NetworkNode next : curr.getVisible()) {
-                if (curr.canSendTo(next) && !visited.contains(next)) {
+                if (curr.canSendDirectlyTo(next) && !visited.contains(next)) {
                     visited.add(next);
                     if (next.type() == RelaySatellite) {
                         queue.add(next);
@@ -32,22 +32,24 @@ public class CommunicabilityManager {
             }
         }
 
-        return visited.stream().filter(n -> n != node).collect(Collectors.toList());
+        List<NetworkNode> communicable = visited.stream().filter(n -> n != node).collect(Collectors.toList());
+        node.setCommunicable(communicable);
+        return communicable;
     }
 
-    public static void update(Map<String, Server> servers) {
-
-        for (Server server : servers.values()) {
-
-            Map<String, Server> communicable = new HashMap<>();
-
-            for (NetworkNode node : findCommunicableEntitiesInRange(server.getOwner())) {
-                communicable.put(node.getId(), node.getServer());
-            }
-
-            server.setCommunicable(communicable);
-        }
-
-    }
+    /*
+     * public static void update(Map<String, Server> servers) {
+     * 
+     * for (Server server : servers.values()) {
+     * 
+     * Map<String, Server> communicable = new HashMap<>();
+     * 
+     * for (NetworkNode node : findCommunicableEntitiesInRange(server.getOwner())) {
+     * communicable.put(node.getId(), node.getServer()); }
+     * 
+     * server.setCommunicable(communicable); }
+     * 
+     * }
+     */
 
 }

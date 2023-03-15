@@ -22,6 +22,8 @@ public abstract class NetworkNode {
     private Angle position;
     private double height;
     private Server server;
+    private List<NetworkNode> visible;
+    private List<NetworkNode> communicable;
 
     public enum NodeType {
         DesktopDevice, HandheldDevice, LaptopDevice, RelaySatellite, StandardSatellite, TeleportingSatellite
@@ -74,6 +76,10 @@ public abstract class NetworkNode {
         return server.getFile(filename);
     }
 
+    public void removePartialFile(String filename) {
+        server.removeFile(filename);
+    }
+
     public File createEmptyFile(String filename, int size)
             throws VirtualFileAlreadyExistsException, VirtualFileNoStorageSpaceException {
         return server.createEmptyFile(filename, size);
@@ -104,22 +110,35 @@ public abstract class NetworkNode {
         server.checkUploadResourcesAvailable(filename);
     }
 
-    public void checkDownloadResourcesAvailable(String filename, int filesize) 
-            throws VirtualFileAlreadyExistsException, VirtualFileNoBandwidthException, VirtualFileNoStorageSpaceException{
+    public void checkDownloadResourcesAvailable(String filename, int filesize) throws VirtualFileAlreadyExistsException,
+            VirtualFileNoBandwidthException, VirtualFileNoStorageSpaceException {
         server.checkDownloadResourcesAvailable(filename, filesize);
     }
 
-    // Try to deal with communicability
     /*
-     * 
-     * 
-     * 
-     * public boolean canSendTo(NetworkNode node) { return
-     * supports().contains(node.type()) && MathsHelper.getDistance(height, position,
-     * node.getHeight(), node.getPosition()) < range(); }
-     * 
-     *
+     * Communicability
      */
+
+    public void setCommunicable(List<NetworkNode> communicable) {
+        this.communicable = communicable;
+    }
+
+    public boolean canSendDirectlyTo(NetworkNode client) {
+        return supports().contains(client.type())
+                && MathsHelper.getDistance(height, position, client.getHeight(), client.getPosition()) <= range();
+    }
+
+    public boolean canCommunicateWith(NetworkNode client) {
+        return communicable.contains(client);
+    }
+
+    public void setVisible(List<NetworkNode> visible) {
+        this.visible = visible;
+    }
+
+    public List<NetworkNode> getVisible() {
+        return visible;
+    }
 
     /*
      * What kind of object am I?

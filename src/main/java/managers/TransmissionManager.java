@@ -27,8 +27,8 @@ public class TransmissionManager {
 
             from.checkUploadResourcesAvailable(filename);
             to.checkDownloadResourcesAvailable(filename, source.getSize());
-            File dest = to.createEmptyFile(filename, source.getSize());
-            conn.addDest(dest);
+
+            conn.addTarget(to.createEmptyFile(filename, source.getSize()));
 
             from.addUploadConnection(conn); // Adds connetion and updates everything
             to.addDownloadConnection(conn);
@@ -37,6 +37,7 @@ public class TransmissionManager {
 
         } catch (Exception e) {
             connections.remove(conn);
+            to.removePartialFile(filename);
         }
     }
 

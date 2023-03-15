@@ -71,7 +71,10 @@ public class Server {
 
         return files.get(filename);
     }
-
+    
+    public void removeFile(String filename) {
+        files.remove(filename);
+    }
     /*
      * Connections management
      */
