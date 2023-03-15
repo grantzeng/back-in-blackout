@@ -121,18 +121,8 @@ public class BlackoutController {
         nodes.values().stream().forEach(node -> node.move());
         CommunicabilityManager.update(nodes);
 
-        /*
-         * nodes.values().stream().forEach(n -> n.move()); update();
-         * 
-         * transmissionManager.closeOutOfRangeTransmissions();
-         * 
-         * for (Server server : servers.values()) {
-         * server.allocateBandwidthToConnections(); }
-         * 
-         * transmissionManager.processTransmissions();
-         * 
-         * clock++;
-         */
+        transmissionManager.processConnections();
+
         clock++;
     }
 

@@ -2,6 +2,7 @@ package managers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import unsw.blackout.FileTransferException.VirtualFileNotFoundException;
 import unsw.blackout.FileTransferException.VirtualFileNoBandwidthException;
@@ -19,7 +20,7 @@ public class TransmissionManager {
             VirtualFileNoBandwidthException, VirtualFileAlreadyExistsException, VirtualFileNoStorageSpaceException {
 
         Connection conn = new Connection(from, to, from.getServer(), to.getServer());
-        
+
         File source = from.getFile(filename);
         conn.addSource(source);
 
@@ -35,26 +36,10 @@ public class TransmissionManager {
 
     }
 
-    /*
-     * public void processTransmissions() {
-     * 
-     * for (int i = 0; i < connections.size(); i++) { connections.get(i).transmit();
-     * }
-     * 
-     * // NB: Functional syntax causes ConcurrentModificationException, oops //
-     * connections.stream().forEach(c -> c.transmit()); }
-     * 
-     * public void closeOutOfRangeTransmissions() {
-     * 
-     * List<Connection> toClose = connections.stream().filter(c ->
-     * c.outOfRange()).collect(Collectors.toList());
-     * 
-     * for (Connection stale : toClose) { stale.close(); }
-     * 
-     * }
-     * 
-     * public void closeTransmission(Connection connection) {
-     * connections.remove(connection); }
-     */
+    public void processConnections() {
+        connections.stream().forEach(conn -> conn.transmit());
+
+        connections = connections.stream().filter(conn -> conn.isActive()).collect(Collectors.toList());
+    }
 
 }

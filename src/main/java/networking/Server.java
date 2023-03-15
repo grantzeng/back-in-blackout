@@ -100,7 +100,7 @@ public class Server {
     }
 
     public void giveDownBandwidth(Connection conn) {
-        conn.setUpspeed(downloading.size() == 0 ? maxDownload
+        conn.setDownspeed(downloading.size() == 0 ? maxDownload
                 : (downloading.size() == 1 ? maxDownload : maxDownload / (downloading.size() + 1)));
     }
 
@@ -136,18 +136,6 @@ public class Server {
         }
 
     }
-    /*
-     * public void allocateBandwidthToConnections() { int uploads =
-     * uploading.size(); if (uploads != 0) { int bandwidth = uploads == 1 ?
-     * maxUpload : maxUpload / uploads; System.out.println(this +
-     * " upload bandwidth is " + bandwidth); uploading.stream().forEach(c ->
-     * c.setUpspeed(bandwidth)); }
-     * 
-     * int downloads = downloading.size(); if (downloads != 0) { int bandwidth =
-     * downloads == 1 ? maxDownload : maxDownload / downloads;
-     * System.out.println(this + " download bandwidth is " + bandwidth);
-     * downloading.stream().forEach(c -> c.setDownspeed(bandwidth)); } }
-     */
 
     /*
      * Free resources if
