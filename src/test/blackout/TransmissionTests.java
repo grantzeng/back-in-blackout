@@ -109,6 +109,7 @@ public class TransmissionTests {
         assertThrows(VirtualFileNoBandwidthException.class, () -> bc.sendFile("foo", "d1", "s1"));
 
         bc.createSatellite("s2", "StandardSatellite", RADIUS_OF_JUPITER + 3000, bc.getInfo("s1").getPosition());
+        bc.createSatellite("s3", "StandardSatellite", RADIUS_OF_JUPITER + 3000, bc.getInfo("s1").getPosition());
         bc.simulate(9);
         assertEquals(new FileInfoResponse("hi", "f".repeat(8), 8, true), bc.getInfo("s1").getFiles().get("hi"));
 
