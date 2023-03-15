@@ -163,7 +163,7 @@ public abstract class NetworkNode {
      */
 
     public EntityInfoResponse getInfo() {
-        return new EntityInfoResponse(id, position, height, type().toString(), getServer().getServerInfoResponse());
+        return new EntityInfoResponse(id, position, height, subtype().toString(), getServer().getServerInfoResponse());
     }
 
 }

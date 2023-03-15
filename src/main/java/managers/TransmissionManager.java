@@ -21,24 +21,20 @@ public class TransmissionManager {
             VirtualFileNoBandwidthException, VirtualFileAlreadyExistsException, VirtualFileNoStorageSpaceException {
 
         Connection conn = new Connection(from, to, from.getServer(), to.getServer());
-        try {
-            File source = from.getFile(filename);
-            conn.addSource(source);
+        
+        File source = from.getFile(filename);
+        conn.addSource(source);
 
-            from.checkUploadResourcesAvailable(filename);
-            to.checkDownloadResourcesAvailable(filename, source.getSize());
+        from.checkUploadResourcesAvailable(filename);
+        to.checkDownloadResourcesAvailable(filename, source.getSize());
 
-            conn.addTarget(to.createEmptyFile(filename, source.getSize()));
+        conn.addTarget(to.createEmptyFile(filename, source.getSize()));
 
-            from.addUploadConnection(conn); // Adds connetion and updates everything
-            to.addDownloadConnection(conn);
+        from.addUploadConnection(conn); // Adds connetion and updates everything
+        to.addDownloadConnection(conn);
 
-            connections.add(conn);
+        connections.add(conn);
 
-        } catch (Exception e) {
-            connections.remove(conn);
-            to.removePartialFile(filename);
-        }
     }
 
     /*
