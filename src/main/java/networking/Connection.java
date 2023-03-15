@@ -54,6 +54,15 @@ public class Connection {
     }
 
     public void transmit() {
+
+        if (!isActive()) {
+            System.out.println(this + " is not an active connection");
+            return;
+        }
+
+        server.giveUpBandwidth(this);
+        client.giveDownBandwidth(this);
+
         System.out.println(this + " is now transmitting");
 
         if (!from.canCommunicateWith(to)) {
@@ -65,7 +74,6 @@ public class Connection {
         }
 
         int bytes = Math.min(upspeed, downspeed);
-        // Tranmit bytes
         while (fp < filesize && bytes > 0) {
             String letter = source.read(fp);
             System.out.println(this + " sending: " + letter);

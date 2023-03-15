@@ -94,6 +94,16 @@ public class Server {
         files.remove(filename);
     }
 
+    public void giveUpBandwidth(Connection conn) {
+        conn.setUpspeed(uploading.size() == 0 ? maxUpload
+                : (uploading.size() == 1 ? maxUpload : maxUpload / (uploading.size() + 1)));
+    }
+
+    public void giveDownBandwidth(Connection conn) {
+        conn.setUpspeed(downloading.size() == 0 ? maxDownload
+                : (downloading.size() == 1 ? maxDownload : maxDownload / (downloading.size() + 1)));
+    }
+
     /*
      * Transmission resource checks
      */
