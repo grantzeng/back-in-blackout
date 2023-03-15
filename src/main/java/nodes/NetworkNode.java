@@ -26,7 +26,8 @@ public abstract class NetworkNode {
     private List<NetworkNode> communicable;
 
     public enum NodeType {
-        DesktopDevice, HandheldDevice, LaptopDevice, RelaySatellite, StandardSatellite, TeleportingSatellite, Satellite, Device
+        DesktopDevice, HandheldDevice, LaptopDevice, RelaySatellite, StandardSatellite, TeleportingSatellite, Satellite,
+        Device
     }
 
     protected NetworkNode(String id, Angle position, double height) {
@@ -124,7 +125,7 @@ public abstract class NetworkNode {
     }
 
     public boolean canSendDirectlyTo(NetworkNode client) {
-        return supports().contains(client.type())
+        return supports().contains(client.subtype())
                 && MathsHelper.getDistance(height, position, client.getHeight(), client.getPosition()) <= range();
     }
 
@@ -143,7 +144,8 @@ public abstract class NetworkNode {
     /*
      * What kind of object am I?
      */
-    public abstract NodeType type(); 
+    public abstract NodeType type();
+
     public abstract NodeType subtype();
 
     protected abstract List<NodeType> supports();
