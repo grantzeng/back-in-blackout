@@ -23,6 +23,7 @@ public class CommunicabilityManager {
             for (NetworkNode next : curr.getVisible()) {
                 if (curr.canSendDirectlyTo(next) && !visited.contains(next)) {
                     visited.add(next);
+
                     if (next.type() == RelaySatellite) {
                         queue.add(next);
                     }
@@ -36,13 +37,15 @@ public class CommunicabilityManager {
     }
 
     public static void update(Map<String, NetworkNode> nodes) {
-    
+
         // Distribute visibility graph adjaceny list among nodes
         List<NetworkNode> visible = new ArrayList<>();
         for (NetworkNode server : nodes.values()) {
             for (NetworkNode client : nodes.values()) {
 
-                if (client == server) { continue;}
+                if (client == server) {
+                    continue;
+                }
 
                 if (MathsHelper.isVisible(server.getHeight(), server.getPosition(), client.getHeight(),
                         client.getPosition())) {
@@ -52,7 +55,7 @@ public class CommunicabilityManager {
             server.setVisible(visible);
             visible = new ArrayList<>();
         }
-        
+
         // Run modified BFS across visibility graph to update communicability
         for (NetworkNode server : nodes.values()) {
             getAndUpdateCommunicableEntitiesInRange(server);
