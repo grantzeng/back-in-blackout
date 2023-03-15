@@ -8,6 +8,9 @@ import helpers.AngleNormaliser;
 import networking.Connection;
 import networking.File;
 import networking.Server;
+import unsw.blackout.FileTransferException.VirtualFileAlreadyExistsException;
+import unsw.blackout.FileTransferException.VirtualFileNoStorageSpaceException;
+import unsw.blackout.FileTransferException.VirtualFileNotFoundException;
 import unsw.response.models.EntityInfoResponse;
 import unsw.response.models.FileInfoResponse;
 import unsw.utils.Angle;
@@ -66,27 +69,28 @@ public abstract class NetworkNode {
 
     public abstract Server getServer();
 
-    public File getFile(String filename) {
-        server.getFile(filename);
+    public File getFile(String filename) throws VirtualFileNotFoundException {
+        return server.getFile(filename);
     }
 
-    public File addEmptyFile(String filename, int size) {
-        return server.addEmptyFile(filename, size);
+    public File createEmptyFile(String filename, int size) 
+    throws VirtualFileAlreadyExistsException, VirtualFileNoStorageSpaceException {
+        return server.createEmptyFile(filename, size);
     }
 
     public void addUploadConnection(Connection conn) {
-        server.addUploadingConnection(conn);
+        server.addUploadConnection(conn);
     }
 
     public void addDownloadConnection(Connection conn) {
-        server.addDownloadingConnection(conn);
+        server.addDownloadConnection(conn);
     }
 
     public void removeDownloadConnection(Connection conn) {
         server.removeDownloadConnection(conn);
     }
 
-    public removeDownloadConnection(Connection conn, String filename) {
+    public void removeDownloadConnection(Connection conn, String filename) {
         server.removeDownloadConnection(conn, filename);
     }
 
