@@ -1,6 +1,5 @@
 package nodes;
 
-import static nodes.NetworkNode.NodeType.DesktopDevice;
 import static nodes.NetworkNode.NodeType.HandheldDevice;
 import static nodes.NetworkNode.NodeType.LaptopDevice;
 import static nodes.NetworkNode.NodeType.StandardSatellite;
@@ -10,11 +9,8 @@ import static nodes.NetworkNode.NodeType.Satellite;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
-import unsw.response.models.FileInfoResponse;
 import networking.Server;
-import nodes.NetworkNode.NodeType;
 import unsw.utils.Angle;
 
 public class StandardSatellite extends NetworkNode {

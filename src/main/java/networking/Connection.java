@@ -1,6 +1,5 @@
 package networking;
 
-import managers.TransmissionManager;
 import networking.File.FileStatus;
 import nodes.NetworkNode;
 
@@ -80,6 +79,10 @@ public class Connection {
             isActive = false;
             return;
         }
+    }
+    
+    public boolean isActive(){ 
+        return isActive;
     }
 
     /*

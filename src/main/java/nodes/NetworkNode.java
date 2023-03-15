@@ -1,8 +1,6 @@
 package nodes;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import helpers.AngleNormaliser;
 import networking.Connection;
@@ -13,7 +11,6 @@ import unsw.blackout.FileTransferException.VirtualFileNoBandwidthException;
 import unsw.blackout.FileTransferException.VirtualFileNoStorageSpaceException;
 import unsw.blackout.FileTransferException.VirtualFileNotFoundException;
 import unsw.response.models.EntityInfoResponse;
-import unsw.response.models.FileInfoResponse;
 import unsw.utils.Angle;
 import unsw.utils.MathsHelper;
 

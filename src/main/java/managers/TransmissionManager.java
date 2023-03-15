@@ -2,7 +2,6 @@ package managers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import unsw.blackout.FileTransferException.VirtualFileNotFoundException;
 import unsw.blackout.FileTransferException.VirtualFileNoBandwidthException;

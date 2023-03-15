@@ -1,18 +1,10 @@
 package unsw.blackout;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static nodes.NetworkNode.NodeType.DesktopDevice;
-import static nodes.NetworkNode.NodeType.HandheldDevice;
-import static nodes.NetworkNode.NodeType.LaptopDevice;
-import static nodes.NetworkNode.NodeType.StandardSatellite;
-import static nodes.NetworkNode.NodeType.RelaySatellite;
-import static nodes.NetworkNode.NodeType.TeleportingSatellite;
 import static nodes.NetworkNode.NodeType.Device;
 import static nodes.NetworkNode.NodeType.Satellite;
 
@@ -20,7 +12,6 @@ import managers.CommunicabilityManager;
 import managers.TransmissionManager;
 import managers.VisibilityManager;
 import networking.File;
-import networking.Server;
 
 import nodes.DesktopDevice;
 import nodes.HandheldDevice;
@@ -34,7 +25,6 @@ import unsw.response.models.EntityInfoResponse;
 import unsw.utils.Angle;
 
 public class BlackoutController {
-
     private Map<String, NetworkNode> nodes = new HashMap<>();
     private TransmissionManager transmissionManager = new TransmissionManager();
 

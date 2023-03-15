@@ -7,11 +7,9 @@ import static nodes.NetworkNode.NodeType.RelaySatellite;
 import static nodes.NetworkNode.NodeType.TeleportingSatellite;
 
 import static unsw.utils.MathsHelper.RADIUS_OF_JUPITER;
-import unsw.response.models.FileInfoResponse;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import networking.Server;
 import unsw.utils.Angle;

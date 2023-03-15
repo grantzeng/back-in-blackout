@@ -1,9 +1,7 @@
 package nodes;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import networking.Server;
 
@@ -15,7 +13,6 @@ import static nodes.NetworkNode.NodeType.RelaySatellite;
 import static nodes.NetworkNode.NodeType.TeleportingSatellite;
 import static nodes.NetworkNode.NodeType.Satellite;
 
-import unsw.response.models.FileInfoResponse;
 import unsw.utils.Angle;
 
 public class RelaySatellite extends NetworkNode {
