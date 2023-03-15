@@ -10,7 +10,6 @@ import static nodes.NetworkNode.NodeType.Satellite;
 
 import managers.CommunicabilityManager;
 import managers.TransmissionManager;
-import managers.VisibilityManager;
 import networking.File;
 
 import nodes.DesktopDevice;
@@ -26,7 +25,6 @@ import unsw.utils.Angle;
 
 public class BlackoutController {
     private Map<String, NetworkNode> nodes = new HashMap<>();
-
     private TransmissionManager transmissionManager = new TransmissionManager();
 
     private int clock = 0;
@@ -35,16 +33,14 @@ public class BlackoutController {
 
         switch (type) {
         case "HandheldDevice":
-            HandheldDevice handheldDevice = new HandheldDevice(deviceId, position);
-            nodes.put(deviceId, handheldDevice);
+            nodes.put(deviceId, new HandheldDevice(deviceId, position));
             break;
         case "LaptopDevice":
-            LaptopDevice laptopDevice = new LaptopDevice(deviceId, position);
-            nodes.put(deviceId, laptopDevice);
+            nodes.put(deviceId, new LaptopDevice(deviceId, position));
             break;
         case "DesktopDevice":
-            DesktopDevice desktopDevice = new DesktopDevice(deviceId, position);
-            nodes.put(deviceId, desktopDevice);
+
+            nodes.put(deviceId, new DesktopDevice(deviceId, position));
             break;
         default:
             System.out.println("No device was added to Blackout");
@@ -66,16 +62,13 @@ public class BlackoutController {
     public void createSatellite(String satelliteId, String type, double height, Angle position) {
         switch (type) {
         case "RelaySatellite":
-            RelaySatellite relaySatellite = new RelaySatellite(satelliteId, height, position);
-            nodes.put(satelliteId, relaySatellite);
+            nodes.put(satelliteId, new RelaySatellite(satelliteId, height, position));
             break;
         case "StandardSatellite":
-            StandardSatellite standardSatellite = new StandardSatellite(satelliteId, height, position);
-            nodes.put(satelliteId, standardSatellite);
+            nodes.put(satelliteId, new StandardSatellite(satelliteId, height, position));
             break;
         case "TeleportingSatellite":
-            TeleportingSatellite teleportingSatellite = new TeleportingSatellite(satelliteId, height, position);
-            nodes.put(satelliteId, teleportingSatellite);
+            nodes.put(satelliteId, new TeleportingSatellite(satelliteId, height, position));
             break;
         default:
             System.out.println("No device was added to Blackout");
