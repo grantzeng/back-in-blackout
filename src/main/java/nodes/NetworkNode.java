@@ -21,7 +21,6 @@ public abstract class NetworkNode {
     private String id;
     private Angle position;
     private double height;
-    private Server server;
     private List<NetworkNode> visible;
     private List<NetworkNode> communicable;
 
@@ -34,7 +33,6 @@ public abstract class NetworkNode {
         this.id = id;
         this.position = position;
         this.height = height;
-        this.server = new Server(this, 0, 0, 0, 0);
     }
 
     /*
@@ -67,53 +65,50 @@ public abstract class NetworkNode {
     /*
      * File server behaviour is delegated to server instance.
      */
-    protected void setServer(Server server) {
-        this.server = server;
-    }
 
     public abstract Server getServer();
 
     public File getFile(String filename) throws VirtualFileNotFoundException {
-        return server.getFile(filename);
+        return getServer().getFile(filename);
     }
 
     public void removePartialFile(String filename) {
-        server.removeFile(filename);
+        getServer().removeFile(filename);
     }
 
     public File createEmptyFile(String filename, int size)
             throws VirtualFileAlreadyExistsException, VirtualFileNoStorageSpaceException {
-        return server.createEmptyFile(filename, size);
+        return getServer().createEmptyFile(filename, size);
     }
 
     public void addUploadConnection(Connection conn) {
-        server.addUploadConnection(conn);
+        getServer().addUploadConnection(conn);
     }
 
     public void addDownloadConnection(Connection conn) {
-        server.addDownloadConnection(conn);
+        getServer().addDownloadConnection(conn);
     }
 
     public void removeDownloadConnection(Connection conn) {
-        server.removeDownloadConnection(conn);
+        getServer().removeDownloadConnection(conn);
     }
 
     public void removeDownloadConnection(Connection conn, String filename) {
-        server.removeDownloadConnection(conn, filename);
+        getServer().removeDownloadConnection(conn, filename);
     }
 
     public void removeUploadConnection(Connection conn) {
-        server.removeUploadConnection(conn);
+        getServer().removeUploadConnection(conn);
     }
 
     public void checkUploadResourcesAvailable(String filename)
             throws VirtualFileNotFoundException, VirtualFileNoBandwidthException {
-        server.checkUploadResourcesAvailable(filename);
+        getServer().checkUploadResourcesAvailable(filename);
     }
 
     public void checkDownloadResourcesAvailable(String filename, int filesize) throws VirtualFileAlreadyExistsException,
             VirtualFileNoBandwidthException, VirtualFileNoStorageSpaceException {
-        server.checkDownloadResourcesAvailable(filename, filesize);
+        getServer().checkDownloadResourcesAvailable(filename, filesize);
     }
 
     /*
@@ -157,7 +152,7 @@ public abstract class NetworkNode {
      */
 
     public EntityInfoResponse getInfo() {
-        return new EntityInfoResponse(id, position, height, type().toString(), server.getServerInfoResponse());
+        return new EntityInfoResponse(id, position, height, type().toString(), getServer().getServerInfoResponse());
     }
 
 }
