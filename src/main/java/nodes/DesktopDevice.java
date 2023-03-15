@@ -3,6 +3,7 @@ package nodes;
 import static nodes.NetworkNode.NodeType.DesktopDevice;
 import static nodes.NetworkNode.NodeType.RelaySatellite;
 import static nodes.NetworkNode.NodeType.TeleportingSatellite;
+import static nodes.NetworkNode.NodeType.Device;
 
 import static unsw.utils.MathsHelper.RADIUS_OF_JUPITER;
 
@@ -42,8 +43,12 @@ public class DesktopDevice extends NetworkNode {
     }
 
     @Override
-    public NodeType type() {
+    public NodeType subtype() {
         return DesktopDevice;
+    }
+    @Override
+    public NodeType type() {
+        return Device;
     }
 
     @Override

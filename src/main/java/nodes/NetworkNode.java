@@ -26,7 +26,7 @@ public abstract class NetworkNode {
     private List<NetworkNode> communicable;
 
     public enum NodeType {
-        DesktopDevice, HandheldDevice, LaptopDevice, RelaySatellite, StandardSatellite, TeleportingSatellite
+        DesktopDevice, HandheldDevice, LaptopDevice, RelaySatellite, StandardSatellite, TeleportingSatellite, Satellite, Device
     }
 
     protected NetworkNode(String id, Angle position, double height) {
@@ -143,7 +143,8 @@ public abstract class NetworkNode {
     /*
      * What kind of object am I?
      */
-    public abstract NodeType type();
+    public abstract NodeType type(); 
+    public abstract NodeType subtype();
 
     protected abstract List<NodeType> supports();
 

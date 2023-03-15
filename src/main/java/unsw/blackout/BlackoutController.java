@@ -32,15 +32,15 @@ import unsw.response.models.EntityInfoResponse;
 import unsw.utils.Angle;
 
 public class BlackoutController {
-    private Map<String, NetworkNode> nodes = new HashMap<>(); // Entity position state
-    private Map<String, Server> servers = new HashMap<>(); // File transmission state
+    private Map<String, NetworkNode> nodes = new HashMap<>();
+    
     private TransmissionManager transmissionManager = new TransmissionManager();
 
     private int clock = 0;
 
     private void update() {
         VisibilityManager.update(nodes);
-        CommunicabilityManager.update(servers);
+        CommunicabilityManager.update(nodes.values());
     }
 
     public void createDevice(String deviceId, String type, Angle position) {
@@ -177,12 +177,12 @@ public class BlackoutController {
      */
     public List<String> communicableEntitiesInRange(String id) {
         // return nodes.get(id).communicableEntitiesInRange();
-        return CommunicabilityManager.findCommunicableEntitiesInRange(nodes.get(id)).stream().map(n -> n.getId())
-                .collect(Collectors.toList());
+        return CommunicabilityManager.getAndUpdateCommunicableEntitiesInRange(nodes.get(id)).stream()
+                .map(n -> n.getId()).collect(Collectors.toList());
     }
 
     public void sendFile(String fileName, String fromId, String toId) throws FileTransferException {
-        transmissionManager.registerTransmission(fileName, servers.get(fromId), servers.get(toId));
+        transmissionManager.sendFile(fileName, nodes.get(fromId), nodes.get(toId));
     }
 
     public void createDevice(String deviceId, String type, Angle position, boolean isMoving) {

@@ -13,7 +13,7 @@ import networking.Server;
 import nodes.NetworkNode;
 
 public class CommunicabilityManager {
-    public static List<NetworkNode> findCommunicableEntitiesInRange(NetworkNode node) {
+    public static List<NetworkNode> getAndUpdateCommunicableEntitiesInRange(NetworkNode node) {
 
         List<NetworkNode> visited = new ArrayList<>();
         Queue<NetworkNode> queue = new ArrayDeque<>();
@@ -37,19 +37,16 @@ public class CommunicabilityManager {
         return communicable;
     }
 
-    /*
-     * public static void update(Map<String, Server> servers) {
-     * 
-     * for (Server server : servers.values()) {
-     * 
-     * Map<String, Server> communicable = new HashMap<>();
-     * 
-     * for (NetworkNode node : findCommunicableEntitiesInRange(server.getOwner())) {
-     * communicable.put(node.getId(), node.getServer()); }
-     * 
-     * server.setCommunicable(communicable); }
-     * 
-     * }
-     */
+    public static void update(List<NetworkNode> nodes) {
+
+        for (NetworkNode server : nodes) {
+            for (NetworkNode client : nodes) {
+                if (server == client) {
+                    continue;
+                }
+                getAndUpdateCommunicableEntitiesInRange(server);
+            }
+        }
+    }
 
 }

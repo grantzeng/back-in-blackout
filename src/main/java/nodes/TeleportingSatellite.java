@@ -6,6 +6,7 @@ import static nodes.NetworkNode.NodeType.LaptopDevice;
 import static nodes.NetworkNode.NodeType.StandardSatellite;
 import static nodes.NetworkNode.NodeType.RelaySatellite;
 import static nodes.NetworkNode.NodeType.TeleportingSatellite;
+import static nodes.NetworkNode.NodeType.Satellite;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,6 +47,11 @@ public class TeleportingSatellite extends NetworkNode {
     }
 
     public NodeType type() {
+        return Satellite;
+    }
+
+    @Override
+    public NodeType subtype() {
         return TeleportingSatellite;
     }
 
@@ -68,6 +74,5 @@ public class TeleportingSatellite extends NetworkNode {
         setPosition(Angle.fromDegrees(0));
         linearVelocity = -1.0 * linearVelocity;
     }
-
 
 }

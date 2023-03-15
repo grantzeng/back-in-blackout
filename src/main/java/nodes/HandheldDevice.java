@@ -4,6 +4,7 @@ import static nodes.NetworkNode.NodeType.HandheldDevice;
 import static nodes.NetworkNode.NodeType.StandardSatellite;
 import static nodes.NetworkNode.NodeType.RelaySatellite;
 import static nodes.NetworkNode.NodeType.TeleportingSatellite;
+import static nodes.NetworkNode.NodeType.Device;
 
 import static unsw.utils.MathsHelper.RADIUS_OF_JUPITER;
 import unsw.response.models.FileInfoResponse;
@@ -43,8 +44,13 @@ public class HandheldDevice extends NetworkNode {
     }
 
     @Override
-    public NodeType type() {
+    public NodeType subtype() {
         return HandheldDevice;
+    }
+    
+    @Override
+    public NodeType type() {
+        return Device;
     }
 
     @Override

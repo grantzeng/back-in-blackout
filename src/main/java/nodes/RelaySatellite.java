@@ -13,6 +13,7 @@ import static nodes.NetworkNode.NodeType.LaptopDevice;
 import static nodes.NetworkNode.NodeType.StandardSatellite;
 import static nodes.NetworkNode.NodeType.RelaySatellite;
 import static nodes.NetworkNode.NodeType.TeleportingSatellite;
+import static nodes.NetworkNode.NodeType.Satellite;
 
 import unsw.response.models.FileInfoResponse;
 import unsw.utils.Angle;
@@ -26,13 +27,12 @@ public class RelaySatellite extends NetworkNode {
         super(id, position, height);
         setInitialLinearVelocity(position);
     }
-    
-    
+
     public Server setServer() {
         server = new Server(this, 200, Integer.MAX_VALUE, 10, 15);
         return server;
     }
-    
+
     public Server getServer() {
         return server;
     }
@@ -79,14 +79,18 @@ public class RelaySatellite extends NetworkNode {
     }
 
     @Override
-    public NodeType type() {
+    public NodeType subtype() {
         return RelaySatellite;
+    }
+
+    @Override
+    public NodeType type() {
+        return Satellite;
     }
 
     @Override
     public double range() {
         return RELAY_SATELLITE_RANGE;
     }
-
 
 }
