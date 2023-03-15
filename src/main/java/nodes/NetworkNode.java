@@ -78,4 +78,8 @@ public abstract class NetworkNode {
         return new EntityInfoResponse(id, position, height, type().toString(), getServerInfoResponse());
     }
     
+    public void freeResources() {
+        getServer().freeResources();
+    }
+    
 }

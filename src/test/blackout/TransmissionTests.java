@@ -140,10 +140,7 @@ public class TransmissionTests {
     }
 
     // Test storage cap reached
-
-    // Test multiple exception throwing
-    // TODO
-
+    
     /*
      * Testing transmission occurs properly
      */
@@ -200,7 +197,6 @@ public class TransmissionTests {
         bc.removeSatellite("t2");
         bc.simulate();
         assertEquals(new FileInfoResponse("z", "z".repeat(15), 20, false), bc.getInfo("t1").getFiles().get("z"));
-        ;
     }
 
     // bandwidth

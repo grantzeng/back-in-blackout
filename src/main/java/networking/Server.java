@@ -173,4 +173,14 @@ public class Server {
         return info;
     }
 
+    public void freeResources() {
+        for (int i = 0; i < uploading.size(); i++) {
+            uploading.get(i).setUpspeed(0);
+        }
+
+        for (int i = 0; i < downloading.size(); i++) {
+            downloading.get(i).setDownspeed(0);
+        }
+    }
+
 }

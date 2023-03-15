@@ -52,6 +52,11 @@ public class Connection {
         }
     }
 
+    public void reset() {
+        setDownspeed(0);
+        setUpspeed(0);
+    }
+
     public void close() {
         transmissionManager.closeTransmission(this);
         server.unplug(this);
