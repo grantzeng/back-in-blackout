@@ -36,6 +36,9 @@ public class Connection {
         filesize = source.getSize();
         filename = source.getFilename();
         fp = 0;
+        if (target != null) {
+            isActive = true;
+        }
     }
 
     public void addTarget(File target) {

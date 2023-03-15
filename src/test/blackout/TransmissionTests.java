@@ -141,7 +141,7 @@ public class TransmissionTests {
     }
 
     // Test storage cap reached
-    
+
     /*
      * Testing transmission occurs properly
      */
@@ -149,10 +149,10 @@ public class TransmissionTests {
     // Test transmission works through relays
     @Test
     public void testTransmissionWorksThroughRelays() {
-        for (int i = 0; i < 360; i++) {
+        for (int i = 0; i < 18; i++) {
             // bc.createSatellite("r" + i, "RelaySatellite", RADIUS_OF_JUPITER + 3000,
             // Angle.fromDegrees(i));
-            bc.createSatellite("r" + i, "RelaySatellite", RADIUS_OF_JUPITER + 5000, Angle.fromDegrees(i));
+            bc.createSatellite("r" + i, "RelaySatellite", RADIUS_OF_JUPITER + 5000, Angle.fromDegrees(i * 20));
         }
 
         bc.createDevice("d1", "LaptopDevice", Angle.fromDegrees(0));
@@ -160,6 +160,9 @@ public class TransmissionTests {
         String z = "z".repeat(80);
         bc.addFileToDevice("d1", "z", z);
         assertDoesNotThrow(() -> bc.sendFile("z", "d1", "s1"));
+        assertEquals(new FileInfoResponse("z", "", 80, false), bc.getInfo("s1").getFiles().get("z"));
+        bc.simulate();
+        assertEquals(new FileInfoResponse("z", "z", 80, false), bc.getInfo("s1").getFiles().get("z"));
 
         for (int i = 0; i < 80; i++) {
             assertEquals(new FileInfoResponse("z", "z".repeat(i), z.length(), false),

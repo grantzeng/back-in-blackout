@@ -37,6 +37,7 @@ public class TransmissionManager {
     }
 
     public void processConnections() {
+
         connections.stream().forEach(conn -> conn.transmit());
 
         connections = connections.stream().filter(conn -> conn.isActive()).collect(Collectors.toList());

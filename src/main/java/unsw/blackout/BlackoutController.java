@@ -137,8 +137,6 @@ public class BlackoutController {
     }
 
     /**
-     * @pre: updateVisibleNeighbours() has been run, i.e. visibility graph has been
-     *       updated
      * @param id
      * @return
      */
