@@ -9,6 +9,7 @@ import networking.Connection;
 import networking.File;
 import networking.Server;
 import unsw.blackout.FileTransferException.VirtualFileAlreadyExistsException;
+import unsw.blackout.FileTransferException.VirtualFileNoBandwidthException;
 import unsw.blackout.FileTransferException.VirtualFileNoStorageSpaceException;
 import unsw.blackout.FileTransferException.VirtualFileNotFoundException;
 import unsw.response.models.EntityInfoResponse;
@@ -73,8 +74,8 @@ public abstract class NetworkNode {
         return server.getFile(filename);
     }
 
-    public File createEmptyFile(String filename, int size) 
-    throws VirtualFileAlreadyExistsException, VirtualFileNoStorageSpaceException {
+    public File createEmptyFile(String filename, int size)
+            throws VirtualFileAlreadyExistsException, VirtualFileNoStorageSpaceException {
         return server.createEmptyFile(filename, size);
     }
 
@@ -98,6 +99,16 @@ public abstract class NetworkNode {
         server.removeUploadConnection(conn);
     }
 
+    public void checkUploadResourcesAvailable(String filename)
+            throws VirtualFileNotFoundException, VirtualFileNoBandwidthException {
+        server.checkUploadResourcesAvailable(filename);
+    }
+
+    public void checkDownloadResourcesAvailable(String filename, int filesize) 
+            throws VirtualFileAlreadyExistsException, VirtualFileNoBandwidthException, VirtualFileNoStorageSpaceException{
+        server.checkDownloadResourcesAvailable(filename, filesize);
+    }
+
     // Try to deal with communicability
     /*
      * 
@@ -114,11 +125,11 @@ public abstract class NetworkNode {
      * What kind of object am I?
      */
     public abstract NodeType type();
-    
+
     protected abstract List<NodeType> supports();
 
     protected abstract double range();
-    
+
     /*
      * Entity info response
      */

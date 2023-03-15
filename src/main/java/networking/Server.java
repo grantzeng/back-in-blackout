@@ -109,9 +109,10 @@ public class Server {
         }
     }
 
-    public void checkDownloadResourcesAvailable(String filename, int filesize) {
+    public void checkDownloadResourcesAvailable(String filename, int filesize)
+        throws VirtualFileAlreadyExistsException, VirtualFileNoBandwidthException, VirtualFileNoStorageSpaceException{
         if (files.get(filename) != null) {
-            throw new VirtualFileAlreadyExistsException(filename)
+            throw new VirtualFileAlreadyExistsException(filename);
         }
         
         if (downloading.size() != 0 && maxDownload / (downloading.size() + 1) == 0) {
@@ -150,16 +151,6 @@ public class Server {
         }
 
         return info;
-    }
-
-    public void freeResources() {
-        for (int i = 0; i < uploading.size(); i++) {
-            uploading.get(i).setUpspeed(0);
-        }
-
-        for (int i = 0; i < downloading.size(); i++) {
-            downloading.get(i).setDownspeed(0);
-        }
     }
 
 }

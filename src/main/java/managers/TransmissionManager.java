@@ -11,59 +11,55 @@ import unsw.blackout.FileTransferException.VirtualFileNoStorageSpaceException;
 
 import networking.Connection;
 import networking.Server;
+import nodes.NetworkNode;
 import networking.File;
 
 public class TransmissionManager {
     private List<Connection> connections = new ArrayList<>();
 
-    public void registerTransmission(String filename, Server server, Server client) throws VirtualFileNotFoundException,
+    public void sendFile(String filename, NetworkNode from, NetworkNode to) throws VirtualFileNotFoundException,
             VirtualFileNoBandwidthException, VirtualFileAlreadyExistsException, VirtualFileNoStorageSpaceException {
 
-        /*
-         * It would be possible to just pass the reference back and forth to a server
-         * object
-         * 
-         * This is obviously feature envy, but also it's the obvious way to deal with a
-         * cross cutting concern.
-         */
+        Connection conn = new Connection(from, to, from.getServer(), to.getServer());
+        try {
+            File source = from.getFile(filename);
+            conn.addSource(source);
 
-        File source = server.getFile(filename);
-        server.checkUploadingBandwidthAvailable();
-        client.checkFileNotAlreadyExists(filename);
-        client.checkDownloadingBandwidthAvailable();
-        client.checkStorageSpaceAvailable(source.getSize());
+            from.checkUploadResourcesAvailable(filename);
+            to.checkDownloadResourcesAvailable(filename, source.getSize());
+            File dest = to.createEmptyFile(filename, source.getSize());
+            conn.addDest(dest);
 
-        File target = client.createFile(source.getFilename(), source.getSize());
+            from.addUploadConnection(conn); // Adds connetion and updates everything
+            to.addDownloadConnection(conn);
 
-        Connection connection = new Connection(source, target, server, client, this);
-        connections.add(connection);
+            connections.add(conn);
 
-        server.addUploadingConnection(connection);
-        client.addDownloadingConnection(connection);
-
-    }
-
-    public void processTransmissions() {
-
-        for (int i = 0; i < connections.size(); i++) {
-            connections.get(i).transmit();
+        } catch (Exception e) {
+            connections.remove(conn);
         }
-
-        // NB: Functional syntax causes ConcurrentModificationException, oops
-        // connections.stream().forEach(c -> c.transmit());
     }
 
-    public void closeOutOfRangeTransmissions() {
-        /*
-         * List<Connection> toClose = connections.stream().filter(c ->
-         * c.outOfRange()).collect(Collectors.toList());
-         * 
-         * for (Connection stale : toClose) { stale.close(); }
-         */
-    }
-
-    public void closeTransmission(Connection connection) {
-        connections.remove(connection);
-    }
+    /*
+     * public void processTransmissions() {
+     * 
+     * for (int i = 0; i < connections.size(); i++) { connections.get(i).transmit();
+     * }
+     * 
+     * // NB: Functional syntax causes ConcurrentModificationException, oops //
+     * connections.stream().forEach(c -> c.transmit()); }
+     * 
+     * public void closeOutOfRangeTransmissions() {
+     * 
+     * List<Connection> toClose = connections.stream().filter(c ->
+     * c.outOfRange()).collect(Collectors.toList());
+     * 
+     * for (Connection stale : toClose) { stale.close(); }
+     * 
+     * }
+     * 
+     * public void closeTransmission(Connection connection) {
+     * connections.remove(connection); }
+     */
 
 }
