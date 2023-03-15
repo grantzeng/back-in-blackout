@@ -24,15 +24,15 @@ public abstract class NetworkNode {
     }
 
     protected NetworkNode(String id, Angle position, double height) {
-        this.id = id; 
-        this.position = position; 
-        this.height = height; 
+        this.id = id;
+        this.position = position;
+        this.height = height;
         this.server = new Server(this, 0, 0, 0, 0);
     }
-    
+
     /*
-        Motion and position
-    */
+     * Motion and position
+     */
     public String getId() {
         return id;
     }
@@ -58,62 +58,69 @@ public abstract class NetworkNode {
     public abstract void move();
 
     /*
-        File server behaviour is delegated to server instance.
-    */
-    protected abstract Server setServer();
-    public abstract Server getServer(); 
-    
+     * File server behaviour is delegated to server instance.
+     */
+    protected void setServer(Server server) {
+        this.server = server;
+    }
+
+    public abstract Server getServer();
+
     public File getFile(String filename) {
         server.getFile(filename);
     }
-    
+
     public File addEmptyFile(String filename, int size) {
         return server.addEmptyFile(filename, size);
     }
-    
+
     public void addUploadConnection(Connection conn) {
         server.addUploadingConnection(conn);
     }
-    
+
     public void addDownloadConnection(Connection conn) {
         server.addDownloadingConnection(conn);
     }
-    
+
     public void removeDownloadConnection(Connection conn) {
         server.removeDownloadConnection(conn);
     }
-    
+
     public removeDownloadConnection(Connection conn, String filename) {
         server.removeDownloadConnection(conn, filename);
     }
-    
+
     public void removeUploadConnection(Connection conn) {
         server.removeUploadConnection(conn);
     }
-    
+
     // Try to deal with communicability
     /*
-    protected abstract List<NodeType> supports();
-    
-    
-    public boolean canSendTo(NetworkNode node) {
-        return supports().contains(node.type()) && MathsHelper.getDistance(height, position, node.getHeight(), node.getPosition()) < range();
-    }
-    
+     * 
+     * 
+     * 
+     * public boolean canSendTo(NetworkNode node) { return
+     * supports().contains(node.type()) && MathsHelper.getDistance(height, position,
+     * node.getHeight(), node.getPosition()) < range(); }
+     * 
+     *
+     */
+
+    /*
+     * What kind of object am I?
+     */
     public abstract NodeType type();
+    
+    protected abstract List<NodeType> supports();
 
     protected abstract double range();
-    */
-
     
     /*
-        Entity info response
-    */
-    
+     * Entity info response
+     */
+
     public EntityInfoResponse getInfo() {
         return new EntityInfoResponse(id, position, height, type().toString(), server.getServerInfoResponse());
     }
-    
-    
-    
+
 }

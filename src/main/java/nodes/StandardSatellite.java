@@ -61,10 +61,7 @@ public class StandardSatellite extends NetworkNode {
         setPosition(getPosition().subtract(delta));
     };
     
-    @Override
-    protected Map<String, FileInfoResponse> getServerInfoResponse() {
-        return server.getServerInfoResponse();
-    }
+
 
     
 }

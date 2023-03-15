@@ -52,8 +52,5 @@ public class LaptopDevice extends NetworkNode {
         return LAPTOP_DEVICE_RANGE;
     }
     
-    @Override
-    protected Map<String, FileInfoResponse> getServerInfoResponse() {
-        return server.getServerInfoResponse();
-    }
+
 }

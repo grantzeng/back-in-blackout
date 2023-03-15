@@ -69,9 +69,5 @@ public class TeleportingSatellite extends NetworkNode {
         linearVelocity = -1.0 * linearVelocity;
     }
 
-    @Override
-    protected Map<String, FileInfoResponse> getServerInfoResponse() {
-        return server.getServerInfoResponse();
-    }
 
 }

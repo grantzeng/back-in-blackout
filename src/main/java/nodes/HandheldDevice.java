@@ -52,8 +52,5 @@ public class HandheldDevice extends NetworkNode {
         return HANDHELD_DEVICE_RANGE;
     }
     
-    @Override
-    protected Map<String, FileInfoResponse> getServerInfoResponse() {
-        return server.getServerInfoResponse();
-    }
+  
 }

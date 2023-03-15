@@ -88,10 +88,5 @@ public class RelaySatellite extends NetworkNode {
         return RELAY_SATELLITE_RANGE;
     }
 
-    @Override
-    protected Map<String, FileInfoResponse> getServerInfoResponse() {
-        System.out.println("Relay satellites can't store files");
-        return new HashMap<String, FileInfoResponse>();
-    }
 
 }
