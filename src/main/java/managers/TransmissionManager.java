@@ -10,7 +10,6 @@ import unsw.blackout.FileTransferException.VirtualFileAlreadyExistsException;
 import unsw.blackout.FileTransferException.VirtualFileNoStorageSpaceException;
 
 import networking.Connection;
-import networking.Server;
 import nodes.NetworkNode;
 import networking.File;
 

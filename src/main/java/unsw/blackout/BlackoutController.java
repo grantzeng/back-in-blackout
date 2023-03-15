@@ -34,8 +34,8 @@ import unsw.response.models.EntityInfoResponse;
 import unsw.utils.Angle;
 
 public class BlackoutController {
-    private Map<String, NetworkNode> nodes = new HashMap<>();
 
+    private Map<String, NetworkNode> nodes = new HashMap<>();
     private TransmissionManager transmissionManager = new TransmissionManager();
 
     private int clock = 0;
