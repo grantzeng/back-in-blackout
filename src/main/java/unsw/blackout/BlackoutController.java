@@ -39,7 +39,6 @@ public class BlackoutController {
             nodes.put(deviceId, new LaptopDevice(deviceId, position));
             break;
         case "DesktopDevice":
-
             nodes.put(deviceId, new DesktopDevice(deviceId, position));
             break;
         default:
@@ -134,6 +133,7 @@ public class BlackoutController {
          * 
          * clock++;
          */
+        clock++;
     }
 
     /**

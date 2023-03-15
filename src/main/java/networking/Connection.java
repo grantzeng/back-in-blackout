@@ -13,7 +13,7 @@ public class Connection {
     private File source;
     private File target;
 
-    private int fileSize;
+    private int filesize;
     private String filename;
     private int fp;
     private boolean isActive;
@@ -26,20 +26,23 @@ public class Connection {
         this.to = to;
         this.server = server;
         this.client = client;
-        fileSize = source.getSize();
-        filename = source.getFilename();
-        fp = 0;
-        isActive = true;
+        isActive = false;
         upspeed = 0;
         downspeed = 0;
     }
 
     public void addSource(File source) {
         this.source = source;
+        filesize = source.getSize();
+        filename = source.getFilename();
+        fp = 0;
     }
 
     public void addTarget(File target) {
         this.target = target;
+        if (source != null) {
+            isActive = true;
+        }
     }
 
     public void setUpspeed(int upspeed) {
@@ -63,7 +66,7 @@ public class Connection {
 
         int bytes = Math.min(upspeed, downspeed);
         // Tranmit bytes
-        while (fp < fileSize && bytes > 0) {
+        while (fp < filesize && bytes > 0) {
             String letter = source.read(fp);
             System.out.println(this + " sending: " + letter);
             target.append(letter);
@@ -71,7 +74,7 @@ public class Connection {
             bytes--;
         }
 
-        if (fp == fileSize) {
+        if (fp == filesize) {
             // Transmission complete, free resources
             target.setStatus(FileStatus.COMPLETE);
             server.removeUploadConnection(this);
@@ -80,8 +83,8 @@ public class Connection {
             return;
         }
     }
-    
-    public boolean isActive(){ 
+
+    public boolean isActive() {
         return isActive;
     }
 
