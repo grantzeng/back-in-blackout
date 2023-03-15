@@ -26,14 +26,10 @@ import unsw.utils.Angle;
 
 public class BlackoutController {
     private Map<String, NetworkNode> nodes = new HashMap<>();
+
     private TransmissionManager transmissionManager = new TransmissionManager();
 
     private int clock = 0;
-
-    private void updateCommunicability() {
-        VisibilityManager.update(nodes);
-        CommunicabilityManager.update(nodes);
-    }
 
     public void createDevice(String deviceId, String type, Angle position) {
 
@@ -54,7 +50,7 @@ public class BlackoutController {
             System.out.println("No device was added to Blackout");
             return;
         }
-        updateCommunicability();
+        CommunicabilityManager.update(nodes);
     }
 
     /**
@@ -64,7 +60,7 @@ public class BlackoutController {
     public void removeDevice(String deviceId) {
         NetworkNode node = nodes.remove(deviceId);
         node.free();
-        updateCommunicability();
+        CommunicabilityManager.update(nodes);
     }
 
     public void createSatellite(String satelliteId, String type, double height, Angle position) {
@@ -85,7 +81,7 @@ public class BlackoutController {
             System.out.println("No device was added to Blackout");
             return;
         }
-        updateCommunicability();
+        CommunicabilityManager.update(nodes);
     }
 
     /**
@@ -95,7 +91,7 @@ public class BlackoutController {
     public void removeSatellite(String satelliteId) {
         NetworkNode node = nodes.remove(satelliteId);
         node.free();
-        updateCommunicability();
+        CommunicabilityManager.update(nodes);
     }
 
     public List<String> listDeviceIds() {
@@ -131,7 +127,7 @@ public class BlackoutController {
         System.out.println("\n" + clock + "\n");
 
         nodes.values().stream().forEach(node -> node.move());
-        updateCommunicability();
+        CommunicabilityManager.update(nodes);
 
         /*
          * nodes.values().stream().forEach(n -> n.move()); update();

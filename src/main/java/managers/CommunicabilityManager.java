@@ -9,10 +9,10 @@ import java.util.stream.Collectors;
 
 import static nodes.NetworkNode.NodeType.RelaySatellite;
 import nodes.NetworkNode;
+import unsw.utils.MathsHelper;
 
 public class CommunicabilityManager {
     public static List<NetworkNode> getAndUpdateCommunicableEntitiesInRange(NetworkNode node) {
-
         List<NetworkNode> visited = new ArrayList<>();
         Queue<NetworkNode> queue = new ArrayDeque<>();
         queue.add(node);
@@ -36,14 +36,26 @@ public class CommunicabilityManager {
     }
 
     public static void update(Map<String, NetworkNode> nodes) {
-
+    
+        // Distribute visibility graph adjaceny list among nodes
+        List<NetworkNode> visible = new ArrayList<>();
         for (NetworkNode server : nodes.values()) {
             for (NetworkNode client : nodes.values()) {
-                if (server == client) {
-                    continue;
+
+                if (client == server) { continue;}
+
+                if (MathsHelper.isVisible(server.getHeight(), server.getPosition(), client.getHeight(),
+                        client.getPosition())) {
+                    visible.add(client);
                 }
-                getAndUpdateCommunicableEntitiesInRange(server);
             }
+            server.setVisible(visible);
+            visible = new ArrayList<>();
+        }
+        
+        // Run modified BFS across visibility graph to update communicability
+        for (NetworkNode server : nodes.values()) {
+            getAndUpdateCommunicableEntitiesInRange(server);
         }
     }
 
