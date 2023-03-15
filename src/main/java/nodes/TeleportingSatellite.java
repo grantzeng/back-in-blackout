@@ -25,11 +25,8 @@ public class TeleportingSatellite extends NetworkNode {
     public TeleportingSatellite(String id, double height, Angle position) {
         super(id, position, height);
         linearVelocity = 1000.0;
-    }
-
-    public Server setServer() {
         server = new Server(this, 200, Integer.MAX_VALUE, 10, 15);
-        return server;
+
     }
 
     public Server getServer() {

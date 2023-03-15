@@ -26,12 +26,10 @@ public class RelaySatellite extends NetworkNode {
     public RelaySatellite(String id, double height, Angle position) {
         super(id, position, height);
         setInitialLinearVelocity(position);
+        server = new Server(this, 200, Integer.MAX_VALUE, 10, 15);
+
     }
 
-    public Server setServer() {
-        server = new Server(this, 200, Integer.MAX_VALUE, 10, 15);
-        return server;
-    }
 
     public Server getServer() {
         return server;

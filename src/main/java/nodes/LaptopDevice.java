@@ -22,12 +22,10 @@ public class LaptopDevice extends NetworkNode {
 
     public LaptopDevice(String id, Angle radians) {
         super(id, radians, RADIUS_OF_JUPITER);
+        server = new Server(this, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+
     }
 
-    public Server setServer() {
-        server = new Server(this, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
-        return server;
-    }
     
     public Server getServer() {
         return server;

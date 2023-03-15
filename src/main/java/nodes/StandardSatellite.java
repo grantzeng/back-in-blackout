@@ -26,13 +26,11 @@ public class StandardSatellite extends NetworkNode {
     public StandardSatellite(String id, double height, Angle position) {
         super(id, position, height);
         linearVelocity = -2500.0;
-
-    }
-
-    public Server setServer() {
         server = new Server(this, 80, 3, 1, 1);
-        return server;
+
+
     }
+
 
     public Server getServer() {
         return server;

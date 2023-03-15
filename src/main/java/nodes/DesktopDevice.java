@@ -21,11 +21,8 @@ public class DesktopDevice extends NetworkNode {
 
     public DesktopDevice(String id, Angle radians) {
         super(id, radians, RADIUS_OF_JUPITER);
-    }
-
-    public Server setServer() {
         server = new Server(this, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
-        return server;
+
     }
     
     public Server getServer() {
