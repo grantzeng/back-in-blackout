@@ -58,6 +58,8 @@ public class Connection {
             // Out of range, close transmission
             server.removeUploadConnection(this);
             client.removeDownloadConnection(this, filename);
+            isActive = false;
+            return;
         }
 
         int bytes = Math.min(upspeed, downspeed);
@@ -75,12 +77,13 @@ public class Connection {
             target.setStatus(FileStatus.COMPLETE);
             server.removeUploadConnection(this);
             client.removeDownloadConnection(this);
+            isActive = false;
+            return;
         }
     }
 
-    public void reset() {
-        setDownspeed(0);
-        setUpspeed(0);
-    }
+    /*
+     * public void reset() { setDownspeed(0); setUpspeed(0); }
+     */
 
 }
