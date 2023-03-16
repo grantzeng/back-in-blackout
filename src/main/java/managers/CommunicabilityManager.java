@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.stream.Collectors;
 
-import static nodes.NetworkNode.NodeType.RelaySatellite;
 import nodes.NetworkNode;
 import unsw.utils.MathsHelper;
 
@@ -22,15 +21,9 @@ public class CommunicabilityManager {
 
         while (!queue.isEmpty()) {
             NetworkNode curr = queue.poll();
-            /*
-             * System.out.println("bfs looking at neighbours of: " + curr.getId());
-             * System.out.println("immediate neighbours: " +
-             * curr.getVisible().stream().map(n -> n.getId()).collect(Collectors.toList()));
-             */
 
             for (NetworkNode next : curr.getVisible()) {
-                // System.out.println(curr.getVisible().stream().map(e ->
-                // e.getId()).collect(Collectors.toList()));
+
                 if (!visited.contains(next) && curr.canSendDirectlyTo(next)) {
                     queue.add(next);
                     visited.add(next);
@@ -42,14 +35,6 @@ public class CommunicabilityManager {
 
         node.setCommunicable(communicable);
 
-        // System.out.println(node.getCommunicable().stream().map(n ->
-        // n.getId()).collect(Collectors.toList()));
-
-        // List<NetworkNode> communicable = visited.stream().filter(n -> n !=
-        // node).collect(Collectors.toList());
-        System.out.println(
-                node.getId() + ": " + communicable.stream().map(n -> n.getId()).collect(Collectors.toList()) + "\n");
-        // node.setCommunicable(communicable);
         return communicable;
     }
 
@@ -70,26 +55,13 @@ public class CommunicabilityManager {
                 }
             }
             server.setVisible(visible);
-            // System.out.println("set visible nodes of " + server.getId() + " can see: "
-            // + server.getVisible().stream().map(e ->
-            // e.getId()).collect(Collectors.toList()));
             visible = new ArrayList<>();
         }
 
-        /*
-         * for (NetworkNode node : nodes.values()) { System.out.println(node.getId() +
-         * ": visible neighbours -> " + node.getVisible().stream().map(e ->
-         * e.getId()).collect(Collectors.toList())); }
-         */
 
         // Run modified BFS across visibility graph to update communicability
         for (NetworkNode server : nodes.values()) {
             getAndUpdateCommunicableEntitiesInRange(server);
-            /*
-             * System.out.println(server.getId() + ": communicable with -> " +
-             * server.getCommunicable().stream().map(e ->
-             * e.getId()).collect(Collectors.toList()));
-             */
         }
 
     }

@@ -145,7 +145,7 @@ public class Server {
     }
 
     /*
-     * 
+     *
      * Entity Info
      */
     public Map<String, FileInfoResponse> getServerInfoResponse() {

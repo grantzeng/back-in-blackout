@@ -43,7 +43,7 @@ public class HandheldDevice extends NetworkNode {
     public NodeType subtype() {
         return HandheldDevice;
     }
-    
+
     @Override
     public NodeType type() {
         return Device;
@@ -53,6 +53,5 @@ public class HandheldDevice extends NetworkNode {
     public double range() {
         return HANDHELD_DEVICE_RANGE;
     }
-    
-  
+
 }

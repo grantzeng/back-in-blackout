@@ -201,7 +201,6 @@ public class TransmissionTests {
         assertEquals(new FileInfoResponse("z", "z".repeat(15), 20, false), bc.getInfo("t1").getFiles().get("z"));
     }
 
-    // bandwidth
 
     /*
      * Testing transmission ends properly

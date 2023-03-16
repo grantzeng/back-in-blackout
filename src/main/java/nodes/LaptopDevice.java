@@ -24,7 +24,6 @@ public class LaptopDevice extends NetworkNode {
 
     }
 
-    
     public Server getServer() {
         return server;
     }
@@ -43,7 +42,7 @@ public class LaptopDevice extends NetworkNode {
     public NodeType subtype() {
         return LaptopDevice;
     }
-    @Override 
+    @Override
     public NodeType type() {
         return Device;
     }
@@ -52,6 +51,5 @@ public class LaptopDevice extends NetworkNode {
     public double range() {
         return LAPTOP_DEVICE_RANGE;
     }
-    
 
 }

@@ -1,9 +1,9 @@
 package nodes;
 
-import static nodes.NetworkNode.NodeType.DesktopDevice;
 import static nodes.NetworkNode.NodeType.RelaySatellite;
 import static nodes.NetworkNode.NodeType.TeleportingSatellite;
 import static nodes.NetworkNode.NodeType.Device;
+import static nodes.NetworkNode.NodeType.DesktopDevice;
 
 import static unsw.utils.MathsHelper.RADIUS_OF_JUPITER;
 
@@ -24,7 +24,7 @@ public class DesktopDevice extends NetworkNode {
         server = new Server(this, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
 
     }
-    
+
     public Server getServer() {
         return server;
     }
@@ -43,6 +43,7 @@ public class DesktopDevice extends NetworkNode {
     public NodeType subtype() {
         return DesktopDevice;
     }
+
     @Override
     public NodeType type() {
         return Device;
@@ -52,7 +53,7 @@ public class DesktopDevice extends NetworkNode {
     public double range() {
         return DESKTOP_DEVICE_RANGE;
     }
-    
+
     protected Map<String, FileInfoResponse> getServerInfoResponse() {
         return server.getServerInfoResponse();
     }

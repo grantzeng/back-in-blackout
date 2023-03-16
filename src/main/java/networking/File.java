@@ -3,7 +3,6 @@ package networking;
 import unsw.response.models.FileInfoResponse;
 
 public class File {
-
     private String filename;
     private String data = "";
     private int size;
@@ -62,9 +61,9 @@ public class File {
         }
         data += string;
     }
-    
+
     public void setStatus(FileStatus status) {
-        this.status = status; 
+        this.status = status;
     }
 
     public FileInfoResponse getFileInfoResponse() {
