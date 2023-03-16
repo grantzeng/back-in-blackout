@@ -124,7 +124,8 @@ public abstract class NetworkNode {
 
     public boolean canSendDirectlyTo(NetworkNode client) {
         return supports().contains(client.subtype())
-                && MathsHelper.getDistance(height, position, client.getHeight(), client.getPosition()) <= range();
+                && MathsHelper.getDistance(height, position, client.getHeight(), client.getPosition()) <= range()
+                && MathsHelper.isVisible(height, position, client.getHeight(), client.getPosition());
     }
 
     public boolean canCommunicateWith(NetworkNode client) {

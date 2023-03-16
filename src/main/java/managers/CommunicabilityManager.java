@@ -47,9 +47,8 @@ public class CommunicabilityManager {
 
         // List<NetworkNode> communicable = visited.stream().filter(n -> n !=
         // node).collect(Collectors.toList());
-        // System.out
-        // .println(node.getId() + ": " + communicable.stream().map(n ->
-        // n.getId()).collect(Collectors.toList()));
+        System.out.println(
+                node.getId() + ": " + communicable.stream().map(n -> n.getId()).collect(Collectors.toList()) + "\n");
         // node.setCommunicable(communicable);
         return communicable;
     }
