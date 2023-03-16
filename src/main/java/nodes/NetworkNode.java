@@ -137,6 +137,10 @@ public abstract class NetworkNode {
         return visible;
     }
 
+    public List<NetworkNode> getCommunicable() {
+        return communicable;
+    }
+
     /*
      * What kind of object am I?
      */
