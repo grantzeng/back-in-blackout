@@ -29,7 +29,8 @@ public class Task2ExampleTests {
         BlackoutController controller = new BlackoutController();
 
         // Creates 1 satellite and 2 devices
-        // Gets a device to send a file to a satellites and gets another device to download it.
+        // Gets a device to send a file to a satellites and gets another device to
+        // download it.
         // StandardSatellites are slow and transfer 1 byte per minute.
         controller.createSatellite("Satellite1", "StandardSatellite", 1000 + RADIUS_OF_JUPITER, Angle.fromDegrees(320));
         controller.createSatellite("Satellite2", "StandardSatellite", 1000 + RADIUS_OF_JUPITER, Angle.fromDegrees(315));
@@ -53,7 +54,8 @@ public class Task2ExampleTests {
         BlackoutController controller = new BlackoutController();
 
         // Creates 1 satellite and 2 devices
-        // Gets a device to send a file to a satellites and gets another device to download it.
+        // Gets a device to send a file to a satellites and gets another device to
+        // download it.
         // StandardSatellites are slow and transfer 1 byte per minute.
         controller.createSatellite("Satellite1", "StandardSatellite", 5000 + RADIUS_OF_JUPITER, Angle.fromDegrees(320));
         controller.createDevice("DeviceB", "LaptopDevice", Angle.fromDegrees(310));
@@ -61,7 +63,7 @@ public class Task2ExampleTests {
 
         String msg = "Hey";
         controller.addFileToDevice("DeviceC", "FileAlpha", msg);
-        
+
         assertThrows(FileTransferException.VirtualFileNotFoundException.class,
                 () -> controller.sendFile("NonExistentFile", "DeviceC", "Satellite1"));
 
@@ -80,7 +82,8 @@ public class Task2ExampleTests {
         BlackoutController controller = new BlackoutController();
 
         // Creates 1 satellite and 2 devices
-        // Gets a device to send a file to a satellites and gets another device to download it.
+        // Gets a device to send a file to a satellites and gets another device to
+        // download it.
         // StandardSatellites are slow and transfer 1 byte per minute.
         controller.createSatellite("Satellite1", "StandardSatellite", 100 + RADIUS_OF_JUPITER, Angle.fromDegrees(340));
         assertEquals(new EntityInfoResponse("Satellite1", Angle.fromDegrees(340), 100 + RADIUS_OF_JUPITER,
@@ -97,7 +100,8 @@ public class Task2ExampleTests {
         BlackoutController controller = new BlackoutController();
 
         // Creates 1 satellite and 2 devices
-        // Gets a device to send a file to a satellites and gets another device to download it.
+        // Gets a device to send a file to a satellites and gets another device to
+        // download it.
         // StandardSatellites are slow and transfer 1 byte per minute.
         controller.createSatellite("Satellite1", "StandardSatellite", 10000 + RADIUS_OF_JUPITER,
                 Angle.fromDegrees(320));
@@ -135,7 +139,8 @@ public class Task2ExampleTests {
         BlackoutController controller = new BlackoutController();
 
         // Creates 1 satellite and 2 devices
-        // Gets a device to send a file to a satellites and gets another device to download it.
+        // Gets a device to send a file to a satellites and gets another device to
+        // download it.
         // StandardSatellites are slow and transfer 1 byte per minute.
         controller.createSatellite("Satellite1", "RelaySatellite", 100 + RADIUS_OF_JUPITER, Angle.fromDegrees(180));
 
