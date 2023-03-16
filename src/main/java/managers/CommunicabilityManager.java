@@ -31,7 +31,8 @@ public class CommunicabilityManager {
             }
         }
 
-        List<NetworkNode> communicable = visited.stream().filter(n -> n != node).collect(Collectors.toList());
+        List<NetworkNode> communicable = visited.stream().filter(n -> n != node)
+                .filter(n -> n.subtype() != RelaySatellite).collect(Collectors.toList());
         node.setCommunicable(communicable);
         return communicable;
     }
@@ -60,6 +61,8 @@ public class CommunicabilityManager {
         for (NetworkNode server : nodes.values()) {
             getAndUpdateCommunicableEntitiesInRange(server);
         }
+
+        return nodes;
     }
 
 }

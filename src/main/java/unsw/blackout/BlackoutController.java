@@ -30,6 +30,7 @@ public class BlackoutController {
     private int clock = 0;
 
     public void createDevice(String deviceId, String type, Angle position) {
+        System.out.println("create: " + deviceId);
 
         switch (type) {
         case "HandheldDevice":
@@ -59,6 +60,7 @@ public class BlackoutController {
     }
 
     public void createSatellite(String satelliteId, String type, double height, Angle position) {
+        System.out.println("create: " + satelliteId);
         switch (type) {
         case "RelaySatellite":
             nodes.put(satelliteId, new RelaySatellite(satelliteId, height, position));
