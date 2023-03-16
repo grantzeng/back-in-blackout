@@ -69,10 +69,10 @@ public class Server {
     public void removeFile(String filename) {
         files.remove(filename);
     }
+
     /*
      * Connections management
      */
-
     public void addUploadConnection(Connection conn) {
         uploading.add(conn);
     }
@@ -138,7 +138,7 @@ public class Server {
     }
 
     /*
-     * Free resources if
+     * Free resources if entity is removed from system
      */
     public void free() {
         System.out.println("free() not yet implemented!");

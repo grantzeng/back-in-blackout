@@ -4,9 +4,7 @@ import unsw.blackout.BlackoutController;
 import static unsw.blackout.FileTransferException.VirtualFileAlreadyExistsException;
 import static unsw.blackout.FileTransferException.VirtualFileNotFoundException;
 import static unsw.blackout.FileTransferException.VirtualFileNoBandwidthException;
-import static unsw.blackout.FileTransferException.VirtualFileNoStorageSpaceException;
 import unsw.response.models.FileInfoResponse;
-import unsw.response.models.EntityInfoResponse;
 import unsw.utils.Angle;
 
 import org.junit.jupiter.api.Test;
@@ -23,15 +21,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 
-import static blackout.TestHelpers.assertListAreEqualIgnoringOrder;
-
 public class TransmissionTests {
-    BlackoutController bc;
+    private BlackoutController bc;
 
     @BeforeEach
     public void setup() {
         bc = new BlackoutController();
-
     }
 
     /*
@@ -46,9 +41,6 @@ public class TransmissionTests {
         bc.createDevice("d1", "HandheldDevice", Angle.fromDegrees(45));
 
         // File does not exist on d1, cannot send to s1
-        // assertThrows(VirtualFileNotFoundException.class, () -> bc.sendFile("hello",
-        // "d1", "s1"));
-
         bc.addFileToDevice("d1", "hello", "hello");
         assertDoesNotThrow(() -> bc.sendFile("hello", "d1", "s1"));
         assertEquals(new FileInfoResponse("hello", "", 5, false), bc.getInfo("s1").getFiles().get("hello"));
@@ -140,13 +132,7 @@ public class TransmissionTests {
         assertThrows(VirtualFileNoBandwidthException.class, () -> bc.sendFile("hey", "t1", "c10"));
     }
 
-    // Test storage cap reached
 
-    /*
-     * Testing transmission occurs properly
-     */
-
-    // Test transmission works through relays
     @Test
     public void testTransmissionWorksThroughRelays() {
         for (int i = 0; i < 18; i++) {
@@ -172,7 +158,7 @@ public class TransmissionTests {
         assertEquals(new FileInfoResponse("z", z, z.length(), true), bc.getInfo("s1").getFiles().get("z"));
     }
 
-    // Test upload bandwidth is divided evenly
+
     @Test
     public void testDownloadBandwidthChanges() {
         String z = "z".repeat(20);
@@ -201,14 +187,6 @@ public class TransmissionTests {
         assertEquals(new FileInfoResponse("z", "z".repeat(15), 20, false), bc.getInfo("t1").getFiles().get("z"));
     }
 
-
-    /*
-     * Testing transmission ends properly
-     * 
-     */
-
-    // Test goes out of range
-    // - client network node should remove partial file
     @Test
     public void testDownloadingFileRemovedIfReceipientOutOfRange() {
 
@@ -224,7 +202,6 @@ public class TransmissionTests {
 
     }
 
-    // Test teleporting satellite's insane behaviour
     @Test
     public void testTeleportingSatelliteCorrruptDeviceSource() {
 
@@ -238,7 +215,6 @@ public class TransmissionTests {
         bc.simulate(5);
         assertEquals(new FileInfoResponse("msg", corruptMsg, corruptMsg.length(), true),
                 bc.getInfo("d1").getFiles().get("msg"));
-
     }
 
     @Test
@@ -257,6 +233,5 @@ public class TransmissionTests {
 
         assertEquals(new FileInfoResponse("msg", corruptMsg, corruptMsg.length(), true),
                 bc.getInfo("s1").getFiles().get("msg"));
-
     }
 }

@@ -3,7 +3,7 @@ package nodes;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import helpers.AngleNormaliser;
+import angle.AngleNormaliser;
 import networking.Connection;
 import networking.File;
 import networking.Server;
@@ -60,10 +60,10 @@ public abstract class NetworkNode {
 
     public abstract void move();
 
-    /*
-     * File server behaviour is delegated to server instance.
+    /**
+     * File server behaviour delegated to Server object
+     *
      */
-
     public abstract Server getServer();
 
     public File getFile(String filename) throws VirtualFileNotFoundException {
@@ -116,7 +116,6 @@ public abstract class NetworkNode {
     /*
      * Communicability
      */
-
     public void setCommunicable(List<NetworkNode> communicable) {
         this.communicable = communicable.stream().filter(n -> supports().contains(n.subtype()))
                 .collect(Collectors.toList());
@@ -165,7 +164,6 @@ public abstract class NetworkNode {
     /*
      * Entity info response
      */
-
     public EntityInfoResponse getInfo() {
         return new EntityInfoResponse(id, position, height, subtype().toString(), getServer().getServerInfoResponse());
     }

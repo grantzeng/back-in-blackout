@@ -16,24 +16,29 @@ import networking.File;
 public class TransmissionManager {
     private List<Connection> connections = new ArrayList<>();
 
+    /**
+     * Registers that a file from one network node needs to be transmitted to another
+     * @param filename
+     * @param from
+     * @param to
+     * @throws VirtualFileNotFoundException
+     * @throws VirtualFileNoBandwidthException
+     * @throws VirtualFileAlreadyExistsException
+     * @throws VirtualFileNoStorageSpaceException
+     */
     public void sendFile(String filename, NetworkNode from, NetworkNode to) throws VirtualFileNotFoundException,
             VirtualFileNoBandwidthException, VirtualFileAlreadyExistsException, VirtualFileNoStorageSpaceException {
-
         Connection conn = new Connection(from, to, from.getServer(), to.getServer());
-
         File source = from.getFile(filename);
         conn.addSource(source);
-
         from.checkUploadResourcesAvailable(filename);
         to.checkDownloadResourcesAvailable(filename, source.getSize());
 
         conn.addTarget(to.createEmptyFile(filename, source.getSize()));
 
-        from.addUploadConnection(conn); // Adds connetion and updates everything
+        from.addUploadConnection(conn);
         to.addDownloadConnection(conn);
-
         connections.add(conn);
-
     }
 
     public void processConnections() {

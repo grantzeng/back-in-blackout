@@ -59,14 +59,11 @@ public class Connection {
     public void transmit() {
 
         if (!isActive()) {
-            System.out.println(this + " is not an active connection");
             return;
         }
 
         server.giveUpBandwidth(this);
         client.giveDownBandwidth(this);
-
-        System.out.println(this + " is now transmitting");
 
         if (!from.canCommunicateWith(to)) {
             // Out of range, close transmission
@@ -76,10 +73,10 @@ public class Connection {
             return;
         }
 
+        // Transmit bytes for the tick
         int bytes = Math.min(upspeed, downspeed);
         while (fp < filesize && bytes > 0) {
             String letter = source.read(fp);
-            System.out.println(this + " sending: " + letter);
             target.append(letter);
             fp++;
             bytes--;
@@ -98,9 +95,5 @@ public class Connection {
     public boolean isActive() {
         return isActive;
     }
-
-    /*
-     * public void reset() { setDownspeed(0); setUpspeed(0); }
-     */
 
 }

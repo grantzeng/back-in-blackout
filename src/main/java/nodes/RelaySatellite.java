@@ -9,9 +9,8 @@ import static nodes.NetworkNode.NodeType.DesktopDevice;
 import static nodes.NetworkNode.NodeType.HandheldDevice;
 import static nodes.NetworkNode.NodeType.LaptopDevice;
 import static nodes.NetworkNode.NodeType.StandardSatellite;
-import static nodes.NetworkNode.NodeType.RelaySatellite;
 import static nodes.NetworkNode.NodeType.TeleportingSatellite;
-import static nodes.NetworkNode.NodeType.Satellite;
+import static nodes.NetworkNode.NodeType.RelaySatellite;
 
 import unsw.utils.Angle;
 
@@ -75,12 +74,12 @@ public class RelaySatellite extends NetworkNode {
 
     @Override
     public NodeType subtype() {
-        return RelaySatellite;
+        return NodeType.RelaySatellite;
     }
 
     @Override
     public NodeType type() {
-        return Satellite;
+        return NodeType.Satellite;
     }
 
     @Override

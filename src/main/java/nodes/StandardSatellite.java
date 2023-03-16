@@ -23,8 +23,6 @@ public class StandardSatellite extends NetworkNode {
         super(id, position, height);
         linearVelocity = -2500.0;
         server = new Server(this, 80, 3, 1, 1);
-
-
     }
 
 

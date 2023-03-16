@@ -11,8 +11,14 @@ import nodes.NetworkNode;
 import unsw.utils.MathsHelper;
 
 public class CommunicabilityManager {
+
+    /**
+     * Updates list of other network node can send files to
+     * @pre Visibility graph has been updated
+     * @param node
+     * @return
+     */
     public static List<NetworkNode> getAndUpdateCommunicableEntitiesInRange(NetworkNode node) {
-        System.out.println("Do BFS from: " + node.getId());
 
         List<NetworkNode> visited = new ArrayList<>();
         Queue<NetworkNode> queue = new ArrayDeque<>();
@@ -40,7 +46,7 @@ public class CommunicabilityManager {
 
     public static void update(Map<String, NetworkNode> nodes) {
 
-        // Distribute visibility graph adjaceny list among nodes
+        // Distribute visibility graph adjaceny list among network nodes
         List<NetworkNode> visible = new ArrayList<>();
         for (NetworkNode server : nodes.values()) {
             for (NetworkNode client : nodes.values()) {
@@ -59,7 +65,7 @@ public class CommunicabilityManager {
         }
 
 
-        // Run modified BFS across visibility graph to update communicability
+        // Run modified BFS across visibility graph to update who node can communicate with
         for (NetworkNode server : nodes.values()) {
             getAndUpdateCommunicableEntitiesInRange(server);
         }
