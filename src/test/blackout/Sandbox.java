@@ -20,6 +20,7 @@ public class Sandbox {
         
         // Check communicability graph is updated correctly
         // - communicability is not updating properly (basically just list everything found in a bfs)
+        // - seems to work properly now?
 
         BlackoutController bc = new BlackoutController();
         bc.createDevice("d1", "LaptopDevice", Angle.fromDegrees(0));

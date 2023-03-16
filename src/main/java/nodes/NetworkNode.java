@@ -1,6 +1,7 @@
 package nodes;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import helpers.AngleNormaliser;
 import networking.Connection;
@@ -117,7 +118,8 @@ public abstract class NetworkNode {
      */
 
     public void setCommunicable(List<NetworkNode> communicable) {
-        this.communicable = communicable;
+        this.communicable = communicable.stream().filter(n -> supports().contains(n.subtype()))
+                .collect(Collectors.toList());
     }
 
     public boolean canSendDirectlyTo(NetworkNode client) {

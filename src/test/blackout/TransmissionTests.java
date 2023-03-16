@@ -161,8 +161,6 @@ public class TransmissionTests {
         bc.addFileToDevice("d1", "z", z);
         assertDoesNotThrow(() -> bc.sendFile("z", "d1", "s1"));
         assertEquals(new FileInfoResponse("z", "", 80, false), bc.getInfo("s1").getFiles().get("z"));
-        bc.simulate();
-        assertEquals(new FileInfoResponse("z", "z", 80, false), bc.getInfo("s1").getFiles().get("z"));
 
         for (int i = 0; i < 80; i++) {
             assertEquals(new FileInfoResponse("z", "z".repeat(i), z.length(), false),

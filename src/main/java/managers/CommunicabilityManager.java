@@ -31,15 +31,19 @@ public class CommunicabilityManager {
             for (NetworkNode next : curr.getVisible()) {
                 // System.out.println(curr.getVisible().stream().map(e ->
                 // e.getId()).collect(Collectors.toList()));
-                if (!visited.contains(next)) {
+                if (!visited.contains(next) && curr.canSendDirectlyTo(next)) {
                     queue.add(next);
                     visited.add(next);
                 }
             }
         }
 
-        node.setCommunicable(visited);
-        System.out.println(node.getCommunicable().stream().map(n -> n.getId()).collect(Collectors.toList()));
+        List<NetworkNode> communicable = visited.stream().filter(n -> n != node).collect(Collectors.toList());
+
+        node.setCommunicable(communicable);
+
+        // System.out.println(node.getCommunicable().stream().map(n ->
+        // n.getId()).collect(Collectors.toList()));
 
         // List<NetworkNode> communicable = visited.stream().filter(n -> n !=
         // node).collect(Collectors.toList());
@@ -47,7 +51,7 @@ public class CommunicabilityManager {
         // .println(node.getId() + ": " + communicable.stream().map(n ->
         // n.getId()).collect(Collectors.toList()));
         // node.setCommunicable(communicable);
-        return visited;
+        return communicable;
     }
 
     public static void update(Map<String, NetworkNode> nodes) {
