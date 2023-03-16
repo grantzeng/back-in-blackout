@@ -1,6 +1,5 @@
 package nodes;
 
-import static nodes.NetworkNode.NodeType.HandheldDevice;
 import static nodes.NetworkNode.NodeType.StandardSatellite;
 import static nodes.NetworkNode.NodeType.RelaySatellite;
 import static nodes.NetworkNode.NodeType.TeleportingSatellite;
@@ -41,7 +40,7 @@ public class HandheldDevice extends NetworkNode {
 
     @Override
     public NodeType subtype() {
-        return HandheldDevice;
+        return NodeType.HandheldDevice;
     }
 
     @Override
