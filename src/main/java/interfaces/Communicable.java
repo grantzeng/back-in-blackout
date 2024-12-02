@@ -1,0 +1,4 @@
+/*
+    Represents that an entity is able to transmit and receive packets
+
+ */
