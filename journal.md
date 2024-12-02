@@ -20,4 +20,10 @@ I would also say that bad abstractions are criminally worse than code repetition
 This is also motivated to keep the design as flat as possible and with the least hierachy as possible. Because bad abstraction is just suffering and we need to keep the design as flexible enough to accomodate unexpected changes. 
 
 
-It's clear to me that for example the movement and teleporting behaviour in the teleporting satellite should be encapsulated in a TeleportingSatellite class
+It's clear to me that for example the movement and teleporting behaviour in the teleporting satellite should be encapsulated in a TeleportingSatellite class\
+
+Not apparent to me whether some kind of file abstraction is useful in this case. 
+
+
+### 5:52pm 
+I think you should produce multiple designs for things on paper first before attempting to code anything up. I don't think I've yet established what the right abstractions of different resources are yet. This is a pen and paper task. Do it tomorrow morning. 
