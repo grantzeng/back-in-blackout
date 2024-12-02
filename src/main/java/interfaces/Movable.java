@@ -4,3 +4,7 @@
     - including being stationary 
 
  */
+
+public interface Movable() {
+    public void move(); 
+}

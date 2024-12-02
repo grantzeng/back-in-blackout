@@ -6,4 +6,11 @@
     so rather than making them separate types it would be better to just capture 
     this in the interface
 
+    The distinction between satellites is wholly stupid and arbitrary so only just capture it with this interface
  */
+
+public interface NetworkNode {
+    // Returns the informal type of the network node
+    // - is a lightweight abstraction instead of my attempt at using classes
+    public String type(); 
+}
