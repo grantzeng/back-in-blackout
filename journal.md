@@ -27,3 +27,27 @@ Not apparent to me whether some kind of file abstraction is useful in this case.
 
 ### 5:52pm 
 I think you should produce multiple designs for things on paper first before attempting to code anything up. I don't think I've yet established what the right abstractions of different resources are yet. This is a pen and paper task. Do it tomorrow morning. 
+
+
+# 2024-12-05
+
+### Rethinking
+The issue is the communication between packets. 
+
+We don't want the whole network topology in `BlackoutController` so somehow it has to be distributed among all the network nodes. Then the nodes have to have some way of communicating with each other 
+
+
+
+
+
+```java
+
+class Node: 
+- Map<String, Node> topology;  // In current design pass in the whole network but later system should only pass in neighbours
+- broadcast(); 
+- accept(Packet p); 
+- acknowledge();
+
+```
+
+Basically the issue is, aesthetically we don't want to store the whole network topology in `BlackoutController` - so it has to be distributed among network entities. I'm not sure how to do this encapsulation yet, hence we just give everyone a copy of the whole topology

@@ -6,12 +6,18 @@
 
 public interface Communicable {
     
-    // This will cause an entity to send packets to everyone it has access to
-    // - basically this is sending all the SYN packets
+    // This function causes network entity to flood all neighbours with file transfers
     public void broadcast(); 
 
-    // This should cause an entity to respond to all the packets it's received
-    // - basically this will send all the ACK packets
+    // This is the "port" that lets a network entity take in packets
+    // - and then does processing with the packets (which is different depending on type
+    //   e.g. relay satellite will forward it immediately)
+    public void accept(Packet p); 
+
+    // This function causes network entity to process and respond to all packets
+    // it's received
+    // - only call after broadcast (we may change it later where list)
+    // - basically things
     public void acknowledge(); 
 
     // Unsure how this will work 
