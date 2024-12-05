@@ -13,12 +13,11 @@ import unsw.response.models.EntityInfoResponse;
 import unsw.utils.Angle;
 
 import interfaces.Communicable; 
-import interfaces.NetworkNode; 
 
 import network.Packet; 
 
 
-public class DesktopDevice implements Communicable, NetworkNode { 
+public class DesktopDevice implements Communicable { 
 
     private String id; 
     private Angle angle; 

@@ -1,6 +1,8 @@
 package interfaces; 
 
 import network.Packet; 
+import unsw.response.models.EntityInfoResponse;
+
 
 
 /*
@@ -35,4 +37,9 @@ public interface Communicable {
     // - not sure about `create` - it could be delete instead
     // 
     public void sync(boolean add, Communicable node); 
+
+    public String getId(); 
+
+    public EntityInfoResponse getInfo(); 
+
 }

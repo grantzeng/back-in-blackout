@@ -12,12 +12,10 @@ import unsw.utils.Angle;
 import unsw.response.models.EntityInfoResponse;
 
 import interfaces.Communicable; 
-import interfaces.NetworkNode; 
-
 
 import network.Packet; 
 
-public class StandardSatellite implements Communicable, NetworkNode { 
+public class StandardSatellite implements Communicable { 
 
     private String id; 
     private Angle angle; 

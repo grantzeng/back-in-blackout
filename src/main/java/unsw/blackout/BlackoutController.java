@@ -8,7 +8,6 @@ import java.util.Collections;
 
 import interfaces.Communicable; 
 import interfaces.Movable; 
-import interfaces.NetworkNode; 
 import interfaces.Uploadable; 
 
 import nodes.DesktopDevice;
@@ -137,7 +136,7 @@ public class BlackoutController {
                 .filter(node -> node instanceof DesktopDevice || 
                                 node instanceof HandheldDevice || 
                                 node instanceof LaptopDevice) 
-                .map(node -> ((NetworkNode) node).getId())
+                .map(node -> ((Communicable) node).getId())
                 .collect(Collectors.toList());
     }          
 
@@ -146,7 +145,7 @@ public class BlackoutController {
                 .filter(node -> node instanceof StandardSatellite || 
                                 node instanceof RelaySatellite || 
                                 node instanceof TeleportingSatellite) 
-                .map(node -> ((NetworkNode) node).getId())
+                .map(node -> ((Communicable) node).getId())
                 .collect(Collectors.toList()); 
 
     }
