@@ -12,7 +12,28 @@ package network;
 */
 
 public class Packet { 
-    public Packet() { 
-        
+    private String to; 
+    private String from; 
+    private String sourcetype; // source node type so receivers only selectively listen
+    private String content; 
+
+    public Packet(String to, String from, String content, String sourcetype) { 
+        this.to = to; 
+        this.from = from; 
+        this.content = content; 
+        this.sourcetype = sourcetype; 
+    }
+
+    public int size() { 
+        return content.length();
+    }
+
+    public String toString() {
+        return "Packet { " +
+               "to: '" + to + "', " +
+               "from: '" + from + "', " +
+               "content: '" + content + "', " +
+               "size: " + size() +
+               " }";
     }
 }
