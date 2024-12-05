@@ -1,5 +1,6 @@
 package unsw.blackout;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,22 +133,28 @@ public class BlackoutController {
         more problems than helped 
     */
     public List<String> listDeviceIds() {
-        return topology.values().stream()
+        System.out.println("listDeviceIds"); 
+        List<String> nodes = topology.values().stream()
                 .filter(node -> node instanceof DesktopDevice || 
                                 node instanceof HandheldDevice || 
                                 node instanceof LaptopDevice) 
                 .map(node -> ((Communicable) node).getId())
                 .collect(Collectors.toList());
+        System.out.println(nodes); 
+        return nodes; 
     }          
 
     public List<String> listSatelliteIds() {
-        return topology.values().stream()
+        System.out.println("listSatelliteIds"); 
+
+        List<String> nodes = topology.values().stream()
                 .filter(node -> node instanceof StandardSatellite || 
                                 node instanceof RelaySatellite || 
                                 node instanceof TeleportingSatellite) 
                 .map(node -> ((Communicable) node).getId())
                 .collect(Collectors.toList()); 
-
+        System.out.println(nodes); 
+        return nodes; 
     }
 
     /**
@@ -158,7 +165,7 @@ public class BlackoutController {
      */
 
     public void addFileToDevice(String deviceId, String filename, String content) {
-        System.out.println("addFileToDevice() not implemented"); 
+        System.out.println("addFileToDevice not implemented"); 
        
     }
 
@@ -168,7 +175,7 @@ public class BlackoutController {
     }
 
     public void simulate() {
-        System.out.println("simulate() not implemented"); 
+        System.out.println("simulate not implemented"); 
 
 
         clock++;
@@ -189,25 +196,22 @@ public class BlackoutController {
      * @return
      */
     public List<String> communicableEntitiesInRange(String id) {
-        return null; 
-
+        return new ArrayList<>();
     }
 
     public void sendFile(String fileName, String fromId, String toId) throws FileTransferException {
-        System.out.println("sendFile() not implemented"); 
-
-
+        System.out.println("sendFile not implemented"); 
     }
 
     public void createDevice(String deviceId, String type, Angle position, boolean isMoving) {
-        System.out.println("createDevice() task3 not implemented, only calls original createDevice"); 
+        System.out.println("createDevice task3 not implemented, only calls original createDevice"); 
         createDevice(deviceId, type, position);
 
         // TODO: Task 3
     }
 
     public void createSlope(int startAngle, int endAngle, int gradient) {
-        System.out.println("createSlope() task3 not implemented"); 
+        System.out.println("createSlope not implemented"); 
 
         // TODO: Task 3
         // If you are not completing Task 3 you can leave this method blank :)
