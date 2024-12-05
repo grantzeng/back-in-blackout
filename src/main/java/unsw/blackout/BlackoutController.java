@@ -158,15 +158,18 @@ public class BlackoutController {
      */
 
     public void addFileToDevice(String deviceId, String filename, String content) {
+        System.out.println("addFileToDevice() not implemented"); 
        
     }
 
     public EntityInfoResponse getInfo(String id) {
-        return null; 
+        return topology.get(id).getInfo(); 
 
     }
 
     public void simulate() {
+        System.out.println("simulate() not implemented"); 
+
 
         clock++;
     }
@@ -191,14 +194,21 @@ public class BlackoutController {
     }
 
     public void sendFile(String fileName, String fromId, String toId) throws FileTransferException {
+        System.out.println("sendFile() not implemented"); 
+
 
     }
 
     public void createDevice(String deviceId, String type, Angle position, boolean isMoving) {
+        System.out.println("createDevice() task3 not implemented, only calls original createDevice"); 
+        createDevice(deviceId, type, position);
+
         // TODO: Task 3
     }
 
     public void createSlope(int startAngle, int endAngle, int gradient) {
+        System.out.println("createSlope() task3 not implemented"); 
+
         // TODO: Task 3
         // If you are not completing Task 3 you can leave this method blank :)
     }
