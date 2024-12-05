@@ -65,6 +65,9 @@ public class BlackoutController {
      * @param deviceId
      */
     public void removeDevice(String deviceId) {
+
+        System.out.println("removeDevice" + " " + deviceId); 
+
         Communicable device = topology.remove(deviceId); 
         
         for (Communicable node: topology.values()) { 
@@ -115,6 +118,8 @@ public class BlackoutController {
      * @param satelliteId
      */
     public void removeSatellite(String satelliteId) {
+        System.out.println("removeDevice" + " " + satelliteId); 
+
         Communicable satellite = topology.remove(satelliteId); 
         
         for (Communicable node: topology.values()) { 
@@ -133,7 +138,7 @@ public class BlackoutController {
         more problems than helped 
     */
     public List<String> listDeviceIds() {
-        System.out.println("listDeviceIds"); 
+        //System.out.println("listDeviceIds"); 
         List<String> nodes = topology.values().stream()
                 .filter(node -> node instanceof DesktopDevice || 
                                 node instanceof HandheldDevice || 
@@ -145,7 +150,7 @@ public class BlackoutController {
     }          
 
     public List<String> listSatelliteIds() {
-        System.out.println("listSatelliteIds"); 
+        //System.out.println("listSatelliteIds"); 
 
         List<String> nodes = topology.values().stream()
                 .filter(node -> node instanceof StandardSatellite || 
@@ -170,12 +175,22 @@ public class BlackoutController {
     }
 
     public EntityInfoResponse getInfo(String id) {
+        System.out.println("getInfo" + "  " + id); 
         return topology.get(id).getInfo(); 
 
     }
 
     public void simulate() {
-        System.out.println("simulate not implemented"); 
+
+        System.out.println("Clock: " + clock); 
+        
+        for (Communicable node : topology.values()) { 
+            node.broadcast(); 
+        }
+
+        for (Communicable node : topology.values()) { 
+            node.acknowledge(); 
+        }
 
 
         clock++;

@@ -12,7 +12,7 @@ import unsw.response.models.EntityInfoResponse;
 
 import interfaces.Communicable; 
 
-import network.Packet;
+import networking.Packet;
 
 public class TeleportingSatellite implements Communicable { 
 
@@ -51,6 +51,6 @@ public class TeleportingSatellite implements Communicable {
     }
     
     public EntityInfoResponse getInfo() {
-        return new EntityInfoResponse(id, angle, height, "TeleportingSatellite", null);
+        return new EntityInfoResponse(id, angle, height, "TeleportingSatellite", new HashMap<>());
     }
 }

@@ -14,7 +14,7 @@ import unsw.utils.Angle;
 
 import interfaces.Communicable; 
 
-import network.Packet; 
+import networking.Packet; 
 
 
 public class HandheldDevice implements Communicable { 
@@ -53,7 +53,7 @@ public class HandheldDevice implements Communicable {
     }
 
     public EntityInfoResponse getInfo() {
-        return new EntityInfoResponse(id, angle, height, "HandheldDevice", null);
+        return new EntityInfoResponse(id, angle, height, "HandheldDevice", new HashMap<>());
     }
 
 

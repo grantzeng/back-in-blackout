@@ -1,6 +1,6 @@
 package interfaces; 
 
-import network.Packet; 
+import networking.Packet; 
 import unsw.response.models.EntityInfoResponse;
 
 

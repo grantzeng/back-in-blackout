@@ -12,7 +12,7 @@ import unsw.response.models.EntityInfoResponse;
 
 import interfaces.Communicable; 
 
-import network.Packet; 
+import networking.Packet; 
 
 public class RelaySatellite implements Communicable { 
 
@@ -50,6 +50,6 @@ public class RelaySatellite implements Communicable {
     }
 
     public EntityInfoResponse getInfo() {
-        return new EntityInfoResponse(id, angle, height, "RelaySatellite", null);
+        return new EntityInfoResponse(id, angle, height, "RelaySatellite", new HashMap<>());
     }
 }

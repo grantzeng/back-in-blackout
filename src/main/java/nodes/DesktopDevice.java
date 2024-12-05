@@ -2,6 +2,7 @@ package nodes;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList; 
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.Collections; 
@@ -14,7 +15,7 @@ import unsw.utils.Angle;
 
 import interfaces.Communicable; 
 
-import network.Packet; 
+import networking.Packet; 
 
 
 public class DesktopDevice implements Communicable { 
@@ -24,10 +25,13 @@ public class DesktopDevice implements Communicable {
     private double height; 
     private Map<String, Communicable> topology = new HashMap<>(); 
     
+    private List inbox; 
+    
     public DesktopDevice(String id, Angle angle) { 
         this.id = id; 
         this.angle = angle; 
-        this.height = RADIUS_OF_JUPITER; 
+        this.height = RADIUS_OF_JUPITER;
+        this.inbox = new ArrayList<Packet>();  
     }
 
     public String getId() { 
@@ -35,12 +39,23 @@ public class DesktopDevice implements Communicable {
     }
 
     public void broadcast() {
+        System.out.println(id + " is broadcasting"); 
+
+        Packet ping = new Packet("D", id, "popty ping" + id, "DesktopDevice"); 
+
+        for (Communicable node : topology.values()) { 
+            node.accept(ping); 
+        }
+
     }
 
     public void accept(Packet p) {
+        inbox.add(p); 
     }
 
     public void acknowledge() {
+        System.out.println("-----------received------------" + id + "--------------");       
+        System.out.println(inbox);  
     }
 
     public void sync(boolean add, Communicable node) {
@@ -52,6 +67,6 @@ public class DesktopDevice implements Communicable {
     }
 
     public EntityInfoResponse getInfo() {
-        return new EntityInfoResponse(id, angle, height, "DesktopDevice", null);
+        return new EntityInfoResponse(id, angle, height, "DesktopDevice", new HashMap<>());
     }
 }
