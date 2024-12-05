@@ -36,10 +36,6 @@ The issue is the communication between packets.
 
 We don't want the whole network topology in `BlackoutController` so somehow it has to be distributed among all the network nodes. Then the nodes have to have some way of communicating with each other 
 
-
-
-
-
 ```java
 
 class Node: 
@@ -50,4 +46,8 @@ class Node:
 
 ```
 
-Basically the issue is, aesthetically we don't want to store the whole network topology in `BlackoutController` - so it has to be distributed among network entities. I'm not sure how to do this encapsulation yet, hence we just give everyone a copy of the whole topology
+Basically the issue is,  we don't want to store the whole network topology in `BlackoutController` - so it has to be distributed among network entities. I'm not sure how to do this encapsulation yet, hence we just give everyone a copy of the whole topology
+
+
+### 1:51pm 
+Seems like the frontend no longer works, but the backend is updating fine. I will debug the backend later but the point of today was to try to implement communication. It was supposed to be the case that having the frontend work is not essential. But otherwise everything is set up. 
