@@ -51,3 +51,21 @@ Basically the issue is,  we don't want to store the whole network topology in `B
 
 ### 1:51pm 
 Seems like the frontend no longer works, but the backend is updating fine. I will debug the backend later but the point of today was to try to implement communication. It was supposed to be the case that having the frontend work is not essential. But otherwise everything is set up. 
+
+
+### 2:36pm 
+
+Packet sending seems to work. Basically write the code pretending the network was a complete graph and then we fiddle with the available nodes for each node so that each network node only sees neighbours. 
+> Idea is entity reads packet header and then decides what to do with it. (makes sense to just throw away packets you're not interested in)
+
+I think we'll have to push up all the packet sending/receiving to a class they all inherit from, but then override for any specific behaviours (e.g. like how teleporting interferes with packets sending)
+
+Basically the main behaviours you have to have in this system are: 
+- Network entities move 
+- Network entities send packets to each other
+- Network entities can have files uploaded onto them
+- Network entities have to manage what packets they send out. 
+
+> Re: elephant satellite - this means you can just pause sending packets out when out of range. For everything else, if you don't get an acknowledgement then assume the connection is broken and stop sending. I think the design works. 
+
+I'll worry about the issue of testing later, what you're trying to learn at the moment is system design. 

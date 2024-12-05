@@ -56,7 +56,7 @@ public class BlackoutController {
             device.sync(true, node); 
         }
 
-        System.out.println(topology); 
+        //System.out.println(topology); 
 
     }
 
@@ -74,7 +74,7 @@ public class BlackoutController {
             node.sync(false, device); 
         }
         
-        System.out.println(topology); 
+        //System.out.println(topology); 
 
    
     }
@@ -109,7 +109,7 @@ public class BlackoutController {
             satellite.sync(true, node); 
         }
       
-        System.out.println(topology); 
+        //System.out.println(topology); 
 
     }
 
@@ -126,7 +126,7 @@ public class BlackoutController {
             node.sync(false, satellite); 
         }
        
-        System.out.println(topology); 
+        //System.out.println(topology); 
 
     }
 
@@ -145,7 +145,7 @@ public class BlackoutController {
                                 node instanceof LaptopDevice) 
                 .map(node -> ((Communicable) node).getId())
                 .collect(Collectors.toList());
-        System.out.println(nodes); 
+        //System.out.println(nodes); 
         return nodes; 
     }          
 
@@ -158,7 +158,7 @@ public class BlackoutController {
                                 node instanceof TeleportingSatellite) 
                 .map(node -> ((Communicable) node).getId())
                 .collect(Collectors.toList()); 
-        System.out.println(nodes); 
+        //System.out.println(nodes); 
         return nodes; 
     }
 
@@ -175,19 +175,21 @@ public class BlackoutController {
     }
 
     public EntityInfoResponse getInfo(String id) {
-        System.out.println("getInfo" + "  " + id); 
+        // System.out.println("getInfo" + "  " + id); 
         return topology.get(id).getInfo(); 
 
     }
 
     public void simulate() {
 
-        System.out.println("Clock: " + clock); 
+        System.out.println("\n\n\nClock: " + clock); 
         
+        System.out.println("Try to broadcast"); 
         for (Communicable node : topology.values()) { 
             node.broadcast(); 
         }
 
+        System.out.println("Try to acknowledge"); 
         for (Communicable node : topology.values()) { 
             node.acknowledge(); 
         }

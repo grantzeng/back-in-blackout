@@ -41,6 +41,10 @@ public class DesktopDevice implements Communicable {
     public void broadcast() {
         System.out.println(id + " is broadcasting"); 
 
+        if (this.inbox.size() > 0) { 
+            return; 
+        }
+
         Packet ping = new Packet("D", id, "popty ping" + id, "DesktopDevice"); 
 
         for (Communicable node : topology.values()) { 
@@ -54,8 +58,14 @@ public class DesktopDevice implements Communicable {
     }
 
     public void acknowledge() {
+
         System.out.println("-----------received------------" + id + "--------------");       
-        System.out.println(inbox);  
+        System.out.println(inbox); 
+
+        if (this.inbox.size() > 2) { 
+            inbox.clear(); 
+        }
+
     }
 
     public void sync(boolean add, Communicable node) {
