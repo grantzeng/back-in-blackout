@@ -28,7 +28,40 @@ public class BlackoutController {
     private int clock = 0;
 
     public void createDevice(String deviceId, String type, Angle position) {
-        // 
+        System.out.println('createDevice' + deviceId + type + position); 
+
+        // Create device in system
+        Communicable device = null; 
+        switch (type) {
+            case "HandheldDevice":
+                device = new HandheldDevice(deviceId, position);
+                break;
+            case "LaptopDevice":
+                device = new LaptopDevice(deviceId, position);
+                break;
+            case "DesktopDevice":
+                device = new DesktopDevice(deviceId, position);
+                break;
+            default:
+                break;
+        }
+        assert device != null : "Device type is invalid"; 
+
+        // Add device to topology 
+        assert !map.containsKey(deviceId); 
+         
+        topology.put(deviceId, device);  
+
+        // Synchronise topologies in the nodes
+        // - For now every node will get a copy of the whole topology but later
+        //   to simulate a real network each node should only get its neighbours
+        for (Communicable node: topology.values() ) { 
+            node.sync(true, device); 
+        }
+
+        for (Communicable node: topology.values()) {
+            device.sync(true, node); 
+        }
     }
 
     /**
