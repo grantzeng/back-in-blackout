@@ -1,3 +1,6 @@
+package interfaces; 
+
+
 /*
     Interface that represent the type a network node is. 
     - Conceptually I don't really see much difference between satellites and devices and

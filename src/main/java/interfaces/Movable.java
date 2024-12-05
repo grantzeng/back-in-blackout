@@ -1,3 +1,5 @@
+package interfaces; 
+
 /*
     
     Represents that an entity is movable 
@@ -5,6 +7,6 @@
 
  */
 
-public interface Movable() {
+public interface Movable {
     public void move(); 
 }

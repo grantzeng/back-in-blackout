@@ -4,17 +4,35 @@ import static unsw.utils.MathsHelper.RADIUS_OF_JUPITER;
 
 import unsw.utils.Angle;
 
+import interfaces.Communicable; 
 
-public class LaptopDevice { 
+import network.Packet; 
+
+public class LaptopDevice implements Communicable{ 
 
     private String id; 
-    private Angle position; 
+    private Angle angle; 
     private double height; 
     
-    public LaptopDevice(String id, Angle radians) { 
+    public LaptopDevice(String id, Angle angle) { 
         this.id = id; 
-        this.radians = radians; 
+        this.angle = angle; 
         this.height = RADIUS_OF_JUPITER; 
+    }
+
+
+   
+    public void broadcast() {
+    }
+
+    public void accept(Packet p) {
+    }
+
+    public void acknowledge() {
+    }
+
+    public void sync(boolean add, Communicable node) {
+        
     }
 
 }

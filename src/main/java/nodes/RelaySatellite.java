@@ -2,15 +2,34 @@ package nodes;
 
 import unsw.utils.Angle;
 
-public class RelaySatellite { 
+import interfaces.Communicable; 
+
+import network.Packet; 
+
+public class RelaySatellite implements Communicable { 
 
     private String id; 
-    private Angle position; 
+    private Angle angle; 
     private double height; 
     
-    public RelaySatellite(String id, Angle radians, double height) { 
+    public RelaySatellite(String id, Angle angle, double height) { 
         this.id = id; 
-        this.radians = radians; 
+        this.angle = angle; 
+        this.height = height;  
+    }
+
+    
+    public void broadcast() {
+    }
+
+    public void accept(Packet p) {
+    }
+
+    public void acknowledge() {
+    }
+
+    public void sync(boolean add, Communicable node) {
+        
     }
 
 }

@@ -2,15 +2,35 @@ package nodes;
 
 import unsw.utils.Angle;
 
-public class StandardSatellite { 
+import interfaces.Communicable; 
+
+import network.Packet; 
+
+public class StandardSatellite implements Communicable { 
 
     private String id; 
-    private Angle position; 
+    private Angle angle; 
     private double height; 
     
-    public StandardSatellite(String id, Angle radians, double height) { 
+    public StandardSatellite(String id, Angle angle, double height) { 
         this.id = id; 
-        this.radians = radians; 
+        this.angle = angle; 
+        this.height = height; 
+    }
+
+
+   
+    public void broadcast() {
+    }
+
+    public void accept(Packet p) {
+    }
+
+    public void acknowledge() {
+    }
+
+    public void sync(boolean add, Communicable node) {
+        
     }
 
 }

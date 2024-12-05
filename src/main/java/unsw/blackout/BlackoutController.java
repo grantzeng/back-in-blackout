@@ -13,7 +13,6 @@ import interfaces.Uploadable;
 import nodes.DesktopDevice;
 import nodes.HandheldDevice;
 import nodes.LaptopDevice;
-import nodes.NetworkNode;
 import nodes.RelaySatellite;
 import nodes.StandardSatellite;
 import nodes.TeleportingSatellite;
@@ -47,7 +46,7 @@ public class BlackoutController {
         }
         assert device != null : "Device type is invalid"; 
 
-        assert !map.containsKey(deviceId); 
+        assert !topology.containsKey(deviceId); 
         topology.put(deviceId, device);  
 
         // - For now every node will get a copy of the whole topology but later
@@ -78,15 +77,17 @@ public class BlackoutController {
      * @param satelliteId
      */
     public void removeSatellite(String satelliteId) {
+        
        
     }
 
     public List<String> listDeviceIds() {
-       
+        return null; 
     }
 
     public List<String> listSatelliteIds() {
-       
+        return null; 
+
     }
 
     /**
@@ -101,7 +102,8 @@ public class BlackoutController {
     }
 
     public EntityInfoResponse getInfo(String id) {
-      
+        return null; 
+
     }
 
     public void simulate() {
@@ -124,7 +126,8 @@ public class BlackoutController {
      * @return
      */
     public List<String> communicableEntitiesInRange(String id) {
-        
+        return null; 
+
     }
 
     public void sendFile(String fileName, String fromId, String toId) throws FileTransferException {

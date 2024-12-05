@@ -1,3 +1,8 @@
+package interfaces; 
+
+import network.Packet; 
+
+
 /*
     Represents that an entity is able to transmit and receive packets
     - No real protocol other than send and acknowledge (if no ack assume link is dead)
@@ -26,6 +31,8 @@ public interface Communicable {
     // - we should be able to modify this later so that blackout controller minimises
     //   the number of unnecessary packets sent by restricting how much informaiton each 
     //   node gets about the topology
+
+    // - not sure about `create` - it could be delete instead
     // 
-    public void sync(); 
+    public void sync(boolean add, Communicable node); 
 }

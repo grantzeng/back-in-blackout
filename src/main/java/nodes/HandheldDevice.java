@@ -1,12 +1,40 @@
+package nodes; 
 
-public class HandheldDevice { 
+import static unsw.utils.MathsHelper.RADIUS_OF_JUPITER;
+
+import unsw.utils.Angle;
+
+import interfaces.Communicable; 
+
+import network.Packet; 
+
+
+public class HandheldDevice implements Communicable { 
 
     private String id; 
-    private Angle position; 
+    private Angle angle; 
     private double height; 
     
-    public HandheldDevice(String id, Angle radians) { 
+    public HandheldDevice(String id, Angle angle) { 
+        this.id = id; 
+        this.angle = angle; 
+        this.height = RADIUS_OF_JUPITER; 
+    }
+
+
+  
+    public void broadcast() {
+    }
+
+    public void accept(Packet p) {
+    }
+
+    public void acknowledge() {
+    }
+
+    public void sync(boolean add, Communicable node) {
         
     }
+
 
 }
