@@ -3,10 +3,12 @@ package nodes;
 import unsw.utils.Angle;
 
 import interfaces.Communicable; 
+import interfaces.NetworkNode; 
+
 
 import network.Packet; 
 
-public class StandardSatellite implements Communicable { 
+public class StandardSatellite implements Communicable, NetworkNode { 
 
     private String id; 
     private Angle angle; 
@@ -18,7 +20,9 @@ public class StandardSatellite implements Communicable {
         this.height = height; 
     }
 
-
+    public String getId() { 
+        return this.id; 
+    }
    
     public void broadcast() {
     }

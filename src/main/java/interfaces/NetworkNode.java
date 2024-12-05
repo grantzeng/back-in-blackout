@@ -15,5 +15,7 @@ package interfaces;
 public interface NetworkNode {
     // Returns the informal type of the network node
     // - is a lightweight abstraction instead of my attempt at using classes
-    public String type(); 
+    // public String type(); 
+
+    public String getId(); 
 }

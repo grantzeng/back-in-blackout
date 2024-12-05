@@ -63,6 +63,12 @@ public class BlackoutController {
      * @param deviceId
      */
     public void removeDevice(String deviceId) {
+        Communicable device = topology.remove(deviceId); 
+        
+        for (Communicable node: topology.values()) { 
+            node.sync(false, device); 
+        }
+       
    
     }
 
@@ -103,16 +109,37 @@ public class BlackoutController {
      * @param satelliteId
      */
     public void removeSatellite(String satelliteId) {
+        Communicable satellite = topology.remove(satelliteId); 
         
+        for (Communicable node: topology.values()) { 
+            node.sync(false, satellite); 
+        }
        
     }
 
+    /*
+        The intuition here is recognising that whether something is a 'device' 
+        or a 'satellite' is an accidental quality and only exists in mental
+        model of the spec.  My first design tried treating this as some kind 
+        of essential division between network nodes, but really that just caused
+        more problems than helped 
+    */
     public List<String> listDeviceIds() {
-        return Collections.emptyList();  
-    }
+        return topology.values().stream()
+                .filter(node -> node instanceof DesktopDevice || 
+                                node instanceof HandheldDevice || 
+                                node instanceof LaptopDevice) 
+                .map(node -> ((NetworkNode) node).getId())
+                .collect(Collectors.toList());
+    }          
 
     public List<String> listSatelliteIds() {
-        return Collections.emptyList(); 
+        return topology.values().stream()
+                .filter(node -> node instanceof StandardSatellite || 
+                                node instanceof RelaySatellite || 
+                                node instanceof TeleportingSatellite) 
+                .map(node -> ((NetworkNode) node).getId())
+                .collect(Collectors.toList()); 
 
     }
 

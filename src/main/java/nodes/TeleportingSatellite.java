@@ -3,10 +3,12 @@ package nodes;
 import unsw.utils.Angle;
 
 import interfaces.Communicable; 
+import interfaces.NetworkNode; 
+
 
 import network.Packet;
 
-public class TeleportingSatellite implements Communicable { 
+public class TeleportingSatellite implements Communicable, NetworkNode { 
 
     private String id; 
     private Angle angle; 
@@ -17,7 +19,10 @@ public class TeleportingSatellite implements Communicable {
         this.angle = angle; 
         this.height = height; 
     }
-
+    
+    public String getId() { 
+        return this.id; 
+    }
 
     public void broadcast() {
     }

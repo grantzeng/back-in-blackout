@@ -5,11 +5,13 @@ import static unsw.utils.MathsHelper.RADIUS_OF_JUPITER;
 import unsw.utils.Angle;
 
 import interfaces.Communicable; 
+import interfaces.NetworkNode; 
+
 
 import network.Packet; 
 
 
-public class HandheldDevice implements Communicable { 
+public class HandheldDevice implements Communicable, NetworkNode { 
 
     private String id; 
     private Angle angle; 
@@ -21,7 +23,9 @@ public class HandheldDevice implements Communicable {
         this.height = RADIUS_OF_JUPITER; 
     }
 
-
+    public String getId() { 
+        return this.id; 
+    }
   
     public void broadcast() {
     }
