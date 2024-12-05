@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.Collections; 
 
 import interfaces.Communicable; 
 import interfaces.Movable; 
@@ -29,7 +30,6 @@ public class BlackoutController {
     public void createDevice(String deviceId, String type, Angle position) {
         System.out.println("createDevice" + " " + deviceId + " " + type + " " +  position); 
 
-        // Create device
         Communicable device = null; 
         switch (type) {
             case "HandheldDevice":
@@ -53,11 +53,9 @@ public class BlackoutController {
         //   to simulate a real network each node should only get its neighbours
         for (Communicable node: topology.values() ) { 
             node.sync(true, device); 
-        }
-
-        for (Communicable node: topology.values()) {
             device.sync(true, node); 
         }
+
     }
 
     /**
@@ -69,6 +67,34 @@ public class BlackoutController {
     }
 
     public void createSatellite(String satelliteId, String type, double height, Angle position) {
+
+        System.out.println("createDevice" + " " + satelliteId + " " + type + " " +  height + " " + position); 
+
+        Communicable satellite = null; 
+        switch (type) {
+            case "StandardSatellite":
+                satellite = new StandardSatellite(satelliteId, position, height);
+                break;
+            case "RelaySatellite":
+                satellite = new RelaySatellite(satelliteId, position, height);
+                break;
+            case "TeleportingSatellite":
+                satellite = new TeleportingSatellite(satelliteId, position, height);
+                break;
+            default:
+                break;
+        }
+        assert satellite != null : "Satellite type is invalid"; 
+
+        assert !topology.containsKey(satelliteId); 
+        topology.put(satelliteId, satellite);  
+
+        // - For now every node will get a copy of the whole topology but later
+        //   to simulate a real network each node should only get its neighbours
+        for (Communicable node: topology.values() ) { 
+            node.sync(true, satellite); 
+            satellite.sync(true, node); 
+        }
       
     }
 
@@ -82,11 +108,11 @@ public class BlackoutController {
     }
 
     public List<String> listDeviceIds() {
-        return null; 
+        return Collections.emptyList();  
     }
 
     public List<String> listSatelliteIds() {
-        return null; 
+        return Collections.emptyList(); 
 
     }
 
