@@ -1,5 +1,12 @@
 package nodes; 
 
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.Collections; 
+
 import unsw.utils.Angle;
 
 import unsw.response.models.EntityInfoResponse;
@@ -15,6 +22,8 @@ public class StandardSatellite implements Communicable, NetworkNode {
     private String id; 
     private Angle angle; 
     private double height; 
+    private Map<String, Communicable> topology = new HashMap<>(); 
+
     
     public StandardSatellite(String id, Angle angle, double height) { 
         this.id = id; 
@@ -36,7 +45,11 @@ public class StandardSatellite implements Communicable, NetworkNode {
     }
 
     public void sync(boolean add, Communicable node) {
-        
+        if (add) { 
+            topology.put(node.getId(), node); 
+        } else { 
+            topology.remove(node); 
+        }
     }
 
     public EntityInfoResponse getInfo() {
