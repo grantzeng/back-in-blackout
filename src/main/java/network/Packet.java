@@ -1,3 +1,5 @@
+package network; 
+
 /*
     Network packets
     - it should contain every piece of information for a network entity
@@ -8,3 +10,9 @@
 
 
 */
+
+public class Packet { 
+    public Packet() { 
+        
+    }
+}

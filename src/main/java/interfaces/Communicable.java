@@ -26,5 +26,6 @@ public interface Communicable {
     // - we should be able to modify this later so that blackout controller minimises
     //   the number of unnecessary packets sent by restricting how much informaiton each 
     //   node gets about the topology
+    // 
     public void sync(); 
 }
