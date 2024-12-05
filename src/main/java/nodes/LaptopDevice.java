@@ -2,6 +2,8 @@ package nodes;
 
 import static unsw.utils.MathsHelper.RADIUS_OF_JUPITER;
 
+import unsw.response.models.EntityInfoResponse;
+
 import unsw.utils.Angle;
 
 import interfaces.Communicable; 
@@ -39,4 +41,7 @@ public class LaptopDevice implements Communicable, NetworkNode {
         
     }
 
+    public EntityInfoResponse getInfo() {
+        return new EntityInfoResponse(id, angle, height, "LaptopDevice", null);
+    }
 }

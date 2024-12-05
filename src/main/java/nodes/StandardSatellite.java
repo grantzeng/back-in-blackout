@@ -2,6 +2,8 @@ package nodes;
 
 import unsw.utils.Angle;
 
+import unsw.response.models.EntityInfoResponse;
+
 import interfaces.Communicable; 
 import interfaces.NetworkNode; 
 
@@ -35,6 +37,10 @@ public class StandardSatellite implements Communicable, NetworkNode {
 
     public void sync(boolean add, Communicable node) {
         
+    }
+
+    public EntityInfoResponse getInfo() {
+        return new EntityInfoResponse(id, angle, height, "StandardSatellite", null);
     }
 
 }

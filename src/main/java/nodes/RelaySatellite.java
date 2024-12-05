@@ -2,6 +2,8 @@ package nodes;
 
 import unsw.utils.Angle;
 
+import unsw.response.models.EntityInfoResponse;
+
 import interfaces.Communicable; 
 import interfaces.NetworkNode; 
 
@@ -37,4 +39,7 @@ public class RelaySatellite implements Communicable, NetworkNode {
         
     }
 
+    public EntityInfoResponse getInfo() {
+        return new EntityInfoResponse(id, angle, height, "RelaySatellite", null);
+    }
 }

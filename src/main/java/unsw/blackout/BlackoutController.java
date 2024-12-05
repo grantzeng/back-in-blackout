@@ -56,6 +56,8 @@ public class BlackoutController {
             device.sync(true, node); 
         }
 
+        System.out.println(topology); 
+
     }
 
     /**
@@ -68,13 +70,15 @@ public class BlackoutController {
         for (Communicable node: topology.values()) { 
             node.sync(false, device); 
         }
-       
+        
+        System.out.println(topology); 
+
    
     }
 
     public void createSatellite(String satelliteId, String type, double height, Angle position) {
 
-        System.out.println("createDevice" + " " + satelliteId + " " + type + " " +  height + " " + position); 
+        System.out.println("createSatellite" + " " + satelliteId + " " + type + " " +  height + " " + position); 
 
         Communicable satellite = null; 
         switch (type) {
@@ -102,6 +106,8 @@ public class BlackoutController {
             satellite.sync(true, node); 
         }
       
+        System.out.println(topology); 
+
     }
 
     /**
@@ -115,6 +121,8 @@ public class BlackoutController {
             node.sync(false, satellite); 
         }
        
+        System.out.println(topology); 
+
     }
 
     /*

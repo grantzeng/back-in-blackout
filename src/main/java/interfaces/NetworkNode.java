@@ -1,5 +1,7 @@
 package interfaces; 
 
+import unsw.response.models.EntityInfoResponse;
+
 
 /*
     Interface that represent the type a network node is. 
@@ -18,4 +20,6 @@ public interface NetworkNode {
     // public String type(); 
 
     public String getId(); 
+    public EntityInfoResponse getInfo(); 
+
 }
