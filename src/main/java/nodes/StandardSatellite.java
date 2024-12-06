@@ -15,15 +15,16 @@ import interfaces.Communicable;
 
 import networking.Packet; 
 
-public class StandardSatellite implements Communicable { 
+import nodes.AbstractNode; 
+
+public class StandardSatellite extends AbstractNode { 
 
     private String id; 
     private Angle angle; 
     private double height; 
-    private Map<String, Communicable> topology = new HashMap<>(); 
-
     
     public StandardSatellite(String id, Angle angle, double height) { 
+        super(); 
         this.id = id; 
         this.angle = angle; 
         this.height = height; 
@@ -31,23 +32,6 @@ public class StandardSatellite implements Communicable {
 
     public String getId() { 
         return this.id; 
-    }
-   
-    public void broadcast() {
-    }
-
-    public void accept(Packet p) {
-    }
-
-    public void acknowledge() {
-    }
-
-    public void sync(boolean add, Communicable node) {
-        if (add) { 
-            topology.put(node.getId(), node); 
-        } else { 
-            topology.remove(node); 
-        }
     }
 
     public EntityInfoResponse getInfo() {

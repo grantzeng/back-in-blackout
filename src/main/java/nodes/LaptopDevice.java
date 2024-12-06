@@ -14,17 +14,18 @@ import unsw.utils.Angle;
 
 import interfaces.Communicable; 
 
-
 import networking.Packet; 
 
-public class LaptopDevice implements Communicable { 
+import nodes.AbstractNode; 
+
+public class LaptopDevice extends AbstractNode { 
 
     private String id; 
     private Angle angle; 
     private double height; 
-    private Map<String, Communicable> topology = new HashMap<>(); 
     
     public LaptopDevice(String id, Angle angle) { 
+        super(); 
         this.id = id; 
         this.angle = angle; 
         this.height = RADIUS_OF_JUPITER; 
@@ -32,23 +33,6 @@ public class LaptopDevice implements Communicable {
 
     public String getId() { 
         return this.id; 
-    }
-   
-    public void broadcast() {
-    }
-
-    public void accept(Packet p) {
-    }
-
-    public void acknowledge() {
-    }
-
-    public void sync(boolean add, Communicable node) {
-        if (add) { 
-            topology.put(node.getId(), node); 
-        } else { 
-            topology.remove(node); 
-        }
     }
 
     public EntityInfoResponse getInfo() {

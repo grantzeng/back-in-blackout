@@ -178,3 +178,27 @@ Basically the main behaviours you have to have in this system are:
 > Re: elephant satellite - this means you can just pause sending packets out when out of range. For everything else, if you don't get an acknowledgement then assume the connection is broken and stop sending. I think the design works. 
 
 I'll worry about the issue of testing later, what you're trying to learn at the moment is system design. 
+
+# 2024-12-06
+### 10:41am
+Let's say we try to get this done by the end of next week. 
+
+Things to implement today:
+- movement
+- file uploading
+- packet sending 
+
+My plan is: 
+- try to push up the packet sending and processing to an abstract class because it's clear this function will basically be the same for every network node. 
+
+
+### 11:06
+I've introduced an abstract class. Good luck. 
+- `protected` will let you pass abstract class state to a derived class state
+- but there doesn't seem to be a good way of going the other way. 
+
+Honestly, there's got to be a better way of doing this because you've introduced one level of hierachy which you don't 100% know will work or not. 
+
+> For now this design works because I wanted to focus on packet sending but be prepared to burn it down. 
+
+> Some judicious caution seems very necessary. Fools rush where angels fear to tread. 
