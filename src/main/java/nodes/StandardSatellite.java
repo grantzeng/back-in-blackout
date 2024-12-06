@@ -8,16 +8,21 @@ import java.util.stream.Collectors;
 import java.util.Collections; 
 
 import unsw.utils.Angle;
+import static unsw.utils.MathsHelper.CLOCKWISE;
+import static unsw.utils.MathsHelper.ANTI_CLOCKWISE;  
 
 import unsw.response.models.EntityInfoResponse;
 
 import interfaces.Communicable; 
+import interfaces.Movable; 
 
 import networking.Packet; 
 
 import nodes.AbstractNode; 
 
-public class StandardSatellite extends AbstractNode { 
+
+public class StandardSatellite extends AbstractNode implements Movable { 
+
 
     private String id; 
     private Angle angle; 
@@ -29,6 +34,15 @@ public class StandardSatellite extends AbstractNode {
         this.angle = angle; 
         this.height = height; 
     }
+
+    private static final double LINEAR_SPEED = 2500.0; 
+
+    public void move() {
+        System.out.println("StandardSatellite.move()"); 
+        Angle delta = Angle.fromRadians(ANTI_CLOCKWISE * LINEAR_SPEED / height);
+        angle = angle.subtract(delta); 
+    }
+
 
     public String getId() { 
         return this.id; 

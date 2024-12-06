@@ -184,6 +184,13 @@ public class BlackoutController {
 
         System.out.println("\n\n\nClock: " + clock); 
         
+        // Move
+        topology.values().stream()
+            .filter(node -> node instanceof Movable)
+            .map(node -> (Movable) node )
+            .forEach(Movable::move); 
+
+        // Broadcast packets, send acknowledgements 
         System.out.println("Try to broadcast"); 
         for (Communicable node : topology.values()) { 
             node.broadcast(); 

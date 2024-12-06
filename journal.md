@@ -209,3 +209,44 @@ Honestly, there's got to be a better way of doing this because you've introduced
 You just introduce a stupid artifical problem of how to pass information between the abstract class and subclass. And a whole load of pointless boiler plate. 
 
 There has GOT to be a better way of modularising the code. 
+
+
+### 11:14am 
+
+Actually no: scrap this. 
+
+The point is how do you give shared functionality to different classes. My conceptual model is we have six different entities and some of them we give different additional objects. 
+
+I think it would be illuminating to go do some research about ways of walking around this problem. 
+
+> For example I like how Haskell has light weight typeclasses so you can just sort of "put a piece of cellphane" over each object depending on how you want to access it. 
+
+I'm sure as hell gonna try to walk around this issue. I refuse to write stupid boilerplate. 
+
+
+### 11:25am 
+
+> Ousterhout: design it twice. 
+
+Draw out your current abstract class design 
+
+I'm going to read the Parnas paper to see what he says. 
+
+The problem is that if you draw the lines of the module wrong then you're fucked because the object might be missing some state it needs
+
+
+movement
+file transmission 
+file storage
+
+### 12:56pm 
+
+I'm not really sure how to do this. What is apparent is the design of files, file storage etc. isn't clear. 
+
+I think re transport - just notify by sending a packet. Basically network entities just have a stream of tokens they process which may change their internal state. 
+
+For now just implement movement because this is all fairly self contained. 
+
+### 1:00pm 
+
+Getters and setters are not useful abstractions of a module. They're very shallow. Modules should be deep. 

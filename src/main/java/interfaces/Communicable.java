@@ -18,7 +18,7 @@ import unsw.response.models.EntityInfoResponse;
     - but we need this because BlackoutController is responsible for ticking
     over the system -- I haven't figured out how to make the entities tick themselves
     over
-    
+
  */
 
 public interface Communicable {
@@ -48,6 +48,8 @@ public interface Communicable {
     // 
     public void sync(boolean add, Communicable node); 
 
+    // This stupid getter exists because abstract class needs access to info from the concrete class
+    // - we're working on a solution to try to get rid of it. 
     public String getId(); 
 
     public EntityInfoResponse getInfo(); 
