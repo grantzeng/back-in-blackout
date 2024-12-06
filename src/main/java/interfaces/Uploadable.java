@@ -9,8 +9,10 @@ package interfaces;
 
 
 public interface Uploadable {
-    // Returns the informal type of the network node
-    // - is a lightweight abstraction instead of my attempt at using classes
-    // Not 100% sure about the interface
+    /*
+        Lets you upload a file 
+        - So for example, only devices would implement this interface
+    */
     public String upload(String fname, String data);  
+
 }

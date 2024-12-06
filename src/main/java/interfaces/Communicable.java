@@ -9,6 +9,16 @@ import unsw.response.models.EntityInfoResponse;
     Represents that an entity is able to transmit and receive packets
     - No real protocol other than send and acknowledge (if no ack assume link is dead)
 
+
+ */
+
+/*
+
+    This interface is at a slightly lower abstraction than the others
+    - but we need this because BlackoutController is responsible for ticking
+    over the system -- I haven't figured out how to make the entities tick themselves
+    over
+    
  */
 
 public interface Communicable {
