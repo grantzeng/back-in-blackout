@@ -202,3 +202,10 @@ Honestly, there's got to be a better way of doing this because you've introduced
 > For now this design works because I wanted to focus on packet sending but be prepared to burn it down. 
 
 > Some judicious caution seems very necessary. Fools rush where angels fear to tread. 
+
+
+### TODO: Find a better way that doesn't involve implementation inheritance
+
+You just introduce a stupid artifical problem of how to pass information between the abstract class and subclass. And a whole load of pointless boiler plate. 
+
+There has GOT to be a better way of modularising the code. 

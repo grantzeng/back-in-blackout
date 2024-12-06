@@ -70,6 +70,9 @@ public abstract class AbstractNode implements Communicable {
         a module has enough information and you will just end up with lots of stupid
         getters. I mean it's all code that is conceptually working on the same 
         data even if it's not all part of it 
+
+        Introducing abstract class introduces the problem of how to pass information 
+        between a subclass and the abstract class both ways. 
     */
     public abstract String getId(); 
 
