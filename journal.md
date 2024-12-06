@@ -250,3 +250,18 @@ For now just implement movement because this is all fairly self contained.
 ### 1:00pm 
 
 Getters and setters are not useful abstractions of a module. They're very shallow. Modules should be deep. 
+
+### 1:45pm 
+The implementation of movement is broken, but I'm trying to focus more on the issue of modularising code, not specific algorithmic things. 
+
+Some of the angle code should be replaced by just using `Angle`. 
+
+
+### 2:16pm 
+
+The issue is how do you do this without an abstract class? It's clear you want to reuse the transmission code. 
+
+If you naively use any of the design patterns, they draw too many walls around so you cause yourself problems later on. 
+
+The problem is just unsolved for now. We'll come back to it later. 
+
