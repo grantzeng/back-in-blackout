@@ -22,13 +22,8 @@ import nodes.AbstractNode;
 
 public class TeleportingSatellite extends AbstractNode implements Movable { 
 
-    private Angle angle; 
-    private double height; 
-    
     public TeleportingSatellite(String id, Angle angle, double height) { 
-        super(id); 
-        this.angle = angle; 
-        this.height = height; 
+        super(id, angle, height); 
     }
     
     private static final double LINEAR_SPEED = 1000.0; 
@@ -52,6 +47,6 @@ public class TeleportingSatellite extends AbstractNode implements Movable {
     }
     
     public EntityInfoResponse getInfo() {
-        return new EntityInfoResponse(id, angle, height, "TeleportingSatellite", new HashMap<>());
+        return super.getInfo("TeleportingSatellite"); 
     }
 }

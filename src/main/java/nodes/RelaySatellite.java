@@ -22,14 +22,11 @@ import nodes.AbstractNode;
 
 public class RelaySatellite extends AbstractNode implements Movable { 
     
-    private Angle angle; 
-    private double height; 
     
     public RelaySatellite(String id, Angle angle, double height) { 
-        super(id); 
-        this.angle = angle; 
-        this.height = height;  
+        super(id, angle, height); 
     }
+
 
     private static final double LINEAR_SPEED = 2500.0; 
     private double cw = ANTI_CLOCKWISE; 
@@ -54,6 +51,6 @@ public class RelaySatellite extends AbstractNode implements Movable {
     }
 
     public EntityInfoResponse getInfo() {
-        return new EntityInfoResponse(id, angle, height, "RelaySatellite", new HashMap<>());
+        return super.getInfo("RelayDevice"); 
     }
 }

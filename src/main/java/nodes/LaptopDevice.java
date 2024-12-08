@@ -20,17 +20,11 @@ import nodes.AbstractNode;
 
 public class LaptopDevice extends AbstractNode { 
 
-
-    private Angle angle; 
-    private double height; 
-    
     public LaptopDevice(String id, Angle angle) { 
-        super(id); 
-        this.angle = angle; 
-        this.height = RADIUS_OF_JUPITER; 
+        super(id, angle, RADIUS_OF_JUPITER); 
     }
 
     public EntityInfoResponse getInfo() {
-        return new EntityInfoResponse(id, angle, height, "LaptopDevice", new HashMap<>());
+        return super.getInfo("LaptopDevice"); 
     }
 }

@@ -22,14 +22,9 @@ import nodes.AbstractNode;
 
 public class StandardSatellite extends AbstractNode implements Movable { 
 
-
-    private Angle angle; 
-    private double height; 
-    
+ 
     public StandardSatellite(String id, Angle angle, double height) { 
-        super(id); 
-        this.angle = angle; 
-        this.height = height; 
+        super(id, angle, height); 
     }
 
     private static final double LINEAR_SPEED = 2500.0; 
@@ -41,7 +36,7 @@ public class StandardSatellite extends AbstractNode implements Movable {
     }
 
     public EntityInfoResponse getInfo() {
-        return new EntityInfoResponse(id, angle, height, "StandardSatellite", new HashMap<>());
+        return super.getInfo("StandardSatellite"); 
     }
 
 }

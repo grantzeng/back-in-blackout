@@ -20,18 +20,14 @@ import networking.Packet;
 import nodes.AbstractNode; 
 
 public class DesktopDevice extends AbstractNode { 
-
-    private Angle angle; 
-    private double height; 
-    
     
     public DesktopDevice(String id, Angle angle) { 
-        super(id); 
+        super(id, angle, RADIUS_OF_JUPITER); 
         this.angle = angle; 
         this.height = RADIUS_OF_JUPITER;
     }
 
     public EntityInfoResponse getInfo() {
-        return new EntityInfoResponse(id, angle, height, "DesktopDevice", new HashMap<>());
+        return super.getInfo("DesktopDevice"); 
     }
 }

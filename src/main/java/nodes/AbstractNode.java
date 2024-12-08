@@ -19,6 +19,11 @@ import networking.Packet;
 import files.File; 
 import static files.File.COMPLETE; 
 
+import unsw.response.models.EntityInfoResponse;
+import unsw.response.models.FileInfoResponse; 
+
+import unsw.utils.Angle; 
+
 
 public abstract class AbstractNode implements Communicable {  //, Uploadable
 
@@ -26,9 +31,13 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
     protected List<Packet> buf = new ArrayList<Packet>(); // "buffer"; queue of packets received
 
     public String id; 
+    public Angle angle; 
+    public double height; 
 
-    protected AbstractNode(String id) {
+    protected AbstractNode(String id, Angle angle, double height) {
         this.id = id; 
+        this.angle = angle; 
+        this.height = height; 
     }
 
 
@@ -77,7 +86,7 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
           but fixing this is a problem for later
 
     */
-    private Map<String, File> store = new HashMap<>(); 
+    protected Map<String, File> store = new HashMap<>(); 
  
     public void upload(String fname, String data) {
         File f = new File(fname, data.length(), File.COMPLETE, data); 
@@ -101,4 +110,17 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
     // UPDATE 2024-12-08 - got rid of it by just passing the id in
     // public abstract String getId(); 
 
+    protected EntityInfoResponse getInfo(String nodetype) { 
+
+
+        Map<String, FileInfoResponse> finfos = new HashMap<>();
+
+        for (File f : store.values()) {
+            FileInfoResponse finfo = f.getFileInfoResponse(); 
+            finfos.put(finfo.getFilename(), finfo);
+        }
+
+        return new EntityInfoResponse(id, angle, height, nodetype, finfos);
+
+    }
 }
