@@ -293,3 +293,51 @@ Let's just - instead of moving everything into a separate file, let's just write
 
 
 Let's just used `protected` and the simple class hierachy I have now. I really intensely dislike inheritance but let's just see if we can make it work
+
+
+
+### 6:35pm 
+
+System now takes in files. 
+
+Honestly for the sake of making life easier I've just pushed everything up into the `AbstractNode` class. This is probably the easiest solution when I don't know how I should draw the lines between these modules and I remember when I originally did this assignment that was the issue, it seemed like people were more concerned about some stupid aesthetic issue of a class being "too big" over what Ousterhout says that "modules should be deep".  The problem with drawing lines is that you end up wasting time writing pointless boilerplate to just pass information between two modules
+
+Currently abstract node offers this interface
+```
+AbstractNode: 
+- broadcast // send out packets
+- listen(p) // receive packets into a buffer
+- sync      // update current info re network topology
+- upload    // add file to a node (Issue: currently does not forbid satellites from having files added to them )
+
+```
+
+Things I'm going to do: 
+- I don't know _how_ to draw the walls, so I'm not going to draw them at all. If it's apparent walls should be drawn between the six types of network nodes, then I will draw them. But drawing them upfront is just a recipe for stupidity. Just get something working
+
+> It's why when I was doing a 6080 assignment I decided NOT to use some sort of intermediate state component and just use Redux because then you walk around the issue of having the blast holes through bad abstractions. 
+
+> If it's likely to have to share state, just put it in the same module. 
+
+> HOWEVER, the problem with deep modules is they're going to be an absolute pain to test. So while you may get working code for this mini project YOU should look at ways of partitioning it to make the bloody thing testable. This is a tradeoff. 
+
+> The old design was populated like 75% with getters and setters and other such useless boilerplate. Which is probably an indication that you drew the walls wrong when trying to partition state. ***But the _REASON_ the walls were drawn all stupidly was because you were TOLD that LOTS OF WALLS were GOOD!***
+
+- Packet idea with a seq number and ack flag saves you the trouble of manually computing the minimum - which is what the `Connection` object was doing in the previous design. (but at the time of doing this course you hadn't done networks yet)
+
+### Summary of my current strategy
+
+Basically, keep working on it the obvious way to you (which is `AbstractNode` should do all the operations we need.)
+> at this point the inheritance could probably just be replaced with a strategy pattern since the only situations where the type of abstract node matter is (1)movement (2) whether file sending is permitted whatsoever
+
+But then you ought to think about what the costs are of doing it with this design
+
+
+### Things to do
+Current solution seems like it should work but
+- get rid of the inheritance, is there a good way of replacing `AbstractNode` with something like a composition of a server, a motor class etc. 
+- is there a way of replacing my current solution of just pushing all the state upwards into one class, with building individual modules that can somehow share state? (i.e. is there a way of rewriting my current design in terms of composition without having this combinatorial number of stupid boilerplate functions that just pass data around)
+- also need to redesign it to make it testable
+
+
+> Walking around the problem of blasting walls between modules that need to share state by not putting the friggin walls there in the first place 
