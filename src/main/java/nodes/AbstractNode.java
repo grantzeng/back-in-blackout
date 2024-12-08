@@ -34,12 +34,12 @@ public abstract class AbstractNode implements Communicable {
         Packet ping = new Packet("D", getId(), "not_a_filename", 0, false, "popty ping");
 
         for (Communicable node : topology.values()) { 
-            node.accept(ping); 
+            node.listen(ping); 
         }
 
     }
 
-    public void accept(Packet p) { 
+    public void listen(Packet p) { 
         inbox.add(p); 
     }
 

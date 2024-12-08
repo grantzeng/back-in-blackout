@@ -29,13 +29,15 @@ public interface Communicable {
     // This is the "port" that lets a network entity take in packets
     // - and then does processing with the packets (which is different depending on type
     //   e.g. relay satellite will forward it immediately)
-    public void accept(Packet p); 
+    // All communication is by packet
+    public void listen(Packet p); 
 
     // This function causes network entity to process and respond to all packets
     // it's received
     // - only call after broadcast (we may change it later where list)
     // - basically things
-    public void acknowledge(); 
+    // EDIT: Removed this function, because we can just broadcast an acknowledgement packet
+    // public void acknowledge(); 
 
     // Unsure how this will work 
     // - but basically this should allow blackout controller to sync the node's 
@@ -43,7 +45,6 @@ public interface Communicable {
     // - we should be able to modify this later so that blackout controller minimises
     //   the number of unnecessary packets sent by restricting how much informaiton each 
     //   node gets about the topology
-
     // - not sure about `create` - it could be delete instead
     // 
     public void sync(boolean add, Communicable node); 
