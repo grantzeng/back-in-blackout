@@ -17,6 +17,8 @@ import interfaces.Movable;
 
 import networking.Packet; 
 
+import nodes.AbstractNode; 
+
 
 public class RelaySatellite extends AbstractNode implements Movable { 
     

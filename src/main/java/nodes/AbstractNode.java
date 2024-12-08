@@ -17,7 +17,7 @@ import interfaces.Uploadable;
 import networking.Packet; 
 
 import files.File; 
-import files.File.COMPLETE; 
+import static files.File.COMPLETE; 
 
 
 public abstract class AbstractNode implements Communicable {  //, Uploadable
@@ -27,7 +27,7 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
 
     public String id; 
 
-    public AbstractNode(String id) {
+    protected AbstractNode(String id) {
         this.id = id; 
     }
 
@@ -80,7 +80,7 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
     private Map<String, File> store = new HashMap<>(); 
  
     public void upload(String fname, String data) {
-        File f = File(fname, data.length(), File.COMPLETE, data); 
+        File f = new File(fname, data.length(), File.COMPLETE, data); 
         store.put(fname, f); 
     }
 

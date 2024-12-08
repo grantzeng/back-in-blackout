@@ -17,6 +17,9 @@ import interfaces.Movable;
 
 import networking.Packet;
 
+import nodes.AbstractNode; 
+
+
 public class TeleportingSatellite extends AbstractNode implements Movable { 
 
     private Angle angle; 
