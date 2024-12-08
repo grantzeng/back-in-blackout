@@ -21,9 +21,10 @@ public abstract class AbstractNode implements Communicable {
     protected Map<String, Communicable> topology = new HashMap<>(); 
     protected List<Packet> inbox = new ArrayList<Packet>(); 
 
-    protected AbstractNode() {
-        // Nothing to create for now
+    protected String id; 
 
+    public AbstractNode(String id) {
+        this.id = id; 
     }
 
     public void broadcast() { 
@@ -74,6 +75,7 @@ public abstract class AbstractNode implements Communicable {
         Introducing abstract class introduces the problem of how to pass information 
         between a subclass and the abstract class both ways. 
     */
-    public abstract String getId(); 
+    // UPDATE 2024-12-08 - got rid of it by just passing the id in
+    // public abstract String getId(); 
 
 }

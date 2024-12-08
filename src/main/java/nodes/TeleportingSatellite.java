@@ -19,13 +19,11 @@ import networking.Packet;
 
 public class TeleportingSatellite extends AbstractNode implements Movable { 
 
-    private String id; 
     private Angle angle; 
     private double height; 
     
-    public TeleportingSatellite(String id, Angle angle, double height) { 
-        super(); 
-        this.id = id; 
+    public TeleportingSatellite(Angle angle, double height) { 
+        super(id); 
         this.angle = angle; 
         this.height = height; 
     }

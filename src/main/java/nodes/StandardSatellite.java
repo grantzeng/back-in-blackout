@@ -28,9 +28,8 @@ public class StandardSatellite extends AbstractNode implements Movable {
     private Angle angle; 
     private double height; 
     
-    public StandardSatellite(String id, Angle angle, double height) { 
-        super(); 
-        this.id = id; 
+    public StandardSatellite(Angle angle, double height) { 
+        super(id); 
         this.angle = angle; 
         this.height = height; 
     }

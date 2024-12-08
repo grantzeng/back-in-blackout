@@ -283,3 +283,13 @@ Let's just move back to files so we can add files to devices
 
 Regarding issue of things teleporting:
 - This is a complication you can account for later.
+
+
+
+### 5:24pm 
+Let's just - instead of moving everything into a separate file, let's just write everything in abstract node and figure out how to refactor out the inheritance later. 
+
+> The issue is basically I don't know how to make the composition work and because all these features need sharing of state... so I'm just going to put it all into one thing. 
+
+
+Let's just used `protected` and the simple class hierachy I have now. I really intensely dislike inheritance but let's just see if we can make it work

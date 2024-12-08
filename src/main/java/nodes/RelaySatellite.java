@@ -20,13 +20,11 @@ import networking.Packet;
 
 public class RelaySatellite extends AbstractNode implements Movable { 
     
-
-    private String id; 
     private Angle angle; 
     private double height; 
     
     public RelaySatellite(String id, Angle angle, double height) { 
-        super(); 
+        super(id); 
         this.id = id; 
         this.angle = angle; 
         this.height = height;  

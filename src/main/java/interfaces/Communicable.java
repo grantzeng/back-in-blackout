@@ -51,7 +51,8 @@ public interface Communicable {
 
     // This stupid getter exists because abstract class needs access to info from the concrete class
     // - we're working on a solution to try to get rid of it. 
-    public String getId(); 
+    // UPDATE 2024-12-08: got rid of this by pushing it into the AbstractNode via the constructor
+    // public String getId(); 
 
     public EntityInfoResponse getInfo(); 
 

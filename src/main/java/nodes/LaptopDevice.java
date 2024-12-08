@@ -20,13 +20,12 @@ import nodes.AbstractNode;
 
 public class LaptopDevice extends AbstractNode { 
 
-    private String id; 
+
     private Angle angle; 
     private double height; 
     
     public LaptopDevice(String id, Angle angle) { 
-        super(); 
-        this.id = id; 
+        super(id); 
         this.angle = angle; 
         this.height = RADIUS_OF_JUPITER; 
     }

@@ -27,7 +27,7 @@ public class DesktopDevice extends AbstractNode {
     
     
     public DesktopDevice(String id, Angle angle) { 
-        super(); 
+        super(id); 
         this.id = id; 
         this.angle = angle; 
         this.height = RADIUS_OF_JUPITER;
