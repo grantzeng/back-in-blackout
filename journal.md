@@ -265,3 +265,22 @@ If you naively use any of the design patterns, they draw too many walls around s
 
 The problem is just unsolved for now. We'll come back to it later. 
 
+# 2024-12-08
+### Trying to redesign without inheritance
+
+"The Flaws of Inheritance"
+> https://www.youtube.com/watch?v=hxGOiiR9ZKg 
+
+"Dependency Injection, the best pattern" 
+> https://www.youtube.com/watch?v=J1f5b4vcxCQ
+
+Can we somehow get rid of the abstract class and make modules that can be composed for file management, file transmission etc. Basically the alternative to implementation inheritance is composition + interfaces. I don't think I have the right abstractions. 
+
+
+
+### I still haven't come up with a reasonable design so
+Let's just move on to
+
+
+Regarding issue of things teleporting: 
+- This is a complication you can account for later.
