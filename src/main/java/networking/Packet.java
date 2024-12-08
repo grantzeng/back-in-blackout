@@ -28,6 +28,8 @@ public class Packet {
     int seq;        //  the sequence number 
                     // (if ack is false, then this is the start of the data paylaod
                     // (if ack is true, then this the next position we expect from )
+                    // Basically we use this instead of explicitly calculating the min 
+                    // of sender and receiver bandwidth
 
     boolean ack;     // whether or not the packet is a data send or whether it
                     // it's an acknowledgement we got data
