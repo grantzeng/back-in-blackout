@@ -157,7 +157,7 @@ public class BlackoutController {
                 .filter(node -> node instanceof StandardSatellite || 
                                 node instanceof RelaySatellite || 
                                 node instanceof TeleportingSatellite) 
-                .map(node -> ((Communicable) node).getId())
+                .map(node -> ((AbstractNode) node).id)
                 .collect(Collectors.toList()); 
         //System.out.println(nodes); 
         return nodes; 

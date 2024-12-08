@@ -20,14 +20,13 @@ import networking.Packet;
 
 import nodes.AbstractNode; 
 
-
 public class StandardSatellite extends AbstractNode implements Movable { 
 
 
     private Angle angle; 
     private double height; 
     
-    public StandardSatellite(Angle angle, double height) { 
+    public StandardSatellite(String id, Angle angle, double height) { 
         super(id); 
         this.angle = angle; 
         this.height = height; 

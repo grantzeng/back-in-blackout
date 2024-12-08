@@ -25,7 +25,7 @@ public class TeleportingSatellite extends AbstractNode implements Movable {
     private Angle angle; 
     private double height; 
     
-    public TeleportingSatellite(Angle angle, double height) { 
+    public TeleportingSatellite(String id, Angle angle, double height) { 
         super(id); 
         this.angle = angle; 
         this.height = height; 
