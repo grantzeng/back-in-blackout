@@ -19,7 +19,7 @@ import networking.Packet;
 public abstract class AbstractNode implements Communicable { 
 
     protected Map<String, Communicable> topology = new HashMap<>(); 
-    protected List<Packet> inbox = new ArrayList<Packet>(); 
+    protected List<Packet> buf = new ArrayList<Packet>(); // "buffer"; queue of packets received
 
     protected String id; 
 
@@ -27,10 +27,13 @@ public abstract class AbstractNode implements Communicable {
         this.id = id; 
     }
 
+
+    /*
+    
+        Functions for sending and receiving packets
+    
+    */
     public void broadcast() { 
-            if (this.inbox.size() > 0) { 
-            return; 
-        }
 
         Packet ping = new Packet("D", getId(), "not_a_filename", 0, false, "popty ping");
 
@@ -41,15 +44,9 @@ public abstract class AbstractNode implements Communicable {
     }
 
     public void listen(Packet p) { 
-        inbox.add(p); 
+        buf.add(p); 
     }
 
-    public void acknowledge() {
-        if (this.inbox.size() > 2) { 
-            inbox.clear(); 
-        }
-
-    }
 
     public void sync(boolean add, Communicable node) {
         if (add) { 
@@ -57,9 +54,23 @@ public abstract class AbstractNode implements Communicable {
         } else { 
             topology.remove(node); 
         }
-
     }
+    
+    /*
+    
+        Functions for processing packets queue
+        - things that need to be sent out
+        - data that has to be read into particular packets
+    */
 
+
+    /*
+        Functions for adding files to devices
+        - Currently I don't have a better way of doing this by composition 
+          so this also forces satellites to be able to have files to add to them
+          but fixing this is a problem for later
+
+    */
 
     /*
         I REALLY DO NOT LIKE THIS STUPID GETTER.
