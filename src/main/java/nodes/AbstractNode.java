@@ -12,16 +12,20 @@ import java.util.stream.Collectors;
 import java.util.Collections; 
 
 import interfaces.Communicable; 
+import interfaces.Uploadable; 
 
 import networking.Packet; 
 
+import files.File; 
+import files.File.COMPLETE; 
 
-public abstract class AbstractNode implements Communicable { 
+
+public abstract class AbstractNode implements Communicable {  //, Uploadable
 
     protected Map<String, Communicable> topology = new HashMap<>(); 
     protected List<Packet> buf = new ArrayList<Packet>(); // "buffer"; queue of packets received
 
-    protected String id; 
+    public String id; 
 
     public AbstractNode(String id) {
         this.id = id; 
@@ -38,7 +42,7 @@ public abstract class AbstractNode implements Communicable {
 
     public void broadcast() { 
 
-        Packet ping = new Packet("D", getId(), "not_a_filename", 0, false, "popty ping");
+        Packet ping = new Packet("D", id, "not_a_filename", 0, false, "popty ping");
 
         for (Communicable node : topology.values()) { 
             node.listen(ping); 
@@ -52,7 +56,7 @@ public abstract class AbstractNode implements Communicable {
 
     public void sync(boolean add, Communicable node) {
         if (add) { 
-            topology.put(node.getId(), node); 
+            topology.put(((AbstractNode) node).id, node); 
         } else { 
             topology.remove(node); 
         }
@@ -73,6 +77,12 @@ public abstract class AbstractNode implements Communicable {
           but fixing this is a problem for later
 
     */
+    private Map<String, File> store = new HashMap<>(); 
+ 
+    public void upload(String fname, String data) {
+        File f = File(fname, data.length(), File.COMPLETE, data); 
+        store.put(fname, f); 
+    }
 
     /*
         I REALLY DO NOT LIKE THIS STUPID GETTER.

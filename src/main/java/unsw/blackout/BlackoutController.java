@@ -17,6 +17,7 @@ import nodes.LaptopDevice;
 import nodes.RelaySatellite;
 import nodes.StandardSatellite;
 import nodes.TeleportingSatellite;
+import nodes.AbstractNode; 
 
 import unsw.response.models.EntityInfoResponse;
 import unsw.utils.Angle;
@@ -143,7 +144,7 @@ public class BlackoutController {
                 .filter(node -> node instanceof DesktopDevice || 
                                 node instanceof HandheldDevice || 
                                 node instanceof LaptopDevice) 
-                .map(node -> ((Communicable) node).getId())
+                .map(node -> ((AbstractNode) node).id)
                 .collect(Collectors.toList());
         //System.out.println(nodes); 
         return nodes; 
@@ -190,17 +191,11 @@ public class BlackoutController {
             .map(node -> (Movable) node )
             .forEach(Movable::move); 
 
-        // Broadcast packets, send acknowledgements 
+        // Broadcast and do network stuffs 
         System.out.println("Try to broadcast"); 
         for (Communicable node : topology.values()) { 
             node.broadcast(); 
         }
-
-        System.out.println("Try to acknowledge"); 
-        for (Communicable node : topology.values()) { 
-            node.acknowledge(); 
-        }
-
 
         clock++;
     }

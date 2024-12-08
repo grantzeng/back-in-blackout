@@ -48,12 +48,6 @@ public class TeleportingSatellite extends AbstractNode implements Movable {
 
     }
     
-    public String getId() { 
-        return this.id; 
-    }
-
-
-    
     public EntityInfoResponse getInfo() {
         return new EntityInfoResponse(id, angle, height, "TeleportingSatellite", new HashMap<>());
     }

@@ -24,16 +24,11 @@ public class HandheldDevice extends AbstractNode {
     private Angle angle; 
     private double height; 
 
-    
     public HandheldDevice(String id, Angle angle) { 
         super(id); 
         this.id = id; 
         this.angle = angle; 
         this.height = RADIUS_OF_JUPITER; 
-    }
-
-    public String getId() { 
-        return this.id; 
     }
 
     public EntityInfoResponse getInfo() {

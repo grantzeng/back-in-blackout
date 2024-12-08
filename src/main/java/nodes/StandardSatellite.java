@@ -24,7 +24,6 @@ import nodes.AbstractNode;
 public class StandardSatellite extends AbstractNode implements Movable { 
 
 
-    private String id; 
     private Angle angle; 
     private double height; 
     
@@ -40,11 +39,6 @@ public class StandardSatellite extends AbstractNode implements Movable {
         System.out.println("StandardSatellite.move()"); 
         Angle delta = Angle.fromRadians(ANTI_CLOCKWISE * LINEAR_SPEED / height);
         angle = angle.subtract(delta); 
-    }
-
-
-    public String getId() { 
-        return this.id; 
     }
 
     public EntityInfoResponse getInfo() {

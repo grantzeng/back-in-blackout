@@ -1,3 +1,4 @@
+package files; 
 /*
     
     It's clear there should be some kind of file object

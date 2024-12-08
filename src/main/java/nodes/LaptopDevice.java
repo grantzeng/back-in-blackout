@@ -30,10 +30,6 @@ public class LaptopDevice extends AbstractNode {
         this.height = RADIUS_OF_JUPITER; 
     }
 
-    public String getId() { 
-        return this.id; 
-    }
-
     public EntityInfoResponse getInfo() {
         return new EntityInfoResponse(id, angle, height, "LaptopDevice", new HashMap<>());
     }

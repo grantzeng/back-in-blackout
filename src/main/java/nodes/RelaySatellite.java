@@ -25,7 +25,6 @@ public class RelaySatellite extends AbstractNode implements Movable {
     
     public RelaySatellite(String id, Angle angle, double height) { 
         super(id); 
-        this.id = id; 
         this.angle = angle; 
         this.height = height;  
     }
@@ -51,11 +50,6 @@ public class RelaySatellite extends AbstractNode implements Movable {
         }
 
     }
-
-    public String getId() { 
-        return this.id; 
-    }
-    
 
     public EntityInfoResponse getInfo() {
         return new EntityInfoResponse(id, angle, height, "RelaySatellite", new HashMap<>());
