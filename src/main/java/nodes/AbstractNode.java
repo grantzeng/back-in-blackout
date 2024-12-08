@@ -31,8 +31,11 @@ public abstract class AbstractNode implements Communicable {
     /*
     
         Functions for sending and receiving packets
-    
+        - send packets out
+        - get backets in 
+        - update current understanding of network topology
     */
+
     public void broadcast() { 
 
         Packet ping = new Packet("D", getId(), "not_a_filename", 0, false, "popty ping");
@@ -47,7 +50,6 @@ public abstract class AbstractNode implements Communicable {
         buf.add(p); 
     }
 
-
     public void sync(boolean add, Communicable node) {
         if (add) { 
             topology.put(node.getId(), node); 
@@ -55,7 +57,7 @@ public abstract class AbstractNode implements Communicable {
             topology.remove(node); 
         }
     }
-    
+
     /*
     
         Functions for processing packets queue
