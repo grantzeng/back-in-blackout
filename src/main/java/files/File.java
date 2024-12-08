@@ -26,7 +26,7 @@ public class File {
         this.fname = fname; 
         this.size = size; 
         this.status = status;  
-        this.data = content; 
+        this.data = data; 
     }
 
     /*
@@ -41,13 +41,13 @@ public class File {
     // - start at what letter in the data
     public String read(int fp, int bytes) {
         if (fp >= size) {
-            System.out.println("Error: fp greater than size")
-            return; 
+            System.out.println("Error: fp greater than size");
+            return "NO DATA"; 
         } 
         
         if (fp + bytes >= size) {
             System.out.println("Error: requesting too many bytes starting at fp"); 
-            return; 
+            return "NO DATA"; 
         }
 
         return data.substring(fp, fp + bytes); 
@@ -63,6 +63,8 @@ public class File {
 
         data += fragment; 
     }
- 
 
+    public FileInfoResponse getFileInfoResponse() {
+        return new FileInfoResponse(fname, data, size, status == COMPLETE);
+    }
 }

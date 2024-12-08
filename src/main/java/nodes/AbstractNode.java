@@ -31,7 +31,7 @@ public abstract class AbstractNode implements Communicable {
             return; 
         }
 
-        Packet ping = new Packet("D", getId(), "popty ping" + getId(), "DesktopDevice"); 
+        Packet ping = new Packet("D", getId(), "not_a_filename", 0, false, "popty ping");
 
         for (Communicable node : topology.values()) { 
             node.accept(ping); 

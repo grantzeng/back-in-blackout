@@ -278,9 +278,8 @@ Can we somehow get rid of the abstract class and make modules that can be compos
 
 
 
-### I still haven't come up with a reasonable design so
-Let's just move on to
+## Still having trouble trying to come up with a reasonabel 
+Let's just move back to files so we can add files to devices
 
-
-Regarding issue of things teleporting: 
+Regarding issue of things teleporting:
 - This is a complication you can account for later.

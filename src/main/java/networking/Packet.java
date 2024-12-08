@@ -20,26 +20,26 @@ public class Packet {
 
     // Communication class
 
-    String to;      // What the communication is between 
-    String from; 
+    public String to;      // What the communication is between 
+    public String from; 
 
-    String url;     // Name of resource that we're sending from
+    public String fname;     // Name of resource that we're sending from (fname basically is primary key by design by requirement in the spec)
     
-    int seq;        //  the sequence number 
+    public int seq;        //  the sequence number 
                     // (if ack is false, then this is the start of the data paylaod
                     // (if ack is true, then this the next position we expect from )
                     // Basically we use this instead of explicitly calculating the min 
                     // of sender and receiver bandwidth
 
-    boolean ack;     // whether or not the packet is a data send or whether it
+    public boolean ack;     // whether or not the packet is a data send or whether it
                     // it's an acknowledgement we got data
 
-    String data; // the actual payload (only used in data transmission)
+    public String data; // the actual payload (only used in data transmission)
 
 
     public Packet(String to, String from, String fname, int seq, boolean ack, String data) {
         this.to = to; 
-        this.from = from 
+        this.from = from;
         this.fname = fname; 
         this.seq = seq; 
         this.ack = ack; 
@@ -47,15 +47,7 @@ public class Packet {
     }
    
     public int size() { 
-        return content.length();
+        return data.length();
     }
 
-    public String toString() {
-        return "Packet { " +
-               "to: '" + to + "', " +
-               "from: '" + from + "', " +
-               "content: '" + content + "', " +
-               "size: " + size() +
-               " }";
-    }
 }
