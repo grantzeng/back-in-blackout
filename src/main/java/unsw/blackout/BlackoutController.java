@@ -24,14 +24,14 @@ import unsw.utils.Angle;
 
 public class BlackoutController {
 
-    private Map<String, Communicable> topology = new HashMap<>(); 
+    private Map<String, AbstractNode> topology = new HashMap<>(); 
 
     private int clock = 0;
 
     public void createDevice(String deviceId, String type, Angle position) {
         System.out.println("createDevice" + " " + deviceId + " " + type + " " +  position); 
 
-        Communicable device = null; 
+        AbstractNode device = null; 
         switch (type) {
             case "HandheldDevice":
                 device = new HandheldDevice(deviceId, position);
@@ -53,8 +53,7 @@ public class BlackoutController {
         // - For now every node will get a copy of the whole topology but later
         //   to simulate a real network each node should only get its neighbours
         for (Communicable node: topology.values() ) { 
-            node.sync(true, device); 
-            device.sync(true, node); 
+            node.sync(topology); 
         }
 
         //System.out.println(topology); 
@@ -72,7 +71,7 @@ public class BlackoutController {
         Communicable device = topology.remove(deviceId); 
         
         for (Communicable node: topology.values()) { 
-            node.sync(false, device); 
+            node.sync(topology); 
         }
         
         //System.out.println(topology); 
@@ -84,7 +83,7 @@ public class BlackoutController {
 
         System.out.println("createSatellite" + " " + satelliteId + " " + type + " " +  height + " " + position); 
 
-        Communicable satellite = null; 
+        AbstractNode satellite = null; 
         switch (type) {
             case "StandardSatellite":
                 satellite = new StandardSatellite(satelliteId, position, height);
@@ -105,11 +104,14 @@ public class BlackoutController {
 
         // - For now every node will get a copy of the whole topology but later
         //   to simulate a real network each node should only get its neighbours
-        for (Communicable node: topology.values() ) { 
-            node.sync(true, satellite); 
-            satellite.sync(true, node); 
-        }
+        // for (Communicable node: topology.values() ) { 
+        //     node.sync(true, satellite); 
+        //     satellite.sync(true, node); 
+        // }
       
+        for (Communicable node: topology.values()) { 
+            node.sync(topology); 
+        }
         //System.out.println(topology); 
 
     }
@@ -124,7 +126,7 @@ public class BlackoutController {
         Communicable satellite = topology.remove(satelliteId); 
         
         for (Communicable node: topology.values()) { 
-            node.sync(false, satellite); 
+            node.sync(topology); 
         }
        
         //System.out.println(topology); 

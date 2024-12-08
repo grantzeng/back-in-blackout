@@ -5,6 +5,7 @@ package nodes;
     - Does the base implementation of communication
 */
 import java.util.HashMap;
+import java.util.Map; 
 import java.util.List;
 import java.util.ArrayList; 
 import java.util.Map;
@@ -27,7 +28,7 @@ import unsw.utils.Angle;
 
 public abstract class AbstractNode implements Communicable {  //, Uploadable
 
-    protected Map<String, Communicable> topology = new HashMap<>(); 
+    protected Map<String, AbstractNode> topology = new HashMap<>(); 
     protected List<Packet> buf = new ArrayList<Packet>(); // "buffer"; queue of packets received
 
     public String id; 
@@ -63,12 +64,9 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
         buf.add(p); 
     }
 
-    public void sync(boolean add, Communicable node) {
-        if (add) { 
-            topology.put(((AbstractNode) node).id, node); 
-        } else { 
-            topology.remove(node); 
-        }
+    public void sync(Map<String, AbstractNode> topology) {
+        // blackout controller passes in the whole topology
+        this.topology = topology; 
     }
 
     /*

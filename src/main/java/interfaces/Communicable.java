@@ -1,5 +1,7 @@
 package interfaces; 
 
+import java.util.Map; 
+import nodes.AbstractNode; 
 import networking.Packet; 
 import unsw.response.models.EntityInfoResponse;
 
@@ -47,7 +49,8 @@ public interface Communicable {
     //   node gets about the topology
     // - not sure about `create` - it could be delete instead
     // 
-    public void sync(boolean add, Communicable node); 
+    // public void sync(boolean add, Communicable node); 
+    public void sync(Map<String, AbstractNode> topology); 
 
     // This stupid getter exists because abstract class needs access to info from the concrete class
     // - we're working on a solution to try to get rid of it. 

@@ -332,12 +332,92 @@ Basically, keep working on it the obvious way to you (which is `AbstractNode` sh
 
 But then you ought to think about what the costs are of doing it with this design
 
-
 ### Things to do
 Current solution seems like it should work but
 - get rid of the inheritance, is there a good way of replacing `AbstractNode` with something like a composition of a server, a motor class etc. 
 - is there a way of replacing my current solution of just pushing all the state upwards into one class, with building individual modules that can somehow share state? (i.e. is there a way of rewriting my current design in terms of composition without having this combinatorial number of stupid boilerplate functions that just pass data around)
 - also need to redesign it to make it testable
 
-
 > Walking around the problem of blasting walls between modules that need to share state by not putting the friggin walls there in the first place 
+
+
+
+# 2024-12-04 
+
+### Survey what's left to do
+> Basically the point of this exercise is thinking about how to modularise code. After I've learnt that skill, then I want to think about testing and the purpose and role of testing 
+
+(Testing seems kind of pointless unless (a) you're refactoring/modifying existing code (so you need to make sure it won't break) and (b) you have a conceptual clarity about how some component _must_ behave) 
+
+(Also like that random comment I read on a Primagen video reacting to the Youtube video above: the problem is that when you start, you don't know all the possible details of your system so you are sort of forced to just build bottom up; in theory with inheritance you could do it if you did - but it's very top down, so you're stuck when you have to add something to the system) 
+
+(I do need some way of replacing the `AbstractNode` class with composition - like is there a way of building a new class from modules and getting them to share state nicely without ending up having to blow a combinatorial C(n, 2) number of holes to make it work?)
+
+Basically the remaining features are: 
+- `communicableEntitiesInRange` (Task 2b) 
+- `sendFile` (Task 2c) 
+
+The problem you're trying to solve how do you modularise it such that the data is available for all the operations. Like ideally you want it modular as possible i.e. push things down and isolate them rather than having shared state because this makes it more component wise and easier to test. Again the problem of drawing walls wrong. 
+
+# `communicableEntitiesInRange`
+Where should this behaviour go? 
+
+I can see two possible solutions:
+(1) we just do a graph search in `BlackoutController` because it has access to the whole network topology. 
+    - This was my original solution, basically I had a `CommunicabilityManager` class that just populated the nodes with visible information. But the thing I don't like is that essentially this is giving the job to `BlackoutController` rather than forcing the network to just do this itself. 
+(2) somehow you do it with packets in a distributed way. (how you'd prefer to do it)
+
+There should be some way of subscribing/unsubscribing entities from each other. Currently `BlackoutController` gives the whole network topology, but really a node only should have access to its immediate neighbour 
+
+> I think it's reasonable that when an entity is first added that `BlackoutController` because it has access to the whole graph figures out who's its neighbours will be; but after that the system should just tick itself over.
+
+First I'm going to write out the restrictions on communications 
+
+### Restrictions/allowances on communication 
+
+Permissions
+```
+Target needs to be within range of the source (but source does not need to be within range of target)
+
+All satellites can send files to other satellites
+```
+Restrictions
+```
+Devices cannot send files to other devices 
+
+StandardSatellites cannot communicate with DesktopDevices (can only communicate with HandheldDevices and LaptopDevices)
+
+(Teleporting satellite has no restrictions on devices it can communicate with)
+
+
+```
+
+Sending ranges
+```
+HandheldDevice - 50_000km 
+LaptopDevice - 100_000km
+DesktopDevice - 200_000km 
+StandardSatellite - 150_000km 
+TeleportingSatellite - 200_000km
+RelaySatellite - 300_000km //basically only forwards packets 
+```
+
+Bandwidths
+
+
+
+### Do we need a distributed hash table? 
+
+The problem with giving everyone a copy of the whole topology is that it's not going to be scalable. 
+
+
+This being said, if we're supposed to avoid putting logic in `BlackoutController`, then it's the manager's job to push the whole graph into the nodes. 
+
+I think the easiest solution is that every node gets the whole topology, and then each node is responsible for censoring itself. 
+
+
+### No we don't.
+
+The simplest solution is - to avoid logic in `BlackoutController`, `BlackoutController` just passes in the whole network topology and the abstract node itself can figure out what to do with that. Oversupplying data when the design is unclear is probably a good idea, we can figure out how to minmimise the amount of logic in `BlackoutController` and minimise how much each node knows about the topology later. 
+
+I think we may be able to just get rid of the `Communicable` interface? Not 100% sure. 
