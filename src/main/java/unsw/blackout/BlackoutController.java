@@ -171,8 +171,14 @@ public class BlackoutController {
      */
 
     public void addFileToDevice(String deviceId, String filename, String content) {
-        System.out.println("addFileToDevice not implemented"); 
-       
+        AbstractNode device = ((AbstractNode) topology.get(deviceId)); 
+        
+        //2024-12-08 temporary debugging assert while the class structure of nodes is unclear
+        String type =  device.getInfo().getType(); 
+        assert type.equals("DesktopDevice") || type.equals("HandheldDevice") || type.equals("LaptopDevice");
+
+        device.upload(filename, content); 
+
     }
 
     public EntityInfoResponse getInfo(String id) {

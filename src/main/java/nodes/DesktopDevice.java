@@ -23,8 +23,6 @@ public class DesktopDevice extends AbstractNode {
     
     public DesktopDevice(String id, Angle angle) { 
         super(id, angle, RADIUS_OF_JUPITER); 
-        this.angle = angle; 
-        this.height = RADIUS_OF_JUPITER;
     }
 
     public EntityInfoResponse getInfo() {
