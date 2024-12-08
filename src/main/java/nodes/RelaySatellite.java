@@ -51,6 +51,6 @@ public class RelaySatellite extends AbstractNode implements Movable {
     }
 
     public EntityInfoResponse getInfo() {
-        return super.getInfo("RelayDevice"); 
+        return super.getInfo("RelaySatellite"); 
     }
 }

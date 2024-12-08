@@ -28,7 +28,7 @@ public class HandheldDevice extends AbstractNode {
 
 
      public EntityInfoResponse getInfo() {
-        return super.getInfo("Handheld"); 
+        return super.getInfo("HandheldDevice"); 
     }
 
 
