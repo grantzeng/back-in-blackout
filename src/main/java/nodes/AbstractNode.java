@@ -34,7 +34,7 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
     // An abstract node should only know about local topology and communicate with the network via packets
     // - BlackoutController will pass in whole topology, but it is the responsibility of each network node to censor itself
     //   of references it does not need
-    protected Map<String, AbstractNode> neighbours = new HashMap<>(); 
+    protected Map<String, AbstractNode> communicables = new HashMap<>(); 
 
 
     protected List<Packet> buf = new ArrayList<Packet>(); // "buffer"; queue of packets received
@@ -60,15 +60,30 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
 
     public void broadcast() { 
 
-        Packet ping = new Packet("D", id, "not_a_filename", 0, false, "popty ping");
+        Packet ping = new Packet("D", id, "not_a_filename", 0, "ping", "popty ping");
 
-        for (Communicable node : neighbours.values()) { 
+        for (Communicable node : communicables.values()) { 
             node.listen(ping); 
         }
 
     }
 
     public void listen(Packet p) { 
+
+        if (p.type == "ping") { 
+            if !supports().contains(p.data) { 
+                System.out.println("Not replying because sender is incompatible"); 
+                return; 
+            }
+
+            communicables.values().stream()
+                .map(node -> {  
+                    Packet reply = new Packet(node.id, this.id, "", -1, "ping-reply", "hi!"); 
+                    node.listen(reply);     
+                }); 
+
+        }
+
         buf.add(p); 
     }
 
@@ -91,7 +106,7 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
         // node is responsible for censoring itself to only immediate neighbours
         // - visible and communicable. 
 
-        neighbours = topology.values().stream() 
+        communicables = topology.values().stream() 
             .filter(node -> MathsHelper.isVisible(node.height, node.angle, this.height, this.angle) )
             .filter(node -> MathsHelper.getDistance(node.height, node.angle, this.height, this.angle) <= range())
             .filter(node -> supports().contains(node.type()))
@@ -106,7 +121,15 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
         Function for determining communicability
     
     */
+    public List<String> reachable() { 
+        // Calculates all communicable entities in range
+        // basically just multicast communicable neighbours (already done)
 
+        // Type of packet is a ping packet, and the data is the satellite type 
+        // - then the entity can think about whether it wants to reply 
+        Packet ping = new Packet("")
+
+    }
 
     /*
     

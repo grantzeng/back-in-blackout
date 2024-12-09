@@ -31,18 +31,19 @@ public class Packet {
                     // Basically we use this instead of explicitly calculating the min 
                     // of sender and receiver bandwidth
 
-    public boolean ack;     // whether or not the packet is a data send or whether it
+    public String type; 
+    //public boolean ack;     // whether or not the packet is a data send or whether it
                     // it's an acknowledgement we got data
 
     public String data; // the actual payload (only used in data transmission)
 
 
-    public Packet(String to, String from, String fname, int seq, boolean ack, String data) {
+    public Packet(String to, String from, String fname, int seq, String type, String data) {
         this.to = to; 
         this.from = from;
         this.fname = fname; 
         this.seq = seq; 
-        this.ack = ack; 
+        this.type = type; 
         this.data = data; 
     }
    

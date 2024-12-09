@@ -437,3 +437,17 @@ We can always update the `sync` function later if we want to turn the faucet on 
 Basically the point here is (1) how to maintain encapsulation but (2) without shooting yourself in the foot because you don't have all the data you need to do what you need to do. 
 
 
+
+### 12:09pm How to do searching network topology for communicability
+
+I think probably go read about packets and think about this. 
+
+There's some layering involved. i.e. you need to distinguish between hops in the graph and the sender and recipient of a payload. 
+
+Figure out the packetization issues on Wednesday, basically you need to implement some kind of transmission protocol, this way you avoid having to have some master object that does the graph search top down - we want to minimise the amount of work blackout controller has to do. 
+
+> Need to redesign packet class to account for this
+
+
+### Summary for today
+Reminder that the skill you're trying to learn is: ***how should you _modularise_ your code***. That's the problem that OOP is meant to be solving but to be frank all one actually has is one's wits. 
