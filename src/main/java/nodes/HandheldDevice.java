@@ -1,5 +1,6 @@
 package nodes; 
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +27,21 @@ public class HandheldDevice extends AbstractNode {
         super(id, angle, RADIUS_OF_JUPITER); 
     }
 
+    private static final List<String> supports = Arrays.asList("StandardSatellite", "TeleportingSatellite", "RelaySatellite"); 
 
-     public EntityInfoResponse getInfo() {
+    public double range() { 
+        return 50_000; // km
+    }
+    
+    public List<String> supports() { 
+        return supports;
+    }
+
+    public String type() { 
+        return "HandheldDevice"; 
+    }
+
+    public EntityInfoResponse getInfo() {
         return super.getInfo("HandheldDevice"); 
     }
 

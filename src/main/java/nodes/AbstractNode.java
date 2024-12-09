@@ -26,9 +26,17 @@ import unsw.response.models.FileInfoResponse;
 import unsw.utils.Angle; 
 
 
+import unsw.utils.MathsHelper; 
+
 public abstract class AbstractNode implements Communicable {  //, Uploadable
 
-    protected Map<String, AbstractNode> topology = new HashMap<>(); 
+
+    // An abstract node should only know about local topology and communicate with the network via packets
+    // - BlackoutController will pass in whole topology, but it is the responsibility of each network node to censor itself
+    //   of references it does not need
+    protected Map<String, AbstractNode> neighbours = new HashMap<>(); 
+
+
     protected List<Packet> buf = new ArrayList<Packet>(); // "buffer"; queue of packets received
 
     public String id; 
@@ -54,7 +62,7 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
 
         Packet ping = new Packet("D", id, "not_a_filename", 0, false, "popty ping");
 
-        for (Communicable node : topology.values()) { 
+        for (Communicable node : neighbours.values()) { 
             node.listen(ping); 
         }
 
@@ -64,10 +72,41 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
         buf.add(p); 
     }
 
+    // I think this boilerplate was a way of passing subclass information to super class
+    // - this is just a temporary fix until I can figure out a way to replace abstract class altogether 
+    //   and get rid of this trying to breathe through a straw kind of situation with data passing
+    public abstract double range(); 
+    
+    public abstract List<String> supports(); 
+
+    public abstract String type(); 
+    
+    public String id() { 
+        return id; 
+    }
+
+
     public void sync(Map<String, AbstractNode> topology) {
         // blackout controller passes in the whole topology
-        this.topology = topology; 
+        // node is responsible for censoring itself to only immediate neighbours
+        // - visible and communicable. 
+
+        neighbours = topology.values().stream() 
+            .filter(node -> MathsHelper.isVisible(node.height, node.angle, this.height, this.angle) )
+            .filter(node -> MathsHelper.getDistance(node.height, node.angle, this.height, this.angle) <= range())
+            .filter(node -> supports().contains(node.type()))
+            .collect(Collectors.toMap(
+                AbstractNode::id, 
+                node -> node
+            ));
+        
     }
+
+    /*
+        Function for determining communicability
+    
+    */
+
 
     /*
     

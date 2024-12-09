@@ -421,3 +421,19 @@ I think the easiest solution is that every node gets the whole topology, and the
 The simplest solution is - to avoid logic in `BlackoutController`, `BlackoutController` just passes in the whole network topology and the abstract node itself can figure out what to do with that. Oversupplying data when the design is unclear is probably a good idea, we can figure out how to minmimise the amount of logic in `BlackoutController` and minimise how much each node knows about the topology later. 
 
 I think we may be able to just get rid of the `Communicable` interface? Not 100% sure. 
+
+
+
+### 11:04am how to maintain encapsulation of topology. 
+
+Basically I don't want a node to have references to objects it has no need to know about. The problem is this dynamically changes at every tick and the issue is that only `BlackoutController` knows the global state
+
+So my solution is: 
+- `BlackoutController` passes in the entire topology
+- Every node is itself responsible for filtering out references it has no need to know about. So the idea is we only maintain local topology in the node and don't have references to things we do not need (because it will be just like a Chekov's gun at some point). 
+
+We can always update the `sync` function later if we want to turn the faucet on more re: how much topology a node needs to know about. But it _ought_ to be as minimal as possible but flexible to change later. 
+
+Basically the point here is (1) how to maintain encapsulation but (2) without shooting yourself in the foot because you don't have all the data you need to do what you need to do. 
+
+

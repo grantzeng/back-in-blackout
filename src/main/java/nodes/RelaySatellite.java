@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.Collections; 
+import java.util.Arrays;
+
 
 import unsw.utils.Angle;
 import static unsw.utils.MathsHelper.CLOCKWISE;
@@ -25,6 +27,20 @@ public class RelaySatellite extends AbstractNode implements Movable {
     
     public RelaySatellite(String id, Angle angle, double height) { 
         super(id, angle, height); 
+    }
+
+    private static final List<String> supports = Arrays.asList("StandardSatellite", "TeleportingSatellite", "RelaySatellite", "HandheldDevice", "LaptopDevice", "DesktopDevice"); 
+
+    public double range() { 
+        return 300_000; // km
+    }
+    
+    public List<String> supports() { 
+        return supports;
+    }
+
+    public String type() { 
+        return "RelaySatellite"; 
     }
 
 

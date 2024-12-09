@@ -194,13 +194,24 @@ public class BlackoutController {
         System.out.println("\n\n\nClock: " + clock); 
         
         // Move
+        System.out.println("simulate - move"); 
         topology.values().stream()
             .filter(node -> node instanceof Movable)
             .map(node -> (Movable) node )
             .forEach(Movable::move); 
 
+        // Update neighbours
+        System.out.println("simulate - sync");
+        for (Communicable node : topology.values()) {
+            // node.sync will take the whole topology and censor it so that 
+            // only the local topology is available to a node
+            // - all subsequent node operations are done purely with packets and 
+            //   message passing
+            node.sync(topology); 
+        }
+
         // Broadcast and do network stuffs 
-        System.out.println("Try to broadcast"); 
+        System.out.println("simulate - broadcast"); 
         for (Communicable node : topology.values()) { 
             node.broadcast(); 
         }
