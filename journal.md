@@ -458,3 +458,26 @@ Reminder that the skill you're trying to learn is: ***how should you _modularise
 ### 2:42pm 
 
 Currently the network nodes have access to their local topology. Can we write a basic packet communication system?
+
+
+### 3:48pm
+
+Communicable entities in range
+ -
+
+### 4:39pm 
+
+Things to do: 
+- `communicableEntitiesInRange` - you have to implement some kind of distributed dfs or bfs which is quite interesting (how do you prevent cycles, how do you handle visited transitions etc. - the problem with `visited` is that it's all very well on one computer because it works as a global thing...the question is how to distribute this); 
+
+- for packet sending - maybe implement some kind of routing table
+
+I think we only need two levels of abstraction in the packet 
+    - metadata for end-to-end transmission (basically like application layer abstraction)
+    - variables for hop transmissions with relays. (basically just transport layer)
+
+
+### 5:08pm: distributed BFS
+The simple way would actually be to mark the nodes as visited, but I only want to 
+have two functions `discover` and `discoverReply` and make no modifications to the graph
+to be in keeping with the distributed flavour of the whole assignment

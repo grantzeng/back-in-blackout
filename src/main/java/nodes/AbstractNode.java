@@ -138,8 +138,13 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
 
 
     /*
-    
-        
+        2024-12-12-4:44pm 
+        YOU HAVE TO IMPLEMENT A DISTRIBUTED BFS TO AVOID `visited` - this is actually 
+        quite an interesting thing to do
+
+
+        2024-12-12
+        - Basically you have to implement a kind of distributed DFS or BFS
         
         Idea: 
         - Let's just flood neighbours first 
@@ -183,6 +188,7 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
             // Is a relay satellite
             // - contact all neighbours including relays but excluding where we came from
             // `.discoverReply` will generate the recursive BFS basically
+            // Problem this can also cause recursion by accident...
             return communicables.values()
                 .stream()
                 .filter(node -> node.id != probe.from)
@@ -193,10 +199,8 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
                     return node.discoverReply(newProbe); 
                 })
                 .flatMap(ids -> {
-                    // Add also relay node as contactable
-                    ids.add(this.id);
-                    
-                    return ids.stream();
+                    // Add also relay node as contactable... appa
+                    return Stream.concat(ids.stream(), Stream.of(this.id));
                 }) 
                 .collect(Collectors.toList()); 
         }
