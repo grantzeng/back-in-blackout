@@ -234,10 +234,17 @@ public class BlackoutController {
      * @return
      */
     public List<String> communicableEntitiesInRange(String id) {
-        return new ArrayList<>();
+        return topology.get(id).reachable(); 
     }
 
     public void sendFile(String fileName, String fromId, String toId) throws FileTransferException {
+        /*
+        
+            Stub implentation to try to get things to flood neighbours with packets
+        
+         */
+        AbstractNode node = topology.get(fromId); 
+        node.broadcast(); 
         System.out.println("sendFile not implemented"); 
     }
 

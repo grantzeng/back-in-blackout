@@ -451,3 +451,10 @@ Figure out the packetization issues on Wednesday, basically you need to implemen
 
 ### Summary for today
 Reminder that the skill you're trying to learn is: ***how should you _modularise_ your code***. That's the problem that OOP is meant to be solving but to be frank all one actually has is one's wits. 
+
+
+# 2024-12-12
+
+### 2:42pm 
+
+Currently the network nodes have access to their local topology. Can we write a basic packet communication system?

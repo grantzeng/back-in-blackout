@@ -70,19 +70,21 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
 
     public void listen(Packet p) { 
 
-        if (p.type == "ping") { 
-            if !supports().contains(p.data) { 
-                System.out.println("Not replying because sender is incompatible"); 
-                return; 
-            }
+        System.out.println(p.data +  " - " + id + " " + p.from); 
 
-            communicables.values().stream()
-                .map(node -> {  
-                    Packet reply = new Packet(node.id, this.id, "", -1, "ping-reply", "hi!"); 
-                    node.listen(reply);     
-                }); 
+        // if (p.type == "ping") { 
+        //     if !supports().contains(p.data) { 
+        //         System.out.println("Not replying because sender is incompatible"); 
+        //         return; 
+        //     }
 
-        }
+        //     communicables.values().stream()
+        //         .map(node -> {  
+        //             Packet reply = new Packet(node.id, this.id, "", -1, "ping-reply", "hi!"); 
+        //             node.listen(reply);     
+        //         }); 
+
+        // }
 
         buf.add(p); 
     }
@@ -127,8 +129,14 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
 
         // Type of packet is a ping packet, and the data is the satellite type 
         // - then the entity can think about whether it wants to reply 
-        Packet ping = new Packet("")
+        // Packet ping = new Packet("")
 
+
+        /*
+            Currently only returns immediate neighbours
+        
+         */
+        return communicables.values().stream().map(node -> node.id).collect(Collectors.toList()); 
     }
 
     /*
