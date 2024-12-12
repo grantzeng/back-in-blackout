@@ -234,7 +234,7 @@ public class BlackoutController {
      * @return
      */
     public List<String> communicableEntitiesInRange(String id) {
-        return topology.get(id).reachable(); 
+        return topology.get(id).discover(); 
     }
 
     public void sendFile(String fileName, String fromId, String toId) throws FileTransferException {

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map; 
 import java.util.List;
 import java.util.ArrayList; 
+import java.util.Arrays; 
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.Collections; 
@@ -16,6 +17,7 @@ import interfaces.Communicable;
 import interfaces.Uploadable; 
 
 import networking.Packet; 
+import networking.Probe; 
 
 import files.File; 
 import static files.File.COMPLETE; 
@@ -39,6 +41,14 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
 
     protected List<Packet> buf = new ArrayList<Packet>(); // "buffer"; queue of packets received
 
+    /*
+        2024-12-12
+        Replace this with getters so you can expose external state
+        without risking people modifying (so thereby maintain _some_ kind of encapsulation)
+
+        I think that's the point of getters. 
+    
+     */
     public String id; 
     public Angle angle; 
     public double height; 
@@ -87,6 +97,7 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
         // }
 
         buf.add(p); 
+        System.out.println(buf); 
     }
 
     // I think this boilerplate was a way of passing subclass information to super class
@@ -123,22 +134,69 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
         Function for determining communicability
     
     */
-    public List<String> reachable() { 
-        // Calculates all communicable entities in range
-        // basically just multicast communicable neighbours (already done)
-
-        // Type of packet is a ping packet, and the data is the satellite type 
-        // - then the entity can think about whether it wants to reply 
-        // Packet ping = new Packet("")
 
 
-        /*
-            Currently only returns immediate neighbours
+
+    /*
+    
         
-         */
-        return communicables.values().stream().map(node -> node.id).collect(Collectors.toList()); 
+        
+        Idea: 
+        - Let's just flood neighbours first 
+        - Then figure out how to handle relays 
+    
+        Basically the idea is that the objects talk to each other without us
+        having to explicitly do a graph search
+    
+     */
+
+    public List<String> discover() { 
+        System.out.println(this.id + ".discover()"); 
+        List<String> replies = communicables.values()
+            .stream()
+            .map(node -> {
+                // Send out a probe to all neighbours
+                Probe probe = new Probe(this.id, node.id, this.id, type());
+                return node.discoverReply(probe); 
+            })
+            .flatMap(ids -> ids.stream()) // Some nodes have more than one replies e.g. if is relay
+            .collect(Collectors.toList()); 
+        return replies; 
     }
 
+    public List<String> discoverReply(Probe probe) { 
+        
+        if (type() != "RelaySatellite") { 
+            if (
+                communicables.containsKey(probe.from) && 
+                supports().contains(probe.type)
+            ) { 
+                // just return your id because you're compatible
+                return Arrays.asList(this.id); 
+            } else { 
+                System.out.println(this.id + " - " + " not replying  to probe because incompatible or not a neighbour");
+                return Arrays.asList();
+            }
+        }
+    
+        
+        
+        // // Normal behaviour
+        // if (communicables.containsKey(p.from) &&)  {
+        //     // Reply to probe
+
+        // }
+
+        //    // relay behaviour, forward it to all neighbours
+        // // and collect responses 
+
+         System.out.println("relay satelites currently not handled");
+        return Arrays.asList();
+
+    }
+
+
+  
     /*
     
         Functions for processing packets queue
