@@ -166,7 +166,9 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
 
     public List<String> discoverReply(Probe probe) { 
         
-        if (type() != "RelaySatellite") { 
+        if (!"RelaySatellite".equals(type())) { 
+
+            // If you're not a relay satel
             if (
                 communicables.containsKey(probe.from) && 
                 supports().contains(probe.type)
@@ -177,22 +179,28 @@ public abstract class AbstractNode implements Communicable {  //, Uploadable
                 System.out.println(this.id + " - " + " not replying  to probe because incompatible or not a neighbour");
                 return Arrays.asList();
             }
+        } else { 
+            // Is a relay satellite
+            // - contact all neighbours including relays but excluding where we came from
+            // `.discoverReply` will generate the recursive BFS basically
+            return communicables.values()
+                .stream()
+                .filter(node -> node.id != probe.from)
+                .map(node -> {
+                    // all neighbours _excluding_ the node that sent the probe
+                    // - make a new probe that updates hop information 
+                    Probe newProbe = new Probe (node.id, this.id, probe.id, probe.type);
+                    return node.discoverReply(newProbe); 
+                })
+                .flatMap(ids -> {
+                    // Add also relay node as contactable
+                    ids.add(this.id);
+                    
+                    return ids.stream();
+                }) 
+                .collect(Collectors.toList()); 
         }
     
-        
-        
-        // // Normal behaviour
-        // if (communicables.containsKey(p.from) &&)  {
-        //     // Reply to probe
-
-        // }
-
-        //    // relay behaviour, forward it to all neighbours
-        // // and collect responses 
-
-         System.out.println("relay satelites currently not handled");
-        return Arrays.asList();
-
     }
 
 
